@@ -44,6 +44,7 @@ public class DriveTeleOpHarrisonEdition extends OpMode {
         else
             drivetrain.rodDrive(controller1.rightStick.getX(), controller1.leftStick.getX(), -controller1.leftStick.getY());
 
+        // TODO: Allow motor reversing without disgusting ternary operator BS
         spintake.setSpintakePower(controller1.leftTrigger.getValue());
         launcher.setFlywheelPower(controller1.rightTrigger.getValue());
 

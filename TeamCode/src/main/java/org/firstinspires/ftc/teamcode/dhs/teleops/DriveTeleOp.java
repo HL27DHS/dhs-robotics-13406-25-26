@@ -39,8 +39,8 @@ public class DriveTeleOp extends OpMode {
         else
             drivetrain.rodDrive(gamepad1.right_stick_x, gamepad1.left_stick_x, -gamepad1.left_stick_y);
 
-        spintake.spintakeMotor.setPower(gamepad1.left_trigger);
-        launcher.flywheel.setPower(gamepad1.right_trigger);
+        spintake.spintakeMotor.setPower(gamepad1.left_trigger * ((gamepad1.b) ? -1 : 1));
+        launcher.flywheel.setPower(gamepad1.right_trigger * ((gamepad1.b) ? -1 : 1));
 
         if (gamepad1.right_bumper && !rightBumperLastTick)
             useFod = !useFod;
