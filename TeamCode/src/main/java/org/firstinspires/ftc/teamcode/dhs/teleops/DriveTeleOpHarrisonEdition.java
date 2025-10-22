@@ -2,20 +2,22 @@ package org.firstinspires.ftc.teamcode.dhs.teleops;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
 import org.firstinspires.ftc.teamcode.dhs.components.Launcher;
 import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
+import org.firstinspires.ftc.teamcode.dhs.smartcontroller.SmartController;
 
-@TeleOp(name="Drive the robot")
-public class DriveTeleOp extends OpMode {
+@TeleOp(name="Drive the robot harrison edition aka the better one")
+public class DriveTeleOpHarrisonEdition extends OpMode {
+
+    //defines what the objects drive train, spintake, and launcher are
     Drivetrain drivetrain;
     Spintake spintake;
     Launcher launcher;
-    float spintakeModifier = 1;
-    boolean rightBumperLastTick = false;
+
+    SmartController controller1 = new SmartController();
+
     boolean useFod = false;
 
     /* function used for testing
@@ -27,27 +29,32 @@ public class DriveTeleOp extends OpMode {
     }
     */
 
+    // initializing the drive teleop, constructs drivetrain, spintake, launcher
     public void init() {
         drivetrain = new Drivetrain(hardwareMap);
         spintake = new Spintake(hardwareMap);
         launcher = new Launcher(hardwareMap);
     }
-
+    //
     public void loop() {
+        // TODO: Use newer Spintake & Launcher functions (setSpintakePower & setFlywheelPower)
+
         if (useFod)
-            drivetrain.fodDrive(gamepad1.right_stick_x, gamepad1.left_stick_x, -gamepad1.left_stick_y);
+            drivetrain.fodDrive(controller1.rightStick.getX(), controller1.leftStick.getX(), -controller1.leftStick.getY());
         else
-            drivetrain.rodDrive(gamepad1.right_stick_x, gamepad1.left_stick_x, -gamepad1.left_stick_y);
+            drivetrain.rodDrive(controller1.rightStick.getX(), controller1.leftStick.getX(), -controller1.leftStick.getY());
 
-        spintake.spintakeMotor.setPower(gamepad1.left_trigger);
-        launcher.flywheel.setPower(gamepad1.right_trigger);
+        spintake.setSpintakePower(controller1.leftTrigger.getValue());
+        launcher.setFlywheelPower(controller1.rightTrigger.getValue());
 
-        if (gamepad1.right_bumper && !rightBumperLastTick)
+        if (controller1.rightBumper.justPressed())
             useFod = !useFod;
 
-        if (gamepad1.x)
+        if (controller1.x.justPressed())
             drivetrain.imu.resetYaw();
 
-        rightBumperLastTick = gamepad1.right_bumper;
+
+
+        controller1.think(gamepad1);
     }
 }

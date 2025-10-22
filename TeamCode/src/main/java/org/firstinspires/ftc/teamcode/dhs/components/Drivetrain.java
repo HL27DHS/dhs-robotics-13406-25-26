@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.dhs.components;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -24,8 +27,24 @@ public class Drivetrain {
         brMotor = hardwareMap.get(DcMotorEx.class, "BRMotor");
         blMotor = hardwareMap.get(DcMotorEx.class, "BLMotor");
 
+        frMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        flMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        brMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        blMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        flMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
         imu = hardwareMap.get(IMU.class, "imu");
         // TODO: Initialize IMU when we have Control Hub mounted
+        imu.initialize(
+                new IMU.Parameters(
+                    new RevHubOrientationOnRobot(
+                        RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                        RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+                    )
+                )
+        );
     }
 
     // Field-Oriented Drive
