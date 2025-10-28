@@ -14,6 +14,7 @@ public class SmartButton {
     private double secondsPressed;
 
     // TODO: Add functionality to the ticksSinceLastPress, secondsSinceLastPress, ticksPressed, and secondsPressed variables.
+    //     - Use ElapsedTime?
 
     public void think(boolean buttonValue) {
         previousValue = currentValue;
