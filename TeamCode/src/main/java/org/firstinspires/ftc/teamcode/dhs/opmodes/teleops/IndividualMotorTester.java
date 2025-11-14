@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dhs.teleops;
+package org.firstinspires.ftc.teamcode.dhs.opmodes.teleops;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -22,24 +22,24 @@ public class IndividualMotorTester extends OpMode {
             modifier = 1;
 
         if (gamepad1.a)
-            drivetrain.blMotor.setPower(1*modifier);
+            drivetrain.getBlMotor().setPower(1*modifier);
         else
-            drivetrain.blMotor.setPower(0*modifier);
+            drivetrain.getBlMotor().setPower(0*modifier);
 
         if (gamepad1.b)
-            drivetrain.brMotor.setPower(1*modifier);
+            drivetrain.getBrMotor().setPower(1*modifier);
         else
-            drivetrain.brMotor.setPower(0*modifier);
+            drivetrain.getBrMotor().setPower(0*modifier);
 
         if (gamepad1.x)
-            drivetrain.flMotor.setPower(1*modifier);
+            drivetrain.getFlMotor().setPower(1*modifier);
         else
-            drivetrain.flMotor.setPower(0*modifier);
+            drivetrain.getFlMotor().setPower(0*modifier);
 
         if (gamepad1.y)
-            drivetrain.frMotor.setPower(1*modifier);
+            drivetrain.getFrMotor().setPower(1*modifier);
         else
-            drivetrain.frMotor.setPower(0*modifier);
+            drivetrain.getFrMotor().setPower(0*modifier);
 
     }
 }
