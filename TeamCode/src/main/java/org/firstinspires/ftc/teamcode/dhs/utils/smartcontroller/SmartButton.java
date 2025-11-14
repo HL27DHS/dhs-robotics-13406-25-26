@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dhs.smartcontroller;
+package org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 

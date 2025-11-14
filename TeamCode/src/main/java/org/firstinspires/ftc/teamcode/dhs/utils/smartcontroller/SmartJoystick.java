@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dhs.smartcontroller;
+package org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller;
 
 /**
  * Class that allows for easier interaction with joysticks, combining X and Y values into
