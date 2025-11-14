@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dhs.components;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -8,46 +9,22 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 public class Drivetrain {
     public HardwareMap hardwareMap;
 
-    public DcMotorEx frMotor;
-    public DcMotorEx flMotor;
-    public DcMotorEx brMotor;
-    public DcMotorEx blMotor;
-
-    public IMU imu;
+    private MecanumDrive drive;
+    public IMU imu; // TODO: Figure out why 7571 uses BNO055IMU class
 
     public Drivetrain(HardwareMap hardwareMap) {
-        this.hardwareMap = hardwareMap;
+        Pose2d initialPose = new Pose2d(0, 0, 0);
 
-        frMotor = hardwareMap.get(DcMotorEx.class, "FRMotor");
-        flMotor = hardwareMap.get(DcMotorEx.class, "FLMotor");
-        brMotor = hardwareMap.get(DcMotorEx.class, "BRMotor");
-        blMotor = hardwareMap.get(DcMotorEx.class, "BLMotor");
-
-        frMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        flMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        brMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        blMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        flMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        imu = hardwareMap.get(IMU.class, "imu");
-        // TODO: Initialize IMU when we have Control Hub mounted
-        imu.initialize(
-                new IMU.Parameters(
-                    new RevHubOrientationOnRobot(
-                        RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                        RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
-                    )
-                )
-        );
+        this.drive = new MecanumDrive(hardwareMap, initialPose);
     }
 
-    // Field-Oriented Drive
+    public MecanumDrive getDrive() { return drive; }
+
     public void fodDrive(double turnVal, double driveX, double driveY) {
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
@@ -58,20 +35,31 @@ public class Drivetrain {
 
         double denominator = Math.max(Math.abs(rotY) + Math.abs(modifiedX) + Math.abs(turnVal), 1);
 
-        flMotor.setPower((rotY + modifiedX + turnVal) / denominator);
-        blMotor.setPower((rotY - modifiedX + turnVal) / denominator);
-        frMotor.setPower((rotY - modifiedX - turnVal) / denominator);
-        brMotor.setPower((rotY + modifiedX - turnVal) / denominator);
+        //         Forward    Strafe     Turn
+        double fl = (rotY + modifiedX + turnVal) / denominator;
+        double bl = (rotY - modifiedX + turnVal) / denominator;
+        double fr = (rotY - modifiedX - turnVal) / denominator;
+        double br = (rotY + modifiedX - turnVal) / denominator;
+
+        drive.leftFront.setPower(fl);
+        drive.leftBack.setPower(bl);
+        drive.rightFront.setPower(fr);
+        drive.rightBack.setPower(br);
     }
 
-    // Robot-Oriented Drive
     public void rodDrive(double turnVal, double driveX, double driveY) {
         double modifiedX = driveX * 1.1; // set modifier as needed
         double denominator = Math.max(Math.abs(driveY) + Math.abs(modifiedX) + Math.abs(turnVal), 1);
 
-        flMotor.setPower((driveY + modifiedX + turnVal) / denominator);
-        blMotor.setPower((driveY - modifiedX + turnVal) / denominator);
-        frMotor.setPower((driveY - modifiedX - turnVal) / denominator);
-        brMotor.setPower((driveY + modifiedX - turnVal) / denominator);
+        //          Forward     Strafe     Turn
+        double fl = (driveY + modifiedX + turnVal) / denominator;
+        double bl = (driveY - modifiedX + turnVal) / denominator;
+        double fr = (driveY - modifiedX - turnVal) / denominator;
+        double br = (driveY + modifiedX - turnVal) / denominator;
+
+        drive.leftFront.setPower(fl);
+        drive.leftBack.setPower(bl);
+        drive.rightFront.setPower(fr);
+        drive.rightBack.setPower(br);
     }
 }
