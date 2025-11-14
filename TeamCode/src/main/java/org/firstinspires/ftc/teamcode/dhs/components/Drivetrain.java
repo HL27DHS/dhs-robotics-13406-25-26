@@ -23,9 +23,33 @@ public class Drivetrain {
         this.drive = new MecanumDrive(hardwareMap, initialPose);
     }
 
+    /** @return The front left wheel motor */
+    public DcMotor getFlMotor() { return drive.leftFront; }
+
+    /** @return The back left wheel motor */
+    public DcMotor getBlMotor() { return drive.leftBack; }
+
+    /** @return The front right wheel motor */
+    public DcMotor getFrMotor() { return drive.rightFront; }
+
+    /** @return The back right wheel motor */
+    public DcMotor getBrMotor() { return drive.rightBack; }
+
+
+    /** @return The roadrunner {@code MecanumDrive} drivetrain object */
     public MecanumDrive getDrive() { return drive; }
 
-    public void fodDrive(double turnVal, double driveX, double driveY) {
+    /**
+     * Calculates and executes Mecanum Field-Oriented Drive values given the below parameters
+     *
+     * @param turnVal The rate at which the bot should turn between -1 (cw) and 1 (ccw),
+     *                for example, a right stick x value.
+     * @param strafe The bot's strafe or side-to-side drive power between -1 (left) and 1 (right),
+     *               for example, a left stick x value.
+     * @param forward The bot's forward and back drive power between -1 (back) and 1 (forward),
+     *               for example, a left stick y value.
+     */
+    public void fodDrive(double turnVal, double strafe, double forward) {
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
         double rotX = strafe * Math.cos(-botHeading) - forward * Math.sin(-botHeading);
