@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dhs.autos;
+package org.firstinspires.ftc.teamcode.dhs.opmodes.autos;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
@@ -9,8 +9,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.*;
-
-import javax.crypto.ExemptionMechanismException;
 
 @Autonomous(name="Super Serious Autonomous")
 public class SuperSeriousAutonomous extends LinearOpMode {
