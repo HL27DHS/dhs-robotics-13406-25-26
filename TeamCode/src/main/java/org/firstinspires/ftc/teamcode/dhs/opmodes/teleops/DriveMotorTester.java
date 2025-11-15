@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
 
-@TeleOp(name="Individual Motor Tester")
-public class IndividualMotorTester extends OpMode {
+@TeleOp(name="Drive Motor Tester",group="Testing Programs")
+public class DriveMotorTester extends OpMode {
     Drivetrain drivetrain;
     double modifier = 1;
 
@@ -24,22 +24,21 @@ public class IndividualMotorTester extends OpMode {
         if (gamepad1.a)
             drivetrain.getBlMotor().setPower(1*modifier);
         else
-            drivetrain.getBlMotor().setPower(0*modifier);
+            drivetrain.getBlMotor().setPower(0);
 
         if (gamepad1.b)
             drivetrain.getBrMotor().setPower(1*modifier);
         else
-            drivetrain.getBrMotor().setPower(0*modifier);
+            drivetrain.getBrMotor().setPower(0);
 
         if (gamepad1.x)
             drivetrain.getFlMotor().setPower(1*modifier);
         else
-            drivetrain.getFlMotor().setPower(0*modifier);
+            drivetrain.getFlMotor().setPower(0);
 
         if (gamepad1.y)
             drivetrain.getFrMotor().setPower(1*modifier);
         else
-            drivetrain.getFrMotor().setPower(0*modifier);
-
+            drivetrain.getFrMotor().setPower(0);
     }
 }
