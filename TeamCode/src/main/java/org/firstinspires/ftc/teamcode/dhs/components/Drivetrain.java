@@ -1,10 +1,7 @@
 package org.firstinspires.ftc.teamcode.dhs.components;
 
 import com.acmerobotics.roadrunner.Pose2d;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -16,6 +13,7 @@ public class Drivetrain {
 
     private MecanumDrive drive;
     public IMU imu; // TODO: Figure out why 7571 uses BNO055IMU class
+    public double imuOffset; // IMU offset in RADIANS
 
     public Drivetrain(HardwareMap hardwareMap) {
         Pose2d initialPose = new Pose2d(0, 0, 0);
@@ -40,6 +38,23 @@ public class Drivetrain {
     public MecanumDrive getDrive() { return drive; }
 
     /**
+     * Resets the robot's IMU offset, effectively works like imu.resetYaw
+     * without disturbing RoadRunner
+     */
+    public void resetImuOffset() {
+        imuOffset = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+    }
+
+    /**
+     * @param angleUnit the angle unit to return in (degrees, radians)
+     * @return the robot's yaw angle + the IMU offset in specified angle unit
+     */
+    public double getYaw(AngleUnit angleUnit) {
+        return imu.getRobotYawPitchRollAngles().getYaw(angleUnit)
+                + ((angleUnit == AngleUnit.DEGREES) ? Math.toDegrees(imuOffset) : imuOffset);
+    }
+
+    /**
      * Calculates and executes Mecanum Field-Oriented Drive values given the below parameters
      *
      * @param turnVal The rate at which the bot should turn between -1 (cw) and 1 (ccw),
@@ -50,7 +65,7 @@ public class Drivetrain {
      *               for example, a left stick y value.
      */
     public void fodDrive(double turnVal, double strafe, double forward) {
-        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        double botHeading = getYaw(AngleUnit.RADIANS);
 
         double rotX = strafe * Math.cos(-botHeading) - forward * Math.sin(-botHeading);
         double rotY = strafe * Math.sin(-botHeading) + forward * Math.cos(-botHeading);
