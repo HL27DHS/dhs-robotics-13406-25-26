@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dhs.opmodes.teleops;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,6 +10,8 @@ import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
 import org.firstinspires.ftc.teamcode.dhs.components.Launcher;
 import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
 
+// TODO: Update this OpMode to support new flywheel stuff and sorter
+@Disabled
 @TeleOp(name="Drive the robot")
 public class DriveTeleOp extends OpMode {
     Drivetrain drivetrain;
