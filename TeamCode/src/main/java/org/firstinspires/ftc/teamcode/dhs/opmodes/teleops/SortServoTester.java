@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
 
 @TeleOp(name="Sort Servo Tester", group="Testing Programs")
 public class SortServoTester extends OpMode {
-    Drivetrain drivetrain;
+    //Drivetrain drivetrain;
     Spintake spintake;
     Launcher launcher;
 
@@ -22,7 +22,7 @@ public class SortServoTester extends OpMode {
     public void init() {
         launcher = new Launcher(hardwareMap);
         spintake = new Spintake(hardwareMap);
-        drivetrain = new Drivetrain(hardwareMap);
+        //drivetrain = new Drivetrain(hardwareMap);
     }
 
     public void loop() {
@@ -30,9 +30,9 @@ public class SortServoTester extends OpMode {
         controller1.think(gamepad1);
         controller2.think(gamepad2);
 
-        if (controller1.dpadUp.isPressed())
+        if (controller1.dpadUp.justPressed())
             spintake.sortServo.setPosition(spintake.sortServo.getPosition() + rateOfChange);
-        if (controller1.dpadDown.isPressed())
+        if (controller1.dpadDown.justPressed())
             spintake.sortServo.setPosition(spintake.sortServo.getPosition() - rateOfChange);
 
         telemetry.addLine("DPad Up: increase servo position");
