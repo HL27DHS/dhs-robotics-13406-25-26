@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dhs.components;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -17,6 +18,8 @@ public class Spintake {
     public Spintake(HardwareMap hardwareMap) {
         spintakeMotor = hardwareMap.get(DcMotor.class, "spintake");
         sortServo = hardwareMap.get(Servo.class, "sorter");
+
+        spintakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         closeSort();
     }
