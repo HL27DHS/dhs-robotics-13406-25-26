@@ -45,9 +45,13 @@ public class TwoDriverTeleOp extends OpMode {
 
         // Set spintake, cycle & flywheel power based on corresponding triggers
         // C2 Left = Spintake, C1 Left = Cycle, C1 Right = Flywheel
-        spintake.setSpintakePower(controller2.leftTrigger.getValue() * c2ReverseModifier);
-        spintake.setCyclePower(controller1.leftTrigger.getValue() * c1ReverseModifier);
-        launcher.setFlywheelPower(controller1.rightTrigger.getValue() * c1ReverseModifier);
+        double spintakePower = (controller2.leftTrigger.getValue() > 0.5) ? 1 : 0;
+        double cyclePower = (controller1.rightTrigger.getValue() > 0.5) ? 1 : 0;
+        double launchPower = (controller1.leftTrigger.getValue() > 0.5) ? 1 : 0;
+
+        spintake.setSpintakePower(spintakePower * c2ReverseModifier);
+        spintake.setCyclePower(cyclePower * c1ReverseModifier);
+        launcher.setFlywheelPower(launchPower * c1ReverseModifier);
 
         // If B is pressed, open the sort chute, if it's not, close it
         // Holding B will keep the sort chute open, letting go will close the sort chute
