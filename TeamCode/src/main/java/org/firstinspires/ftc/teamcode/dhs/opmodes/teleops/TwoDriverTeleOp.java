@@ -17,9 +17,17 @@ public class TwoDriverTeleOp extends OpMode {
     SmartController controller1 = new SmartController();
     SmartController controller2 = new SmartController();
 
+    // Reverse motors controlled by controller 1
     double c1ReverseModifier = 1;
+    // Reverse motors controlled by controller 2
     double c2ReverseModifier = 1;
+    // Slow mode for driving (controller 2)
     double slowModeModifier = 1;
+
+    // to FOD or to not FOD, that is the question
+    boolean useFod = false;
+    // Stops the FOD combo toggle from spamming itself
+    boolean fodToggleDebounce = false;
 
     @Override
     public void init() {
@@ -67,11 +75,25 @@ public class TwoDriverTeleOp extends OpMode {
         if (controller2.rightBumper.isPressed()) slowModeModifier -= 0.3;
         if (controller2.leftBumper.isPressed()) slowModeModifier -= 0.3;
 
-        // Do Robot-Oriented Drive
-        drivetrain.rodDrive(
-                gamepad2.right_stick_x,
-                gamepad2.left_stick_x * slowModeModifier,
-                -gamepad2.left_stick_y * slowModeModifier
-        );
+        if (controller2.dpadUp.isPressed() && controller2.dpadLeft.isPressed()) {
+            if (!fodToggleDebounce) useFod = !useFod;
+            fodToggleDebounce = true;
+        } else {
+            fodToggleDebounce = false;
+        }
+
+        // Do Robot-Oriented or Field-Oriented Drive
+        if (useFod)
+            drivetrain.fodDrive(
+                    gamepad2.right_stick_x,
+                    gamepad2.left_stick_x * slowModeModifier,
+                    -gamepad2.left_stick_y * slowModeModifier
+            );
+        else
+            drivetrain.rodDrive(
+                    gamepad2.right_stick_x,
+                    gamepad2.left_stick_x * slowModeModifier,
+                    -gamepad2.left_stick_y * slowModeModifier
+            );
     }
 }
