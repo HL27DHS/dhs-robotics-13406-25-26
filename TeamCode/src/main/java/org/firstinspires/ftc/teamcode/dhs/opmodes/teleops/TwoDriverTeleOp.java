@@ -17,7 +17,8 @@ public class TwoDriverTeleOp extends OpMode {
     SmartController controller1 = new SmartController();
     SmartController controller2 = new SmartController();
 
-    double reverseModifier = 1;
+    double c1ReverseModifier = 1;
+    double c2ReverseModifier = 1;
     double slowModeModifier = 1;
 
     @Override
@@ -39,12 +40,14 @@ public class TwoDriverTeleOp extends OpMode {
         }
 
         // If X is pressed, reverse spintake & flywheel (this comes in handy more than you'd think)
-        reverseModifier = (controller1.x.isPressed()) ? -1 : 1;
+        c1ReverseModifier = (controller1.x.isPressed()) ? -1 : 1;
+        c2ReverseModifier = (controller2.x.isPressed()) ? -1 : 1;
 
-        // Set spintake & flywheel power based on corresponding triggers
-        // Left = Spintake, Right = Flywheel
-        spintake.setSpintakePower(controller1.leftTrigger.getValue() * reverseModifier);
-        launcher.setFlywheelPower(controller1.rightTrigger.getValue() * reverseModifier);
+        // Set spintake, cycle & flywheel power based on corresponding triggers
+        // C2 Left = Spintake, C1 Left = Cycle, C1 Right = Flywheel
+        spintake.setSpintakePower(controller2.leftTrigger.getValue() * c2ReverseModifier);
+        spintake.setCyclePower(controller1.leftTrigger.getValue() * c1ReverseModifier);
+        launcher.setFlywheelPower(controller1.rightTrigger.getValue() * c1ReverseModifier);
 
         // If B is pressed, open the sort chute, if it's not, close it
         // Holding B will keep the sort chute open, letting go will close the sort chute
