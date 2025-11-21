@@ -98,6 +98,15 @@ public class SmartButton {
     }
 
     /**
+     * Gets if this button was pressed on the previous tick
+     *
+     * @return {@code true} if this button was pressed last tick, otherwise {@code false}
+     */
+    public boolean wasPressed() {
+        return previousValue;
+    }
+
+    /**
      * Gets the number of ticks that this button has been pressed for.
      *
      * @return the amount of ticks that this button has been pressed for
