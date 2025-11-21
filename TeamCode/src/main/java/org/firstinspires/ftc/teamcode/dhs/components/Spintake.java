@@ -22,7 +22,7 @@ public class Spintake {
         //sortServo = hardwareMap.get(Servo.class, "sorter");
 
         // Reverse motors as needed
-        spintakeMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        spintakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         cycleMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         spintakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

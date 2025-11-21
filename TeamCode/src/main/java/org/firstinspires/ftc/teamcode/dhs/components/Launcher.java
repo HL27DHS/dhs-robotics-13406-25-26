@@ -11,7 +11,7 @@ public class Launcher {
 
     public Launcher(HardwareMap hardwareMap) {
         flywheel = hardwareMap.get(DcMotor.class, "flywheel");
-        flywheel.setDirection(DcMotorSimple.Direction.FORWARD);
+        flywheel.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     // Function to spin the flywheel of the bot at a certain speed
