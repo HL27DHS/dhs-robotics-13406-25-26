@@ -70,8 +70,8 @@ public class TwoDriverTeleOp extends OpMode {
         // Do Robot-Oriented Drive
         drivetrain.rodDrive(
                 gamepad2.right_stick_x,
-                gamepad2.left_stick_x*slowModeModifier,
-                gamepad2.left_stick_y *slowModeModifier
+                gamepad2.left_stick_x * slowModeModifier,
+                -gamepad2.left_stick_y * slowModeModifier
         );
     }
 }
