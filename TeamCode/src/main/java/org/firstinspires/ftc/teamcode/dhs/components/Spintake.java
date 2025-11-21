@@ -19,9 +19,11 @@ public class Spintake {
     public Spintake(HardwareMap hardwareMap) {
         spintakeMotor = hardwareMap.get(DcMotor.class, "spintake");
         cycleMotor = hardwareMap.get(DcMotor.class, "cycle");
-        sortServo = hardwareMap.get(Servo.class, "sorter");
+        //sortServo = hardwareMap.get(Servo.class, "sorter");
 
-        spintakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        // Reverse motors as needed
+        spintakeMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        cycleMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         spintakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         cycleMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -35,19 +37,19 @@ public class Spintake {
     public void setCyclePower(double power) { cycleMotor.setPower(power); }
 
     public void closeSort() {
-        sortServo.setPosition(sortClosePos);
-        sortOpen = false;
+//        sortServo.setPosition(sortClosePos);
+//        sortOpen = false;
     }
 
     public void openSort() {
-        sortServo.setPosition(sortOpenPos);
-        sortOpen = true;
+//        sortServo.setPosition(sortOpenPos);
+//        sortOpen = true;
     }
 
     public void toggleSort() {
-        if (sortOpen)
-            closeSort();
-        else
-            openSort();
+//        if (sortOpen)
+//            closeSort();
+//        else
+//            openSort();
     }
 }
