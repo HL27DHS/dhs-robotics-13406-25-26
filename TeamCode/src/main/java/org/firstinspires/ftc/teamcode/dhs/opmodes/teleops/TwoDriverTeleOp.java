@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
 import org.firstinspires.ftc.teamcode.dhs.components.Launcher;
 import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
+import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartUtils;
 
 @TeleOp(name="Ready Player Two",group="Main Programs")
 public class TwoDriverTeleOp extends OpMode {
@@ -26,8 +27,9 @@ public class TwoDriverTeleOp extends OpMode {
 
     // to FOD or to not FOD, that is the question
     boolean useFod = false;
-    // Stops the FOD combo toggle from spamming itself
-    boolean fodToggleDebounce = false;
+
+    // Disable/enable FOD toggle
+    final boolean allowToggleFod = true;
 
     @Override
     public void init() {
@@ -75,11 +77,10 @@ public class TwoDriverTeleOp extends OpMode {
         if (controller2.rightBumper.isPressed()) slowModeModifier -= 0.3;
         if (controller2.leftBumper.isPressed()) slowModeModifier -= 0.3;
 
-        if (controller2.dpadUp.isPressed() && controller2.dpadLeft.isPressed()) {
-            if (!fodToggleDebounce) useFod = !useFod;
-            fodToggleDebounce = true;
-        } else {
-            fodToggleDebounce = false;
+        // If both DPad Up and DPad Left are pressed, toggle FOD
+        // Uses SmartUtils.combo to debounce buttons so that the combo is doable
+        if (SmartUtils.combo(controller2.dpadUp, controller2.dpadLeft).justPressed() && allowToggleFod) {
+            useFod = !useFod;
         }
 
         // Do Robot-Oriented or Field-Oriented Drive
