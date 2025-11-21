@@ -74,15 +74,15 @@ public class OneDriverTeleOp extends OpMode {
         // Do Robot-Oriented or Field-Oriented Drive
         if (useFod)
             drivetrain.fodDrive(
-                    gamepad1.right_stick_x,
-                    gamepad1.left_stick_x * slowModeModifier,
-                    -gamepad1.left_stick_y * slowModeModifier
+                    controller1.rightStick.getX(),
+                    controller1.leftStick.getX() * slowModeModifier,
+                    -controller1.leftStick.getY() * slowModeModifier
             );
         else
             drivetrain.rodDrive(
-                    gamepad1.right_stick_x,
-                    gamepad1.left_stick_x * slowModeModifier,
-                    -gamepad1.left_stick_y * slowModeModifier
+                    controller1.rightStick.getX(),
+                    controller1.leftStick.getX() * slowModeModifier,
+                    -controller1.leftStick.getY() * slowModeModifier
             );
     }
 }

@@ -86,15 +86,15 @@ public class TwoDriverTeleOp extends OpMode {
         // Do Robot-Oriented or Field-Oriented Drive
         if (useFod)
             drivetrain.fodDrive(
-                    gamepad2.right_stick_x,
-                    gamepad2.left_stick_x * slowModeModifier,
-                    -gamepad2.left_stick_y * slowModeModifier
+                    controller2.rightStick.getX(),
+                    controller2.leftStick.getX() * slowModeModifier,
+                    -controller2.leftStick.getY() * slowModeModifier
             );
         else
             drivetrain.rodDrive(
-                    gamepad2.right_stick_x,
-                    gamepad2.left_stick_x * slowModeModifier,
-                    -gamepad2.left_stick_y * slowModeModifier
+                    controller2.rightStick.getX(),
+                    controller2.leftStick.getX() * slowModeModifier,
+                    -controller2.leftStick.getY() * slowModeModifier
             );
     }
 }
