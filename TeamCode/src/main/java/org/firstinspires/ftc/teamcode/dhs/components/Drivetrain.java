@@ -88,7 +88,7 @@ public class Drivetrain {
      * without disturbing RoadRunner
      */
     public void resetImuOffset() {
-        imuOffset = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        imuOffset = getIMU().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
     }
 
     /**
@@ -96,7 +96,7 @@ public class Drivetrain {
      * @return the robot's yaw angle + the IMU offset in specified angle unit
      */
     public double getYaw(AngleUnit angleUnit) {
-        return imu.getRobotYawPitchRollAngles().getYaw(angleUnit)
+        return getIMU().getRobotYawPitchRollAngles().getYaw(angleUnit)
                 + ((angleUnit == AngleUnit.DEGREES) ? Math.toDegrees(imuOffset) : imuOffset);
     }
 
