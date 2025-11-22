@@ -13,75 +13,36 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 public class Drivetrain {
     public HardwareMap hardwareMap;
 
-    //private MecanumDrive drive;
-    public DcMotor flMotor;
-    public DcMotor frMotor;
-    public DcMotor blMotor;
-    public DcMotor brMotor;
+    private MecanumDrive drive;
+
 
     public IMU imu; // TODO: Figure out why 7571 uses BNO055IMU class
     public double imuOffset; // IMU offset in RADIANS
 
     public Drivetrain(HardwareMap hardwareMap) {
-        //Pose2d initialPose = new Pose2d(0, 0, 0);
+        Pose2d initialPose = new Pose2d(0, 0, 0);
 
-        //this.drive = new MecanumDrive(hardwareMap, initialPose);
-
-        flMotor = hardwareMap.get(DcMotor.class, "FLMotor");
-        frMotor = hardwareMap.get(DcMotor.class, "FRMotor");
-        blMotor = hardwareMap.get(DcMotor.class, "BLMotor");
-        brMotor = hardwareMap.get(DcMotor.class, "BRMotor");
-
-        imu = hardwareMap.get(IMU.class, "imu");
-
-        imu.initialize(
-                new IMU.Parameters(
-                        new RevHubOrientationOnRobot(
-                                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
-                        )
-                )
-        );
-
-        flMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        flMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        blMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        brMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        this.drive = new MecanumDrive(hardwareMap, initialPose);
     }
 
     /** @return The IMU object */
-    public IMU getIMU() { return imu; }
+    public IMU getIMU() { return drive.lazyImu.get(); }
 
     /** @return The front left wheel motor */
-    public DcMotor getFlMotor() { return flMotor; }
+    public DcMotor getFlMotor() { return drive.leftFront; }
 
     /** @return The back left wheel motor */
-    public DcMotor getBlMotor() { return blMotor; }
+    public DcMotor getBlMotor() { return drive.leftBack; }
 
     /** @return The front right wheel motor */
-    public DcMotor getFrMotor() { return frMotor; }
+    public DcMotor getFrMotor() { return drive.rightFront; }
 
     /** @return The back right wheel motor */
-    public DcMotor getBrMotor() { return brMotor; }
-
-    /** @return The front left wheel motor */
-    //public DcMotor getFlMotor() { return drive.leftFront; }
-
-    /** @return The back left wheel motor */
-    //public DcMotor getBlMotor() { return drive.leftBack; }
-
-    /** @return The front right wheel motor */
-    //public DcMotor getFrMotor() { return drive.rightFront; }
-
-    /** @return The back right wheel motor */
-    //public DcMotor getBrMotor() { return drive.rightBack; }
+    public DcMotor getBrMotor() { return drive.rightBack; }
 
 
     /** @return The roadrunner {@code MecanumDrive} drivetrain object */
-    //public MecanumDrive getDrive() { return drive; }
+    public MecanumDrive getDrive() { return drive; }
 
     /**
      * Resets the robot's IMU offset, effectively works like imu.resetYaw
