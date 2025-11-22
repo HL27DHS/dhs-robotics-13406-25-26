@@ -51,7 +51,7 @@ public class PrimitiveTwoDriverTeleOp extends OpMode {
         // C2 Left = Spintake, C1 Left = Cycle, C1 Right = Flywheel
         double spintakePower = (gamepad2.left_trigger > 0.5) ? 1 : 0;
         double cyclePower = (gamepad1.right_trigger > 0.5) ? 1 : 0;
-        double launchPower = (gamepad1.left_trigger > 0.5) ? 1 : 0;
+        double launchPower = (gamepad1.left_trigger > 0.5) ? 0.8 : 0;
 
         spintake.setSpintakePower(spintakePower * c2ReverseModifier);
         spintake.setCyclePower(cyclePower * c1ReverseModifier);
