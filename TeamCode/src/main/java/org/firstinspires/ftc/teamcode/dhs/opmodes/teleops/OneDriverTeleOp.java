@@ -5,13 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
 import org.firstinspires.ftc.teamcode.dhs.components.Launcher;
+import org.firstinspires.ftc.teamcode.dhs.components.PrimitiveDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartUtils;
 
 @TeleOp(name="Ready Player One",group="Main Programs")
 public class OneDriverTeleOp extends OpMode {
-    Drivetrain drivetrain;
+    PrimitiveDrive drivetrain;
     Spintake spintake;
     Launcher launcher;
 
@@ -36,7 +37,7 @@ public class OneDriverTeleOp extends OpMode {
     public void init() {
         launcher = new Launcher(hardwareMap);
         spintake = new Spintake(hardwareMap);
-        drivetrain = new Drivetrain(hardwareMap);
+        drivetrain = new PrimitiveDrive(hardwareMap);
     }
 
     @Override

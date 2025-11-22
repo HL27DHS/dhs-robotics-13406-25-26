@@ -5,13 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
 import org.firstinspires.ftc.teamcode.dhs.components.Launcher;
+import org.firstinspires.ftc.teamcode.dhs.components.PrimitiveDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartUtils;
 
 @TeleOp(name="Ready Player Two",group="Main Programs")
 public class TwoDriverTeleOp extends OpMode {
-    Drivetrain drivetrain;
+    PrimitiveDrive drivetrain;
     Spintake spintake;
     Launcher launcher;
 
@@ -40,7 +41,7 @@ public class TwoDriverTeleOp extends OpMode {
     public void init() {
         launcher = new Launcher(hardwareMap);
         spintake = new Spintake(hardwareMap);
-        drivetrain = new Drivetrain(hardwareMap);
+        drivetrain = new PrimitiveDrive(hardwareMap);
 
         // Left stick deadzone is 0.2 so you can't accidentally slow down or speed up flywheel
         controller1.leftStick.deadzone = 0.2;
