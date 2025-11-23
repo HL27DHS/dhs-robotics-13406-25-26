@@ -81,7 +81,8 @@ public class PrimitiveDrive {
     }
 
     public void resetImuOffset() {
-        imuOffset = getIMU().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        getIMU().resetYaw();
+        //imuOffset = getIMU().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
     }
 
     /**
@@ -89,8 +90,8 @@ public class PrimitiveDrive {
      * @return the robot's yaw angle + the IMU offset in specified angle unit
      */
     public double getYaw(AngleUnit angleUnit) {
-        return getIMU().getRobotYawPitchRollAngles().getYaw(angleUnit)
-                + ((angleUnit == AngleUnit.DEGREES) ? Math.toDegrees(imuOffset) : imuOffset);
+        return getIMU().getRobotYawPitchRollAngles().getYaw(angleUnit);
+        //        - ((angleUnit == AngleUnit.DEGREES) ? Math.toDegrees(imuOffset) : imuOffset);
     }
 
     /**
