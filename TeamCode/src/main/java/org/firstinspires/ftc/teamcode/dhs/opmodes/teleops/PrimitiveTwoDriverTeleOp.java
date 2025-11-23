@@ -38,11 +38,6 @@ public class PrimitiveTwoDriverTeleOp extends OpMode {
 
     @Override
     public void loop() {
-        // If Y pressed, reset FOD angle
-        if (gamepad2.y) {
-            drivetrain.resetImuOffset();
-        }
-
         // If X is pressed, reverse spintake & flywheel (this comes in handy more than you'd think)
         c1ReverseModifier = (gamepad1.x) ? -1 : 1;
         c2ReverseModifier = (gamepad2.x) ? -1 : 1;
