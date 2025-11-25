@@ -10,7 +10,7 @@ public class Spintake {
     public DcMotor cycleMotor;
     public Servo sortServo;
 
-    // TODO: Figure out servo sorter positions
+
     public final double sortOpenPos = 1;
     public final double sortClosePos = 0.5;
 
@@ -19,7 +19,7 @@ public class Spintake {
     public Spintake(HardwareMap hardwareMap) {
         spintakeMotor = hardwareMap.get(DcMotor.class, "spintake");
         cycleMotor = hardwareMap.get(DcMotor.class, "cycle");
-        //sortServo = hardwareMap.get(Servo.class, "sorter");
+        sortServo = hardwareMap.get(Servo.class, "sorter");
 
         // Reverse motors as needed
         spintakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -46,10 +46,10 @@ public class Spintake {
         sortOpen = true;
     }
 
-    /*public void toggleSort() {
-//        if (sortOpen)
-//            closeSort();
-//        else
-//            openSort();
-    } */
+    public void toggleSort() {
+        if (sortOpen)
+            closeSort();
+        else
+            openSort();
+    }
 }
