@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.dhs.components;
 
-import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -8,48 +7,82 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.MecanumDrive;
 
-public class Drivetrain {
+public class PrimitiveDrive {
     public HardwareMap hardwareMap;
 
-    private MecanumDrive drive;
+    public DcMotor flMotor;
+    public DcMotor frMotor;
+    public DcMotor blMotor;
+    public DcMotor brMotor;
 
-
-    public IMU imu; // TODO: Figure out why 7571 uses BNO055IMU class
+    public IMU imu;
     public double imuOffset; // IMU offset in RADIANS
 
-    public Drivetrain(HardwareMap hardwareMap) {
-        Pose2d initialPose = new Pose2d(0, 0, 0);
+    public PrimitiveDrive(HardwareMap hardwareMap) {
+        flMotor = hardwareMap.get(DcMotor.class, "FLMotor");
+        frMotor = hardwareMap.get(DcMotor.class, "FRMotor");
+        blMotor = hardwareMap.get(DcMotor.class, "BLMotor");
+        brMotor = hardwareMap.get(DcMotor.class, "BRMotor");
 
-        this.drive = new MecanumDrive(hardwareMap, initialPose);
+        imu = hardwareMap.get(IMU.class, "imu");
+
+        imu.initialize(
+                new IMU.Parameters(
+                        new RevHubOrientationOnRobot(
+                                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+                        )
+                )
+        );
+
+        flMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        flMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        blMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        brMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    /** @return The IMU object */
-    public IMU getIMU() { return drive.lazyImu.get(); }
-
-    /** @return The front left wheel motor */
-    public DcMotor getFlMotor() { return drive.leftFront; }
-
-    /** @return The back left wheel motor */
-    public DcMotor getBlMotor() { return drive.leftBack; }
-
-    /** @return The front right wheel motor */
-    public DcMotor getFrMotor() { return drive.rightFront; }
-
-    /** @return The back right wheel motor */
-    public DcMotor getBrMotor() { return drive.rightBack; }
-
-
-    /** @return The roadrunner {@code MecanumDrive} drivetrain object */
-    public MecanumDrive getDrive() { return drive; }
+    /**
+     * @return The IMU object
+     */
+    public IMU getIMU() {
+        return imu;
+    }
 
     /**
-     * Resets the robot's IMU offset, effectively works like imu.resetYaw
-     * without disturbing RoadRunner
+     * @return The front left wheel motor
      */
+    public DcMotor getFlMotor() {
+        return flMotor;
+    }
+
+    /**
+     * @return The back left wheel motor
+     */
+    public DcMotor getBlMotor() {
+        return blMotor;
+    }
+
+    /**
+     * @return The front right wheel motor
+     */
+    public DcMotor getFrMotor() {
+        return frMotor;
+    }
+
+    /**
+     * @return The back right wheel motor
+     */
+    public DcMotor getBrMotor() {
+        return brMotor;
+    }
+
     public void resetImuOffset() {
-        imuOffset = getIMU().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        getIMU().resetYaw();
+        //imuOffset = getIMU().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
     }
 
     /**
@@ -57,8 +90,8 @@ public class Drivetrain {
      * @return the robot's yaw angle + the IMU offset in specified angle unit
      */
     public double getYaw(AngleUnit angleUnit) {
-        return getIMU().getRobotYawPitchRollAngles().getYaw(angleUnit)
-                + ((angleUnit == AngleUnit.DEGREES) ? Math.toDegrees(imuOffset) : imuOffset);
+        return getIMU().getRobotYawPitchRollAngles().getYaw(angleUnit);
+        //        - ((angleUnit == AngleUnit.DEGREES) ? Math.toDegrees(imuOffset) : imuOffset);
     }
 
     /**
@@ -66,10 +99,10 @@ public class Drivetrain {
      *
      * @param turnVal The rate at which the bot should turn between -1 (cw) and 1 (ccw),
      *                for example, a right stick x value.
-     * @param strafe The bot's strafe or side-to-side drive power between -1 (left) and 1 (right),
-     *               for example, a left stick x value.
+     * @param strafe  The bot's strafe or side-to-side drive power between -1 (left) and 1 (right),
+     *                for example, a left stick x value.
      * @param forward The bot's forward and back drive power between -1 (back) and 1 (forward),
-     *               for example, a left stick y value.
+     *                for example, a left stick y value.
      */
     public void fodDrive(double turnVal, double strafe, double forward) {
         double botHeading = getYaw(AngleUnit.RADIANS);
@@ -98,10 +131,10 @@ public class Drivetrain {
      *
      * @param turnVal The rate at which the bot should turn between -1 (cw) and 1 (ccw),
      *                for example, a right stick x value.
-     * @param strafe The bot's strafe or side-to-side drive power between -1 (left) and 1 (right),
-     *               for example, a left stick x value.
+     * @param strafe  The bot's strafe or side-to-side drive power between -1 (left) and 1 (right),
+     *                for example, a left stick x value.
      * @param forward The bot's forward and back drive power between -1 (back) and 1 (forward),
-     *               for example, a left stick y value.
+     *                for example, a left stick y value.
      */
     public void rodDrive(double turnVal, double strafe, double forward) {
         double modifiedX = strafe * 1.1; // set modifier as needed
