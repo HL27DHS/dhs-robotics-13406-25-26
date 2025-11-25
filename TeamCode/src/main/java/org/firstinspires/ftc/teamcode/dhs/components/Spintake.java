@@ -11,8 +11,8 @@ public class Spintake {
     public Servo sortServo;
 
     // TODO: Figure out servo sorter positions
-    public final double sortOpenPos = 0;
-    public final double sortClosePos = 0;
+    public final double sortOpenPos = 1;
+    public final double sortClosePos = 0.5;
 
     public boolean sortOpen;
 
@@ -37,19 +37,19 @@ public class Spintake {
     public void setCyclePower(double power) { cycleMotor.setPower(power); }
 
     public void closeSort() {
-//        sortServo.setPosition(sortClosePos);
-//        sortOpen = false;
+        sortServo.setPosition(sortClosePos);
+        sortOpen = false;
     }
 
     public void openSort() {
-//        sortServo.setPosition(sortOpenPos);
-//        sortOpen = true;
+        sortServo.setPosition(sortOpenPos);
+        sortOpen = true;
     }
 
-    public void toggleSort() {
+    /*public void toggleSort() {
 //        if (sortOpen)
 //            closeSort();
 //        else
 //            openSort();
-    }
+    } */
 }
