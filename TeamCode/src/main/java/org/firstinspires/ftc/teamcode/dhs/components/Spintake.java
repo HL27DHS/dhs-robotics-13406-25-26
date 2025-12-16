@@ -11,8 +11,8 @@ public class Spintake {
     public Servo sortServo;
 
 
-    public final double sortOpenPos = 1;
-    public final double sortClosePos = 0.5;
+    public final double sortOpenPos = 0.15;
+    public final double sortClosePos = 0;
 
     public boolean sortOpen;
 
