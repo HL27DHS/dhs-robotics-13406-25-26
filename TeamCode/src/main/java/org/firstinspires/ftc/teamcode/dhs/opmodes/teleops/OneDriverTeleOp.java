@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartUtils;
 
 @TeleOp(name="Ready Player One",group="Main Programs")
-public class OneDriverTeleOp extends OpMode {
+public class  OneDriverTeleOp extends OpMode {
     PrimitiveDrive drivetrain;
     Spintake spintake;
     Launcher launcher;
