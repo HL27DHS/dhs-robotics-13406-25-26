@@ -3,14 +3,16 @@ package org.firstinspires.ftc.teamcode.dhs.components;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Launcher {
-    public DcMotor flywheel;
+    public DcMotorEx flywheel;
+    private final int maxVelocity = 2380; // thank you Hayden
 
     public Launcher(HardwareMap hardwareMap) {
-        flywheel = hardwareMap.get(DcMotor.class, "flywheel");
+        flywheel = hardwareMap.get(DcMotorEx.class, "flywheel");
         flywheel.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
@@ -19,9 +21,20 @@ public class Launcher {
         flywheel.setPower(power);
     }
 
+    // Function to set the velocity of the flywheel
+    public void setFlywheelVelocity(int velocity) { flywheel.setVelocity(velocity); }
+
+    //
+    public int getFlywheelMaxVelocity() { return maxVelocity; }
+
     public class Ready implements Action {
         public boolean run(TelemetryPacket packet) {
-            // TODO: Implement "Ready" action for getting the launcher prepared to launch
+            int desiredVelocity = maxVelocity;
+
+            setFlywheelPower(1);
+            setFlywheelVelocity(desiredVelocity);
+
+            if (flywheel.getVelocity() < desiredVelocity) { return true; }
             return false;
         }
     }
@@ -41,7 +54,7 @@ public class Launcher {
 
     public class Unready implements Action {
         public boolean run(TelemetryPacket packet) {
-            // TODO: Implement "Unready" action for winding down the flywheel
+            setFlywheelVelocity(0);
             return false;
         }
     }
