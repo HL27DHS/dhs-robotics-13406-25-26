@@ -19,6 +19,10 @@ public class Drivetrain {
     public IMU imu; // TODO: Figure out why 7571 uses BNO055IMU class
     public double imuOffset; // IMU offset in RADIANS
 
+    public Drivetrain(HardwareMap hardwareMap, Pose2d pose) {
+        this.drive = new MecanumDrive(hardwareMap, pose);
+    }
+
     public Drivetrain(HardwareMap hardwareMap) {
         Pose2d initialPose = new Pose2d(0, 0, 0);
 
