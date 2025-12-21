@@ -34,8 +34,7 @@ public class Launcher {
             setFlywheelPower(1);
             setFlywheelVelocity(desiredVelocity);
 
-            if (flywheel.getVelocity() < desiredVelocity) { return true; }
-            return false;
+            return flywheel.getVelocity() < desiredVelocity;
         }
     }
     public Action ready() {
