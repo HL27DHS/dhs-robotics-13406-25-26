@@ -30,7 +30,7 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
 
         // first trajectory - move backward to prepare to shoot
         TrajectoryActionBuilder launchPrep1 = rrDrive.actionBuilder(initialPose)
-                .lineToYLinearHeading(12,Math.toRadians(66.9));
+                .lineToYLinearHeading(15,Math.toRadians(113.1));
 
 
         waitForStart();
