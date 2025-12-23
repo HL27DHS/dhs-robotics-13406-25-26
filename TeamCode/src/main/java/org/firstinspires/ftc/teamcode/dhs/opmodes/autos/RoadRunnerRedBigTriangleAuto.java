@@ -19,7 +19,7 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
 
     public void runOpMode() {
         // "somethin' eleven" - James Fonseca 2025
-        Pose2d initialPose = new Pose2d(-65.25,36.5, Math.PI / 2);
+        Pose2d initialPose = new Pose2d(-39.5,58.6, Math.PI / 2);
 
         // Init code here
         Drivetrain drivetrain = new Drivetrain(hardwareMap, initialPose);
@@ -30,7 +30,7 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
 
         // first trajectory - move backward to prepare to shoot
         TrajectoryActionBuilder launchPrep1 = rrDrive.actionBuilder(initialPose)
-                .lineToYConstantHeading(12);
+                .lineToYLinearHeading(12,Math.toRadians(66.9));
 
 
         waitForStart();
