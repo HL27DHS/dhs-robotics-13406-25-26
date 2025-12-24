@@ -51,11 +51,20 @@ public class Bot {
      * @return the necessary heading to face the depot
      */
     public double getAngleToFaceDepot(AngleUnit unit) {
-        Pose2d currentPosition = drivetrain.getDrive().localizer.getPose();
+        return getAngleToFaceDepotAtPos(unit, drivetrain.getDrive().localizer.getPose());
+    }
+
+    /**
+     * Get the bot's necessary heading in {@code AngleUnit} units to face the depot at a specified position
+     * @param unit the unit of measurement to use
+     * @param position the position from which the angle should be calculated
+     * @return the necessary heading to face the depot at that position
+     */
+    public double getAngleToFaceDepotAtPos(AngleUnit unit, Pose2d position) {
         Pose2d depotPosition = getDepotPosition();
 
-        double deltaX = depotPosition.position.x - currentPosition.position.x;
-        double deltaY = depotPosition.position.y - currentPosition.position.y;
+        double deltaX = depotPosition.position.x - position.position.x;
+        double deltaY = depotPosition.position.y - position.position.y;
 
         double radians = Math.atan2(deltaY, deltaX);
 
