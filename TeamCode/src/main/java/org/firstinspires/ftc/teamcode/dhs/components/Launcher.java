@@ -46,7 +46,7 @@ public class Launcher {
         int desiredVelocity;
 
         public Ready(int desiredVelocity) {
-            this.desiredVelocity = desiredVelocity;
+            this.desiredVelocity = Math.min(desiredVelocity, getFlywheelMaxVelocity());
         }
 
         public boolean run(@NonNull TelemetryPacket packet) {
