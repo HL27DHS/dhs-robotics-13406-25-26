@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dhs.components;
 
+import androidx.annotation.NonNull;
+
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -40,13 +42,17 @@ public class Launcher {
     public int getFlywheelMaxVelocity() { return FLYWHEEL_MAX_VELOCITY; }
 
     public class Ready implements Action {
-        public boolean run(TelemetryPacket packet) {
-            int desiredVelocity = FLYWHEEL_MAX_VELOCITY;
+        boolean initialized = false;
 
-            setFlywheelPower(1);
-            setFlywheelVelocity(desiredVelocity);
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!initialized) {
+                setFlywheelPower(1);
+                initialized = true;
+            }
 
-            return flywheel.getVelocity() < desiredVelocity;
+            double vel = getFlywheelVelocity();
+            packet.put("shooterVelocity", vel);
+            return vel < 10_000.0;
         }
     }
     public Action ready() {
@@ -66,7 +72,7 @@ public class Launcher {
     public class Unready implements Action {
         public boolean run(TelemetryPacket packet) {
             setFlywheelVelocity(0);
-            return false;
+            return flywheel.getVelocity() > 0;
         }
     }
     public Action unready() {
