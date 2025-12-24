@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Launcher {
     public DcMotorEx flywheel;
-    private final int maxVelocity = 2380; // thank you Hayden
+    private final int FLYWHEEL_MAX_VELOCITY = 2380; // thank you Hayden
 
     public Launcher(HardwareMap hardwareMap) {
         flywheel = hardwareMap.get(DcMotorEx.class, "flywheel");
