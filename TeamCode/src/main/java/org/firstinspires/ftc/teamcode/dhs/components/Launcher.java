@@ -43,20 +43,26 @@ public class Launcher {
 
     public class Ready implements Action {
         boolean initialized = false;
+        int desiredVelocity;
+
+        public Ready(int desiredVelocity) {
+            this.desiredVelocity = desiredVelocity;
+        }
 
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
                 setFlywheelPower(1);
+                setFlywheelVelocity(desiredVelocity);
                 initialized = true;
             }
 
             double vel = getFlywheelVelocity();
             packet.put("shooterVelocity", vel);
-            return vel < 10_000.0;
+            return vel < desiredVelocity;
         }
     }
-    public Action ready() {
-        return new Ready();
+    public Action ready(int desiredVelocity) {
+        return new Ready(desiredVelocity);
     }
 
     public class Launch implements Action {
