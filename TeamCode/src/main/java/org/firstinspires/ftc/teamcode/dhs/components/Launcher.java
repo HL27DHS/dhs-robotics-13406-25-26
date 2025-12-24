@@ -61,7 +61,7 @@ public class Launcher {
             return vel < desiredVelocity;
         }
     }
-    public Action ready(int desiredVelocity) {
+    public Action getReadyAction(int desiredVelocity) {
         return new Ready(desiredVelocity);
     }
 
@@ -71,7 +71,7 @@ public class Launcher {
             return false;
         }
     }
-    public Action launch() {
+    public Action getLaunchAction() {
         return new Launch();
     }
 
@@ -81,7 +81,7 @@ public class Launcher {
             return flywheel.getVelocity() > 0;
         }
     }
-    public Action unready() {
+    public Action getUnreadyAction() {
         return new Unready();
     }
 }
