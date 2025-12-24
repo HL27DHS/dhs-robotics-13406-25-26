@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.dhs.components;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -16,20 +15,29 @@ public class Launcher {
         flywheel.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
-    // Function to spin the flywheel of the bot at a certain speed
+    /**
+     * Sets the power of the flywheel motor
+     * @param power The power to set the flywheel motor to
+     */
     public void setFlywheelPower(double power) {
         flywheel.setPower(power);
     }
 
-    // Function to set the velocity of the flywheel
+    /**
+     * Sets the velocity of the flywheel motor
+     * @param velocity The velocity to set the flywheel motor to
+     */
     public void setFlywheelVelocity(int velocity) { flywheel.setVelocity(velocity); }
 
-    //
-    public int getFlywheelMaxVelocity() { return maxVelocity; }
+    /**
+     * Gets the maximum velocity the flywheel motor can have
+     * @return The maximum velocity of the flywheel
+     */
+    public int getFlywheelMaxVelocity() { return FLYWHEEL_MAX_VELOCITY; }
 
     public class Ready implements Action {
         public boolean run(TelemetryPacket packet) {
-            int desiredVelocity = maxVelocity;
+            int desiredVelocity = FLYWHEEL_MAX_VELOCITY;
 
             setFlywheelPower(1);
             setFlywheelVelocity(desiredVelocity);
