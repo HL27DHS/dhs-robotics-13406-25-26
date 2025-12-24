@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
 import org.firstinspires.ftc.teamcode.dhs.components.Launcher;
 import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
@@ -22,11 +23,9 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
         Pose2d initialPose = new Pose2d(-39.5,58.6, Math.PI / 2);
 
         // Init code here
-        Drivetrain drivetrain = new Drivetrain(hardwareMap, initialPose);
-        Launcher launcher = new Launcher(hardwareMap);
-        Spintake spintake = new Spintake(hardwareMap);
+        Bot bot = new Bot(hardwareMap, Bot.Team.RED);
 
-        MecanumDrive rrDrive = drivetrain.getDrive();
+        MecanumDrive rrDrive = bot.drivetrain.getDrive();
 
         // first trajectory - move backward to prepare to shoot
         TrajectoryActionBuilder launchPrep1 = rrDrive.actionBuilder(initialPose)
