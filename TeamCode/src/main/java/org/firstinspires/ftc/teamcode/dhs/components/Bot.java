@@ -10,6 +10,9 @@ import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
 import org.firstinspires.ftc.teamcode.dhs.components.Launcher;
 
 public class Bot {
+    /**
+     * Enum to store which team this bot is on
+     */
     public enum Team {
         RED,
         BLUE
@@ -29,6 +32,10 @@ public class Bot {
         this.team = team;
     }
 
+    /**
+     * Gets the position of the depot based on what team the bot thinks it's on
+     * @return a {@code Pose2d} that represents where the team's depot is
+     */
     public Pose2d getDepotPosition() {
         if (team == Team.BLUE)
             return new Pose2d(-60,-60,0);
@@ -38,6 +45,11 @@ public class Bot {
         return new Pose2d(0,0,0);
     }
 
+    /**
+     * Gets the bot's necessary heading in {@code AngleUnit} units to face the depot
+     * @param unit the unit of angle measurement to use
+     * @return the necessary heading to face the depot
+     */
     public double getAngleToFaceDepot(AngleUnit unit) {
         Pose2d currentPosition = drivetrain.getDrive().localizer.getPose();
         Pose2d depotPosition = getDepotPosition();
@@ -53,6 +65,10 @@ public class Bot {
         return radians;
     }
 
+    /**
+     * Sets every drivetrain motor's zero power behavior to a designated behavior
+     * @param behavior the desired zero power behavior
+     */
     public void setAllMotorsZeroPowerBehavior(DcMotor.ZeroPowerBehavior behavior) {
         drivetrain.getFrMotor().setZeroPowerBehavior(behavior);
         drivetrain.getFlMotor().setZeroPowerBehavior(behavior);
