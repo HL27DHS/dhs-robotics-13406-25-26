@@ -47,12 +47,12 @@ public class Bot {
         double deltaX = depotPosition.position.x - currentPosition.position.x;
         double deltaY = depotPosition.position.y - currentPosition.position.y;
 
-        double angle = Math.atan2(deltaY, deltaX);
+        double radians = Math.atan2(deltaY, deltaX);
 
         if (unit == AngleUnit.DEGREES)
-            return Math.toDegrees(angle);
+            return Math.toDegrees(radians);
 
-        return angle;
+        return radians;
     }
 
     public void setAllMotorsZeroPowerBehavior(DcMotor.ZeroPowerBehavior behavior) {
