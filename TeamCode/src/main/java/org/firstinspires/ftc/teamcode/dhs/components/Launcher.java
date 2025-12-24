@@ -30,6 +30,12 @@ public class Launcher {
     public void setFlywheelVelocity(int velocity) { flywheel.setVelocity(velocity); }
 
     /**
+     * Gets the velocity of the flywheel
+     * @return The flywheel's current velocity
+     */
+    public double getFlywheelVelocity() { return flywheel.getVelocity(); }
+
+    /**
      * Gets the maximum velocity the flywheel motor can have
      * @return The maximum velocity of the flywheel
      */
