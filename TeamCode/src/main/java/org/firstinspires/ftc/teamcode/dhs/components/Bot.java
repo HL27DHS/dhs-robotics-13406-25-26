@@ -30,7 +30,6 @@ public class Bot {
     }
 
     public Pose2d getDepotPosition() {
-        // TODO: Implement function that gets the Pose2d of the Depot
         if (team == Team.BLUE)
             return new Pose2d(-60,-60,0);
         if (team == Team.RED)
