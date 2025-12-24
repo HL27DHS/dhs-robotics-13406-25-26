@@ -19,9 +19,7 @@ public class Launcher {
      * Sets the power of the flywheel motor
      * @param power The power to set the flywheel motor to
      */
-    public void setFlywheelPower(double power) {
-        flywheel.setPower(power);
-    }
+    public void setFlywheelPower(double power) { flywheel.setPower(power); }
 
     /**
      * Sets the velocity of the flywheel motor
