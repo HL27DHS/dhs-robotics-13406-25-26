@@ -9,6 +9,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
@@ -29,7 +30,7 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
 
         // first trajectory - move backward to prepare to shoot
         TrajectoryActionBuilder launchPrep1 = rrDrive.actionBuilder(initialPose)
-                .lineToYLinearHeading(15,Math.toRadians(113.1));
+                .lineToYLinearHeading(15,bot.getAngleToFaceDepotAtPos(AngleUnit.DEGREES,new Pose2d(-39.5, 15, 0)));
 
 
         waitForStart();
