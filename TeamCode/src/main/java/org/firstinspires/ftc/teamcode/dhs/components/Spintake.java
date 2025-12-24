@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.dhs.components;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -36,14 +40,44 @@ public class Spintake {
     }
     public void setCyclePower(double power) { cycleMotor.setPower(power); }
 
+    public class CloseSort implements Action {
+        public boolean run(@NonNull TelemetryPacket packet) {
+            closeSort();
+            return false;
+        }
+    }
+    public Action getCloseSortAction() {
+        return new CloseSort();
+    }
+
     public void closeSort() {
         sortServo.setPosition(sortClosePos);
         sortOpen = false;
     }
 
+    public class OpenSort implements Action {
+        public boolean run(TelemetryPacket packet) {
+            openSort();
+            return false;
+        }
+    }
+    public Action getOpenSortAction() {
+        return new OpenSort();
+    }
+
     public void openSort() {
         sortServo.setPosition(sortOpenPos);
         sortOpen = true;
+    }
+
+    public class ToggleSort implements Action {
+        public boolean run(TelemetryPacket packet) {
+            toggleSort();
+            return false;
+        }
+    }
+    public Action getToggleSortAction() {
+        return new ToggleSort();
     }
 
     public void toggleSort() {
