@@ -40,7 +40,6 @@ public class Bot {
     }
 
     public double getAngleToFaceDepot(AngleUnit unit) {
-        // TODO: Implement function that gets the bot's needed heading to face the depot
         Pose2d currentPosition = drivetrain.getDrive().localizer.getPose();
         Pose2d depotPosition = getDepotPosition();
 
