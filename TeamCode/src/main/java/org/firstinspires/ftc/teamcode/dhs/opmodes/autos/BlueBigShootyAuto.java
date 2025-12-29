@@ -32,25 +32,25 @@ public class BlueBigShootyAuto extends LinearOpMode {
         sleep(2000);
 
         // Spin the cycler for 1/4th of a second to fire the first ball
-        spintake.setCyclePower(1);
+        launcher.setCyclePower(1);
         sleep(250);
-        spintake.setCyclePower(0);
+        launcher.setCyclePower(0);
 
         // Wait two seconds for the flywheel to reach speed
         sleep(2000);
 
         // Spin the cycler for 1/4th of a second to fire the second ball
-        spintake.setCyclePower(1);
+        launcher.setCyclePower(1);
         sleep(250);
-        spintake.setCyclePower(0);
+        launcher.setCyclePower(0);
 
         // Wait two seconds for the flywheel to reach speed
         sleep(2000);
 
         // Spin the cycler for 1/4th of a second to fire the third ball
-        spintake.setCyclePower(1);
+        launcher.setCyclePower(1);
         sleep(250);
-        spintake.setCyclePower(0);
+        launcher.setCyclePower(0);
 
         // Stop flywheel, it doesn't need to spin any more.
         launcher.setFlywheelPower(0);
@@ -61,7 +61,7 @@ public class BlueBigShootyAuto extends LinearOpMode {
 
         // Stop all motors
         spintake.setSpintakePower(0);
-        spintake.setCyclePower(0);
+        launcher.setCyclePower(0);
         launcher.setFlywheelPower(0);
 
         drivetrain.getFlMotor().setPower(0);

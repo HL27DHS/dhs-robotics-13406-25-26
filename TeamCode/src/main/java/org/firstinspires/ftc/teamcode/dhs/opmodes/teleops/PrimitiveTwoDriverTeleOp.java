@@ -49,7 +49,7 @@ public class PrimitiveTwoDriverTeleOp extends OpMode {
         double launchPower = (gamepad1.left_trigger > 0.5) ? 0.8 : 0;
 
         spintake.setSpintakePower(spintakePower * c2ReverseModifier);
-        spintake.setCyclePower(cyclePower * c1ReverseModifier);
+        launcher.setCyclePower(cyclePower * c1ReverseModifier);
         launcher.setFlywheelPower(launchPower * c1ReverseModifier);
 
         // Manage the Slow Mode modifier (does not affect turning, just driving)

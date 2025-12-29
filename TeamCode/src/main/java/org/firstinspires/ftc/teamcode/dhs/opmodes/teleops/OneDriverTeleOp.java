@@ -68,7 +68,7 @@ public class  OneDriverTeleOp extends OpMode {
         double launchPower = (controller1.leftTrigger.getValue() > 0.5) ? (1 - launchModifierRange) + launchModifier : 0;
 
         spintake.setSpintakePower(spintakePower * reverseModifier);
-        spintake.setCyclePower(cyclePower * reverseModifier);
+        launcher.setCyclePower(cyclePower * reverseModifier);
         launcher.setFlywheelPower(launchPower * reverseModifier);
 
         // If B is pressed, open the sort chute, if it's not, close it

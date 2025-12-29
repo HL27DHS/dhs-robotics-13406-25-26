@@ -79,7 +79,7 @@ public class TwoDriverTeleOp extends OpMode {
         double launchPower = (controller1.leftTrigger.getValue() > 0.5) ? (1 - launchModifierRange) + launchModifier : 0;
 
         spintake.setSpintakePower(spintakePower * c2ReverseModifier);
-        spintake.setCyclePower(cyclePower * c1ReverseModifier);
+        launcher.setCyclePower(cyclePower * c1ReverseModifier);
         launcher.setFlywheelPower(launchPower * c1ReverseModifier);
 
         // If B is pressed, open the sort chute, if it's not, close it
