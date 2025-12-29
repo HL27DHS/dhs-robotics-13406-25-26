@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode.dhs.opmodes.teleops;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
 import org.firstinspires.ftc.teamcode.dhs.components.Launcher;
@@ -43,7 +41,7 @@ public class DriveTeleOp extends OpMode {
             drivetrain.rodDrive(gamepad1.right_stick_x, gamepad1.left_stick_x, -gamepad1.left_stick_y);
 
         spintake.spintakeMotor.setPower(gamepad1.left_trigger * ((gamepad1.b) ? -1 : 1));
-        launcher.flywheel.setPower(gamepad1.right_trigger * ((gamepad1.b) ? -1 : 1));
+        launcher.flywheelMotor.setPower(gamepad1.right_trigger * ((gamepad1.b) ? -1 : 1));
 
         if (gamepad1.right_bumper && !rightBumperLastTick)
             useFod = !useFod;

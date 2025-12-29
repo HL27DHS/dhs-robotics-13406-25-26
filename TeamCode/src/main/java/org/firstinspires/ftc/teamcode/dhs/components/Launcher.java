@@ -9,31 +9,31 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Launcher {
-    public DcMotorEx flywheel;
+    public DcMotorEx flywheelMotor;
     private final int FLYWHEEL_MAX_VELOCITY = 2380; // thank you Hayden
 
     public Launcher(HardwareMap hardwareMap) {
-        flywheel = hardwareMap.get(DcMotorEx.class, "flywheel");
-        flywheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        flywheelMotor = hardwareMap.get(DcMotorEx.class, "flywheel");
+        flywheelMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     /**
      * Sets the power of the flywheel motor
      * @param power The power to set the flywheel motor to
      */
-    public void setFlywheelPower(double power) { flywheel.setPower(power); }
+    public void setFlywheelPower(double power) { flywheelMotor.setPower(power); }
 
     /**
      * Sets the velocity of the flywheel motor
      * @param velocity The velocity to set the flywheel motor to
      */
-    public void setFlywheelVelocity(int velocity) { flywheel.setVelocity(velocity); }
+    public void setFlywheelVelocity(int velocity) { flywheelMotor.setVelocity(velocity); }
 
     /**
      * Gets the velocity of the flywheel
      * @return The flywheel's current velocity
      */
-    public double getFlywheelVelocity() { return flywheel.getVelocity(); }
+    public double getFlywheelVelocity() { return flywheelMotor.getVelocity(); }
 
     /**
      * Gets the maximum velocity the flywheel motor can have
@@ -78,7 +78,7 @@ public class Launcher {
     public class Unready implements Action {
         public boolean run(TelemetryPacket packet) {
             setFlywheelVelocity(0);
-            return flywheel.getVelocity() > 0;
+            return flywheelMotor.getVelocity() > 0;
         }
     }
     public Action getUnreadyAction() {
