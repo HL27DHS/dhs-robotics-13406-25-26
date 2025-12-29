@@ -24,7 +24,7 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
         Pose2d initialPose = new Pose2d(-39.5,58.6, Math.PI / 2);
 
         // Init code here
-        Bot bot = new Bot(hardwareMap, Bot.Team.RED);
+        Bot bot = new Bot(hardwareMap, Team.RED);
 
         MecanumDrive rrDrive = bot.drivetrain.getDrive();
 

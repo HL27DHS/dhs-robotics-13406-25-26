@@ -10,14 +10,6 @@ import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
 import org.firstinspires.ftc.teamcode.dhs.components.Launcher;
 
 public class Bot {
-    /**
-     * Enum to store which team this bot is on
-     */
-    public enum Team {
-        RED,
-        BLUE
-    }
-
     public final Drivetrain drivetrain;
     public final Spintake spintake;
     public final Launcher launcher;
