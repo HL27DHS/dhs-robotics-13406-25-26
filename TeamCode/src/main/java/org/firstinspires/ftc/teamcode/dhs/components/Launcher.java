@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -11,10 +12,16 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Launcher {
     public DcMotorEx flywheelMotor;
     private final int FLYWHEEL_MAX_VELOCITY = 2380; // thank you Hayden
+    public DcMotor cycleMotor;
 
     public Launcher(HardwareMap hardwareMap) {
         flywheelMotor = hardwareMap.get(DcMotorEx.class, "flywheel");
+        cycleMotor = hardwareMap.get(DcMotor.class, "cycle");
+
         flywheelMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        cycleMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        cycleMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     /**
@@ -40,6 +47,12 @@ public class Launcher {
      * @return The maximum velocity of the flywheel
      */
     public int getFlywheelMaxVelocity() { return FLYWHEEL_MAX_VELOCITY; }
+
+    /**
+     * Sets the power of the cycle motor
+     * @param power the power to set the cycle motor to spin at
+     */
+    public void setCyclePower(double power) { cycleMotor.setPower(power); }
 
     public class Ready implements Action {
         boolean initialized = false;
