@@ -44,6 +44,9 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
         TrajectoryActionBuilder grabArtifacts1 = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition, Math.PI/2))
                 .lineToYConstantHeading(50, new TranslationalVelConstraint(20));
 
+        TrajectoryActionBuilder backToShootingPos = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition.x, 50, Math.PI/2))
+                .splineToLinearHeading(new Pose2d(-39.5, 15, 0), launchPrep1Heading);
+
         int launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.8);
 
         waitForStart();
@@ -76,6 +79,19 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
                 bot.launcher.getStopCycleAction()
         ));
 
-
+        // go back to shooting pos and fire
+        Actions.runBlocking(new SequentialAction(
+                new ParallelAction(
+                        backToShootingPos.build(),
+                        bot.launcher.getReadyAction(launchVelocity)
+                        ),
+                bot.launcher.getReadyAction(launchVelocity),
+                bot.launcher.getLaunchAction(),
+                bot.launcher.getReadyAction(launchVelocity),
+                bot.launcher.getLaunchAction(),
+                bot.launcher.getReadyAction(launchVelocity),
+                bot.launcher.getLaunchAction(),
+                bot.launcher.getUnreadyAction()
+        ));
     }
 }
