@@ -97,4 +97,30 @@ public class Launcher {
     public Action getUnreadyAction() {
         return new Unready();
     }
+
+    public class StartCycle implements Action {
+        double power;
+
+        public StartCycle(double power) {
+            this.power = power;
+        }
+
+        public boolean run(TelemetryPacket packet) {
+            setCyclePower(power);
+            return false;
+        }
+    }
+    public Action getStartCycleAction(double power) {
+        return new StartCycle(power);
+    }
+
+    public class StopCycle implements Action {
+        public boolean run(TelemetryPacket packet) {
+            setCyclePower(0);
+            return false;
+        }
+    }
+    public Action getStopCycleAction() {
+        return new StopCycle();
+    }
 }
