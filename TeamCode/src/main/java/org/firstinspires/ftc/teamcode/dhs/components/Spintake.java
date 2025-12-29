@@ -34,6 +34,32 @@ public class Spintake {
         spintakeMotor.setPower(power);
     }
 
+    public class StartSpintake implements Action {
+        double power;
+
+        public StartSpintake(double power) {
+            this.power = power;
+        }
+
+        public boolean run(TelemetryPacket packet) {
+            setSpintakePower(power);
+            return false;
+        }
+    }
+    public Action getStartSpintakeAction(double power) {
+        return new StartSpintake(power);
+    }
+
+    public class StopSpintake implements Action {
+        public boolean run(TelemetryPacket packet) {
+            setSpintakePower(0);
+            return false;
+        }
+    }
+    public Action getStopSpintakeAction() {
+        return new StopSpintake();
+    }
+
     public class CloseSort implements Action {
         public boolean run(@NonNull TelemetryPacket packet) {
             closeSort();
