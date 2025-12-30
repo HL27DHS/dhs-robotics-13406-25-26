@@ -28,24 +28,29 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
         Pose2d initialPose = new Pose2d(-39.5,58.6, Math.PI / 2);
 
         // Init code here
-        Bot bot = new Bot(hardwareMap, Team.RED);
+        Bot bot = new Bot(hardwareMap, Team.RED, initialPose);
 
         MecanumDrive rrDrive = bot.drivetrain.getDrive();
 
         // first trajectory - move backward to prepare to shoot
-        double launchPrep1Heading = bot.getAngleToFaceDepotAtPos(AngleUnit.DEGREES,new Pose2d(-39.5, 15, 0));
+        double launchPrep1Heading = Math.toRadians(112);
         TrajectoryActionBuilder launchTrajectory1 = rrDrive.actionBuilder(initialPose)
                 .lineToYLinearHeading(15, launchPrep1Heading);
 
         Vector2d firstRowStartPosition = new Vector2d(-12, 36);
-        TrajectoryActionBuilder artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(-39.5, 15, 0))
-                .splineToConstantHeading(firstRowStartPosition,Math.PI/2);
+        TrajectoryActionBuilder artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(-39.5, 15, launchPrep1Heading))
+                .stopAndAdd(bot.spintake.getStartSpintakeAction(1))
+                .stopAndAdd(bot.launcher.getStartCycleAction(0.4))
+                .splineToLinearHeading(new Pose2d(firstRowStartPosition, Math.PI/2),Math.PI/2)
+                .lineToYConstantHeading(56, new TranslationalVelConstraint(24))
+                .afterTime(0.5, bot.spintake.getStopSpintakeAction())
+                .afterTime(0.5, bot.launcher.getStopCycleAction());
 
         TrajectoryActionBuilder grabArtifacts1 = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition, Math.PI/2))
                 .lineToYConstantHeading(50, new TranslationalVelConstraint(20));
 
         TrajectoryActionBuilder backToShootingPos = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition.x, 50, Math.PI/2))
-                .splineToLinearHeading(new Pose2d(-39.5, 15, 0), launchPrep1Heading);
+                .splineToLinearHeading(new Pose2d(-39.5, 15, launchPrep1Heading),Math.PI/3);
 
         int launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.8);
 
@@ -71,12 +76,7 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
 
         // make your way to the artifacts and pick them up
         Actions.runBlocking(new SequentialAction(
-                artifactTrajectory1.build(),
-                bot.spintake.getStartSpintakeAction(0.8),
-                bot.launcher.getStartCycleAction(0.4),
-                grabArtifacts1.build(),
-                bot.spintake.getStopSpintakeAction(),
-                bot.launcher.getStopCycleAction()
+                artifactTrajectory1.build()
         ));
 
         // go back to shooting pos and fire
