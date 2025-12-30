@@ -44,7 +44,7 @@ public class Launcher {
     /**
      * Gets the velocity of the flywheel
      * @return The flywheel's current velocity
-     */
+     */ // FIXME: currently does not report flywheel velocity correctly
     public double getFlywheelVelocity() { return flywheelMotor.getVelocity(); }
 
     /**
@@ -74,6 +74,7 @@ public class Launcher {
                 initialized = true;
             }
 
+            // FIXME: Currently runs forever due to the fact that getFlywheelVelocity incorrectly reports value
             double vel = getFlywheelVelocity();
             packet.put("shooterVelocity", vel);
             return vel < desiredVelocity;
