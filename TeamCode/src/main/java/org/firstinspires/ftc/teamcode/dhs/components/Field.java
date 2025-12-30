@@ -1,19 +1,23 @@
 package org.firstinspires.ftc.teamcode.dhs.components;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Vector2d;
 
 public class Field {
     // TODO: Fill this class with functions and data regarding the field and positions of stuff on it
     public static final double TILE_WIDTH = 24.5;
     public static final double FIELD_WIDTH = 144;
 
-    private static final Pose2d redDepotPosition = new Pose2d(-60,60,0);
-    private static final Pose2d blueDepotPosition = new Pose2d(-60,-60,0);
+    private static final Vector2d redDepotPosition = new Vector2d(-60,60);
+    private static final Vector2d blueDepotPosition = new Vector2d(-60,-60);
 
     public static Pose2d getBlueDepotPosition() { return blueDepotPosition; }
     public static Pose2d getRedDepotPosition() { return redDepotPosition; }
 
-    public static Pose2d getDepotPosition(Team team) {
+    public static Vector2d getBlueDepotPosition() { return blueDepotPosition; }
+    public static Vector2d getRedDepotPosition() { return redDepotPosition; }
+
+    public static Vector2d getDepotPosition(Team team) {
         if (team == Team.RED)
             return getRedDepotPosition();
         else
