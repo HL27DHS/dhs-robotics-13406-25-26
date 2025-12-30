@@ -11,8 +11,9 @@ public class Field {
     private static final Vector2d redDepotPosition = new Vector2d(-60,60);
     private static final Vector2d blueDepotPosition = new Vector2d(-60,-60);
 
-    public static Pose2d getBlueDepotPosition() { return blueDepotPosition; }
-    public static Pose2d getRedDepotPosition() { return redDepotPosition; }
+    // TODO: Figure out positions of red and blue base
+    private static final Vector2d redBasePosition = new Vector2d(0,0);
+    private static final Vector2d blueBasePosition = new Vector2d(0,0);
 
     public static Vector2d getBlueDepotPosition() { return blueDepotPosition; }
     public static Vector2d getRedDepotPosition() { return redDepotPosition; }
