@@ -8,11 +8,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import java.util.Timer;
 
 public class Launcher {
     public DcMotorEx flywheelMotor;
     private final int FLYWHEEL_MAX_VELOCITY = 2380; // thank you Hayden
     public DcMotor cycleMotor;
+
+    public final double cycleSpinToFireMS = 50;
 
     public Launcher(HardwareMap hardwareMap) {
         flywheelMotor = hardwareMap.get(DcMotorEx.class, "flywheel");
@@ -78,10 +83,28 @@ public class Launcher {
         return new Ready(desiredVelocity);
     }
 
+    // This action (as of right now) just spins the cycle
+    // motor for the time set in cycleSpinToFireMS
     public class Launch implements Action {
+        ElapsedTime timer;
+        boolean initialized;
+
+        public Launch() {
+            timer = new ElapsedTime();
+            timer.reset();
+        }
+
         public boolean run(TelemetryPacket packet) {
-            // TODO: Implement "Launch" action for launching a ball
-            return false;
+            // TODO: Make launch functionality more consistent, use dips in flywheel velocity
+            if (timer.milliseconds() >= cycleSpinToFireMS) {
+                setCyclePower(0);
+                return false;
+            }
+
+            if (!initialized)
+                setCyclePower(1);
+
+            return true;
         }
     }
     public Action getLaunchAction() {
