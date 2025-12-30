@@ -103,5 +103,6 @@ public class VelocityShootingTest extends OpMode {
             );
 
         telemetry.addData("flywheelV",launcher.getFlywheelVelocity());
+        telemetry.update();
     }
 }

@@ -21,5 +21,6 @@ public class FaceDepotTest extends OpMode {
 
     public void loop() {
         telemetry.addData("Bot Needed Heading",bot.getAngleToFaceDepot(AngleUnit.DEGREES));
+        telemetry.update();
     }
 }
