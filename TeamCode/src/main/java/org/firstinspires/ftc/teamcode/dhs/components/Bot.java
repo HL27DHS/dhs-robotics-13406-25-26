@@ -16,8 +16,22 @@ public class Bot {
 
     public Team team;
 
+    public Bot(HardwareMap hardwareMap) {
+        drivetrain = new Drivetrain(hardwareMap);
+        spintake = new Spintake(hardwareMap);
+        launcher = new Launcher(hardwareMap);
+    }
+
     public Bot(HardwareMap hardwareMap, Team team) {
         drivetrain = new Drivetrain(hardwareMap);
+        spintake = new Spintake(hardwareMap);
+        launcher = new Launcher(hardwareMap);
+
+        this.team = team;
+    }
+
+    public Bot(HardwareMap hardwareMap, Team team, Pose2d initialPose) {
+        drivetrain = new Drivetrain(hardwareMap, initialPose);
         spintake = new Spintake(hardwareMap);
         launcher = new Launcher(hardwareMap);
 
