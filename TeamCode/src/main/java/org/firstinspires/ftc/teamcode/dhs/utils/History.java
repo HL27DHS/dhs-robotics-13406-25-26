@@ -23,8 +23,11 @@ public class History<T> {
             timeline.subList(depth, timeline.size()).clear();
     }
 
-    public List<T> toList() {
-        return timeline;
+    /**
+     * Reset the kept history back to being empty
+     */
+    public void clear() {
+        timeline.clear();
     }
 
     public T[] toArray() {
