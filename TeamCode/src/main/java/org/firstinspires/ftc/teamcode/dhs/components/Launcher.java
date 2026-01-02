@@ -10,14 +10,21 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import java.util.Timer;
-
 public class Launcher {
     public DcMotorEx flywheelMotor;
     private final int FLYWHEEL_MAX_VELOCITY = 2380; // thank you Hayden
     public DcMotor cycleMotor;
 
     public final double cycleSpinToFireMS = 50;
+    private int flywheelTargetVelocity = 0;
+
+    public final double FLYWHEEL_POLLING_RATE_MS = 150;
+    public final int FLYWHEEL_HISTORY_DEPTH = 10;
+
+    private double[] flywheelHistory = new double[FLYWHEEL_HISTORY_DEPTH];
+    private ElapsedTime deltaTimer;
+    private int deltaTimeSum_ms = 0;
+
 
     public Launcher(HardwareMap hardwareMap) {
         flywheelMotor = hardwareMap.get(DcMotorEx.class, "flywheel");
@@ -27,6 +34,22 @@ public class Launcher {
         cycleMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         cycleMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        deltaTimer = new ElapsedTime();
+        deltaTimer.reset();
+    }
+
+    public void think() {
+        double dt = deltaTimer.milliseconds();
+        deltaTimer.reset();
+
+        deltaTimeSum_ms += dt;
+
+        if (deltaTimeSum_ms >= FLYWHEEL_POLLING_RATE_MS) {
+            deltaTimeSum_ms = 0;
+
+
+        }
     }
 
     /**
@@ -39,13 +62,20 @@ public class Launcher {
      * Sets the velocity of the flywheel motor
      * @param velocity The velocity to set the flywheel motor to
      */
-    public void setFlywheelVelocity(int velocity) { flywheelMotor.setVelocity(velocity); }
+    public void setFlywheelVelocity(int velocity) {
+        flywheelMotor.setVelocity(velocity);
+        flywheelTargetVelocity = velocity;
+    }
 
     /**
      * Gets the velocity of the flywheel
      * @return The flywheel's current velocity
      */ // FIXME: currently does not report flywheel velocity correctly
     public double getFlywheelVelocity() { return flywheelMotor.getVelocity(); }
+
+    public int getFlywheelTargetVelocity() {
+        return flywheelTargetVelocity;
+    }
 
     /**
      * Gets the maximum velocity the flywheel motor can have
