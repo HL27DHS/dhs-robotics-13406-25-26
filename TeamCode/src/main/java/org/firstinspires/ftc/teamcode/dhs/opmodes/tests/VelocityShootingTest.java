@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dhs.opmodes.tests;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -12,6 +13,8 @@ import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartUtils;
 // This OpMode is a modified clone of OneDriverTeleOp (12/30)
 @TeleOp(name="Velocity Shooting Test",group="Testing Programs")
 public class VelocityShootingTest extends OpMode {
+    FtcDashboard dashboard;
+
     PrimitiveDrive drivetrain;
     Spintake spintake;
     Launcher launcher;
@@ -35,6 +38,9 @@ public class VelocityShootingTest extends OpMode {
 
     @Override
     public void init() {
+        dashboard = FtcDashboard.getInstance();
+        telemetry = dashboard.getTelemetry();
+
         launcher = new Launcher(hardwareMap);
         spintake = new Spintake(hardwareMap);
         drivetrain = new PrimitiveDrive(hardwareMap);
