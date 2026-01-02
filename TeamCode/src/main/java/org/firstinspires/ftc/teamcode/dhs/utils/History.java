@@ -4,17 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class History<T> {
-    // TODO: Javadoc
+    /** The timeline containing each point kept in history */
     private final List<T> timeline;
+
+    /** How many points in history the timeline keeps */
     private final int depth;
 
+    /**
+     * Create an object of the History class
+     * @param depth the "depth" of the kept history, how many points it will keep track of
+     */
     public History(int depth) {
         this.depth = depth;
         this.timeline = new ArrayList<T>();
     }
 
+    /**
+     * Get the depth of the history, which is how long it tracks
+     * @return the depth of the history
+     */
     public int getDepth() { return depth; }
 
+    /**
+     * Add another item to the history
+     * @param item the item to add
+     */
     public void add(T item) {
         timeline.add(item);
 
