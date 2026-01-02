@@ -70,7 +70,7 @@ public class Launcher {
     /**
      * Gets the velocity of the flywheel
      * @return The flywheel's current velocity
-     */ // FIXME: currently does not report flywheel velocity correctly
+     */
     public double getFlywheelVelocity() { return flywheelMotor.getVelocity(); }
 
     public int getFlywheelTargetVelocity() {
