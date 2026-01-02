@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class History<T> {
+    // TODO: Make history keep a "timeline" of the distance between each point in history
+
     /** The ArrayList containing each point in history */
     private final List<T> points;
 
@@ -30,7 +32,7 @@ public class History<T> {
      * @param item the item to add
      */
     public void add(T item) {
-        points.add(item);
+        points.add(0, item);
 
         // Make sure list isn't too large
         if (points.size() > depth)
