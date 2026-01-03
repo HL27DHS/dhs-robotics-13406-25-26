@@ -104,6 +104,15 @@ public class Spintake {
         sortState = SortState.OPEN;
     }
 
+    public class BlockSort implements Action {
+        public boolean run(TelemetryPacket packet) {
+            blockSort();
+            return false;
+        }
+    }
+
+    public Action getBlockSortAction() { return new BlockSort(); }
+
     public void blockSort() {
         sortServo.setPosition(sortBlockingPos);
         sortState = SortState.BLOCKING;
