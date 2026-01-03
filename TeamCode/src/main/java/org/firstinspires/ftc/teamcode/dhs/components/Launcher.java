@@ -145,6 +145,34 @@ public class Launcher {
         return new Launch();
     }
 
+    public class LaunchWithTime implements Action {
+        ElapsedTime timer;
+        boolean initialized;
+        double fireTimeMS;
+
+        public LaunchWithTime(double fireTimeMS) {
+            this.fireTimeMS = fireTimeMS;
+
+            timer = new ElapsedTime();
+            timer.reset();
+        }
+
+        public boolean run(TelemetryPacket packet) {
+            if (timer.milliseconds() >= fireTimeMS) {
+                setCyclePower(0);
+                return false;
+            }
+
+            if (!initialized)
+                setCyclePower(1);
+
+            return true;
+        }
+    }
+    public Action getLaunchWithTimeAction(double fireTimeMS) {
+        return new LaunchWithTime(fireTimeMS);
+    }
+
     public class Unready implements Action {
         public boolean run(TelemetryPacket packet) {
             setFlywheelVelocity(0);
