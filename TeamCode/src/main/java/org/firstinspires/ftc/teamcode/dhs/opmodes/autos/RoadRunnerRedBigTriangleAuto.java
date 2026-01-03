@@ -53,10 +53,10 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
 
         // Go to firing position while spinning up flywheel
         Actions.runBlocking(new ParallelAction(
-                launchTrajectory1.build()/*,
-                bot.launcher.getReadyAction(launchVelocity)*/
+                launchTrajectory1.build(),
+                bot.launcher.getReadyAction(launchVelocity)
         ));
-        /*
+
         // Make sure flywheel is spun up, fire three times, stop flywheel
         Actions.runBlocking(new SequentialAction(
                 bot.launcher.getReadyAction(launchVelocity),
@@ -66,7 +66,7 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
                 bot.launcher.getReadyAction(launchVelocity),
                 bot.launcher.getLaunchAction(),
                 bot.launcher.getUnreadyAction()
-        ));*/
+        ));
 
         // make your way to the artifacts and pick them up
         Actions.runBlocking(new SequentialAction(
@@ -76,16 +76,16 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
         // go back to shooting pos and fire
         Actions.runBlocking(new SequentialAction(
                 new ParallelAction(
-                        backToShootingPos.build()/*,
-                        bot.launcher.getReadyAction(launchVelocity)*/
-                        )/*,
+                        backToShootingPos.build(),
+                        bot.launcher.getReadyAction(launchVelocity)
+                        ),
                 bot.launcher.getReadyAction(launchVelocity),
                 bot.launcher.getLaunchAction(),
                 bot.launcher.getReadyAction(launchVelocity),
                 bot.launcher.getLaunchAction(),
                 bot.launcher.getReadyAction(launchVelocity),
                 bot.launcher.getLaunchAction(),
-                bot.launcher.getUnreadyAction()*/
+                bot.launcher.getUnreadyAction()
         ));
     }
 }
