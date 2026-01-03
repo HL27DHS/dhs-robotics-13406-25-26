@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode.dhs.components;
 
 import com.acmerobotics.roadrunner.Pose2d;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -17,7 +15,7 @@ public class Drivetrain {
 
 
     public IMU imu; // TODO: IMU Orientation is not correct anymore. They have been moved.
-    public double imuOffset; // IMU offset in RADIANS
+    public double imuOffset_radians; // IMU offset in RADIANS
 
     public Drivetrain(HardwareMap hardwareMap, Pose2d pose) {
         this.drive = new MecanumDrive(hardwareMap, pose);
@@ -53,7 +51,21 @@ public class Drivetrain {
      * without disturbing RoadRunner
      */
     public void resetImuOffset() {
-        imuOffset = getIMU().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        imuOffset_radians = getRealYaw(AngleUnit.RADIANS);
+    }
+
+    /**
+     * Gets the IMU's real, unmodified yaw value
+     * @param angleUnit the unit of angle measurement to return the yaw in
+     * @return the robot's current yaw angle
+     */
+    public double getRealYaw(AngleUnit angleUnit) {
+        double radians = getDrive().localizer.getPose().heading.toDouble();
+
+        if (angleUnit == AngleUnit.DEGREES)
+            return Math.toDegrees(radians);
+
+        return radians;
     }
 
     /**
@@ -61,8 +73,12 @@ public class Drivetrain {
      * @return the robot's yaw angle + the IMU offset in specified angle unit
      */
     public double getYaw(AngleUnit angleUnit) {
-        return getIMU().getRobotYawPitchRollAngles().getYaw(angleUnit)
-                + ((angleUnit == AngleUnit.DEGREES) ? Math.toDegrees(imuOffset) : imuOffset);
+        double radians = AngleUnit.normalizeRadians(getRealYaw(AngleUnit.RADIANS) + imuOffset_radians);
+
+        if (angleUnit == AngleUnit.DEGREES)
+            return Math.toDegrees(radians);
+
+        return radians;
     }
 
     /**
