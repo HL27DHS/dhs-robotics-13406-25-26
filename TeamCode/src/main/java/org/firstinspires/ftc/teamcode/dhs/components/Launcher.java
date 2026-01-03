@@ -10,6 +10,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.dhs.utils.History;
+
 public class Launcher {
     public DcMotorEx flywheelMotor;
     private final int FLYWHEEL_MAX_VELOCITY = 2380; // thank you Hayden
@@ -20,10 +22,9 @@ public class Launcher {
 
     public final double FLYWHEEL_POLLING_RATE_MS = 150;
     public final int FLYWHEEL_HISTORY_DEPTH = 10;
-
-    private double[] flywheelHistory = new double[FLYWHEEL_HISTORY_DEPTH];
+    private final History<Double> flywheelHistory;
     private ElapsedTime deltaTimer;
-    private int deltaTimeSum_ms = 0;
+    private double deltaTimeSum_ms = 0;
 
 
     public Launcher(HardwareMap hardwareMap) {
@@ -34,6 +35,8 @@ public class Launcher {
         cycleMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         cycleMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        flywheelHistory = new History<Double>(FLYWHEEL_HISTORY_DEPTH);
 
         deltaTimer = new ElapsedTime();
         deltaTimer.reset();
@@ -48,7 +51,7 @@ public class Launcher {
         if (deltaTimeSum_ms >= FLYWHEEL_POLLING_RATE_MS) {
             deltaTimeSum_ms = 0;
 
-
+            flywheelHistory.add(getFlywheelVelocity());
         }
     }
 
