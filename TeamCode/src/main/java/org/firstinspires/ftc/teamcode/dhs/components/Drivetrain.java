@@ -16,7 +16,7 @@ public class Drivetrain {
     private MecanumDrive drive;
 
 
-    public IMU imu;
+    public IMU imu; // TODO: IMU Orientation is not correct anymore. They have been moved.
     public double imuOffset; // IMU offset in RADIANS
 
     public Drivetrain(HardwareMap hardwareMap, Pose2d pose) {
