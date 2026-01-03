@@ -5,16 +5,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
-import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
-import org.firstinspires.ftc.teamcode.dhs.components.Launcher;
 
 public class Bot {
     public final Drivetrain drivetrain;
     public final Spintake spintake;
     public final Launcher launcher;
 
-    public Team team;
+    public Alliance alliance;
 
     public Bot(HardwareMap hardwareMap) {
         drivetrain = new Drivetrain(hardwareMap);
@@ -22,20 +19,20 @@ public class Bot {
         launcher = new Launcher(hardwareMap);
     }
 
-    public Bot(HardwareMap hardwareMap, Team team) {
+    public Bot(HardwareMap hardwareMap, Alliance alliance) {
         drivetrain = new Drivetrain(hardwareMap);
         spintake = new Spintake(hardwareMap);
         launcher = new Launcher(hardwareMap);
 
-        this.team = team;
+        this.alliance = alliance;
     }
 
-    public Bot(HardwareMap hardwareMap, Team team, Pose2d initialPose) {
+    public Bot(HardwareMap hardwareMap, Alliance alliance, Pose2d initialPose) {
         drivetrain = new Drivetrain(hardwareMap, initialPose);
         spintake = new Spintake(hardwareMap);
         launcher = new Launcher(hardwareMap);
 
-        this.team = team;
+        this.alliance = alliance;
     }
 
     /**
@@ -43,9 +40,9 @@ public class Bot {
      * @return a {@code Pose2d} that represents where the team's depot is
      */
     public Pose2d getDepotPosition() {
-        if (team == Team.BLUE)
+        if (alliance == Alliance.BLUE)
             return new Pose2d(-60,-60,0);
-        if (team == Team.RED)
+        if (alliance == Alliance.RED)
             return new Pose2d(-60,60,0);
 
         return new Pose2d(0,0,0);

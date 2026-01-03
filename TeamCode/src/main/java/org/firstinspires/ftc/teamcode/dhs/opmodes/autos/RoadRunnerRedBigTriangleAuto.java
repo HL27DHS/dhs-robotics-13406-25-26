@@ -2,23 +2,17 @@ package org.firstinspires.ftc.teamcode.dhs.opmodes.autos;
 
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
-import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
-import org.firstinspires.ftc.teamcode.dhs.components.Launcher;
-import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
-import org.firstinspires.ftc.teamcode.dhs.components.Team;
+import org.firstinspires.ftc.teamcode.dhs.components.Alliance;
 
 @Autonomous(name="RR Red Big Tri Auto")
 public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
@@ -28,7 +22,7 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
         Pose2d initialPose = new Pose2d(-39.5,58.6, Math.PI / 2);
 
         // Init code here
-        Bot bot = new Bot(hardwareMap, Team.RED, initialPose);
+        Bot bot = new Bot(hardwareMap, Alliance.RED, initialPose);
 
         MecanumDrive rrDrive = bot.drivetrain.getDrive();
 

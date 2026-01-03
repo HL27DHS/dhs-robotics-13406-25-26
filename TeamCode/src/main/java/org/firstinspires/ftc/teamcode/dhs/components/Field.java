@@ -18,14 +18,14 @@ public class Field {
     public static Vector2d getBlueDepotPosition() { return blueDepotPosition; }
     public static Vector2d getRedDepotPosition() { return redDepotPosition; }
 
-    public static Vector2d getDepotPosition(Team team) {
-        if (team == Team.RED)
+    public static Vector2d getDepotPosition(Alliance alliance) {
+        if (alliance == Alliance.RED)
             return getRedDepotPosition();
         else
             return getBlueDepotPosition();
     }
 
-    public static Pose2d getArtifactRowPosition(Team team, int row) {
+    public static Pose2d getArtifactRowPosition(Alliance alliance, int row) {
         // TODO: Implement function to get position of a specific row of artifacts
         return new Pose2d(0,0,0);
     }
