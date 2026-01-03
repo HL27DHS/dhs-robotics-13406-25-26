@@ -13,6 +13,9 @@ public class Spintake {
     public DcMotor spintakeMotor;
     public Servo sortServo;
 
+    // CHUTE OPEN: 0.2
+    // GATE CLOSED: 0.1
+    // CHUTE CLOSED: 0
 
     public final double sortOpenPos = 0.15;
     public final double sortClosePos = 0;
