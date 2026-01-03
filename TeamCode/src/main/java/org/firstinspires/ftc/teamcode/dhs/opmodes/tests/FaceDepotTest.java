@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
-import org.firstinspires.ftc.teamcode.dhs.components.Alliance;
+import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 
 @TeleOp(name="Face Depot Test")
 public class FaceDepotTest extends OpMode {

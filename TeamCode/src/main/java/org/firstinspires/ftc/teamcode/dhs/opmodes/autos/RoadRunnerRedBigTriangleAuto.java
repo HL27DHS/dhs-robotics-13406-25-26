@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
-import org.firstinspires.ftc.teamcode.dhs.components.Alliance;
+import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 
 @Autonomous(name="RR Red Big Tri Auto")
 public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {

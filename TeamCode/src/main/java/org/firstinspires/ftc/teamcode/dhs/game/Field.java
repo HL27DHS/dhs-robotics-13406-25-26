@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dhs.components;
+package org.firstinspires.ftc.teamcode.dhs.game;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
