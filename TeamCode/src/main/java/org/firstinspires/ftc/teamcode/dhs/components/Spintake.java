@@ -17,10 +17,17 @@ public class Spintake {
     // GATE CLOSED: 0.1
     // CHUTE CLOSED: 0
 
-    public final double sortOpenPos = 0.15;
+    public final double sortOpenPos = 0.2;
+    public final double sortBlockingPos = 0.1;
     public final double sortClosePos = 0;
 
-    public boolean sortOpen;
+    public enum SortState {
+        OPEN,
+        BLOCKING,
+        CLOSE
+    }
+
+    private SortState sortState;
 
     public Spintake(HardwareMap hardwareMap) {
         spintakeMotor = hardwareMap.get(DcMotor.class, "spintake");
@@ -63,6 +70,10 @@ public class Spintake {
         return new StopSpintake();
     }
 
+    public SortState getSortState() {
+        return sortState;
+    }
+
     public class CloseSort implements Action {
         public boolean run(@NonNull TelemetryPacket packet) {
             closeSort();
@@ -75,7 +86,7 @@ public class Spintake {
 
     public void closeSort() {
         sortServo.setPosition(sortClosePos);
-        sortOpen = false;
+        sortState = SortState.CLOSE;
     }
 
     public class OpenSort implements Action {
@@ -90,7 +101,12 @@ public class Spintake {
 
     public void openSort() {
         sortServo.setPosition(sortOpenPos);
-        sortOpen = true;
+        sortState = SortState.OPEN;
+    }
+
+    public void blockSort() {
+        sortServo.setPosition(sortBlockingPos);
+        sortState = SortState.BLOCKING;
     }
 
     public class ToggleSort implements Action {
@@ -104,7 +120,7 @@ public class Spintake {
     }
 
     public void toggleSort() {
-        if (sortOpen)
+        if (getSortState() == SortState.OPEN)
             closeSort();
         else
             openSort();
