@@ -108,21 +108,4 @@ public class Spintake {
         sortServo.setPosition(sortBlockingPos);
         sortState = SortState.BLOCKING;
     }
-
-    public class ToggleSort implements Action {
-        public boolean run(TelemetryPacket packet) {
-            toggleSort();
-            return false;
-        }
-    }
-    public Action getToggleSortAction() {
-        return new ToggleSort();
-    }
-
-    public void toggleSort() {
-        if (getSortState() == SortState.OPEN)
-            closeSort();
-        else
-            openSort();
-    }
 }
