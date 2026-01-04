@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -35,6 +37,7 @@ public class Launcher {
         cycleMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         cycleMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        flywheelMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         flywheelHistory = new History<Double>(FLYWHEEL_HISTORY_DEPTH);
 
@@ -145,38 +148,19 @@ public class Launcher {
         return new Launch();
     }
 
-    public class LaunchWithTime implements Action {
-        ElapsedTime timer;
-        boolean initialized;
-        double fireTimeMS;
-
-        public LaunchWithTime(double fireTimeMS) {
-            this.fireTimeMS = fireTimeMS;
-
-            timer = new ElapsedTime();
-            timer.reset();
-        }
-
-        public boolean run(TelemetryPacket packet) {
-            if (timer.milliseconds() >= fireTimeMS) {
-                setCyclePower(0);
-                return false;
-            }
-
-            if (!initialized)
-                setCyclePower(1);
-
-            return true;
-        }
-    }
     public Action getLaunchWithTimeAction(double fireTimeMS) {
-        return new LaunchWithTime(fireTimeMS);
+        return new SequentialAction(
+                getStartCycleAction(1),
+                new SleepAction(fireTimeMS/1000),
+                getStopCycleAction()
+        );
     }
 
     public class Unready implements Action {
         public boolean run(TelemetryPacket packet) {
             setFlywheelVelocity(0);
-            return flywheelMotor.getVelocity() > 0;
+            return false;
+            //return flywheelMotor.getVelocity() > 0;
         }
     }
     public Action getUnreadyAction() {
