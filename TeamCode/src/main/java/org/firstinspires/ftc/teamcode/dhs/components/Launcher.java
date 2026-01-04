@@ -150,7 +150,7 @@ public class Launcher {
 
     public Action getLaunchWithTimeAction(double fireTimeMS) {
         return new SequentialAction(
-                getStartCycleAction(1),
+                getStartCycleAction(0.5),
                 new SleepAction(fireTimeMS/1000),
                 getStopCycleAction()
         );
