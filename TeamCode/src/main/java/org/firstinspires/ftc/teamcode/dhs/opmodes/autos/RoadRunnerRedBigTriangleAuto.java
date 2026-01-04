@@ -18,15 +18,49 @@ import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 
 @Autonomous(name="RR Red Big Tri Auto")
 public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
+    Bot bot;
+    MecanumDrive rrDrive;
+
+    double fireTime;
+    int launchVelocity;
+
+    public Action fireThreeBalls() {
+        return new SequentialAction(
+                bot.launcher.getReadyAction(launchVelocity),
+                bot.launcher.getLaunchWithTimeAction(fireTime), // First Launch
+                new ParallelAction( // spin up and prepare balls
+                        bot.launcher.getReadyAction(launchVelocity),
+                        prepareBalls()
+                ),
+                bot.launcher.getLaunchWithTimeAction(fireTime), // Second Launch
+                new ParallelAction( // spin up and prepare balls
+                        bot.launcher.getReadyAction(launchVelocity),
+                        prepareBalls()
+                ),
+                bot.launcher.getLaunchWithTimeAction(fireTime), // Third Launch
+                bot.launcher.getUnreadyAction()
+        );
+    }
+
+    public Action prepareBalls() {
+        return new SequentialAction(
+                bot.spintake.getBlockSortAction(),
+                new SleepAction(0.25),
+                bot.launcher.getStartCycleAction(1),
+                new SleepAction(2),
+                bot.launcher.getStopCycleAction(),
+                bot.spintake.getCloseSortAction()
+        );
+    }
 
     public void runOpMode() {
         // "somethin' eleven" - James Fonseca 2025
         Pose2d initialPose = new Pose2d(-39.5,58.6, Math.PI / 2);
 
         // Init code here
-        Bot bot = new Bot(hardwareMap, Alliance.RED, initialPose);
+        bot = new Bot(hardwareMap, Alliance.RED, initialPose);
 
-        MecanumDrive rrDrive = bot.drivetrain.getDrive();
+        rrDrive = bot.drivetrain.getDrive();
 
         // first trajectory - move backward to prepare to shoot
         double launchPrep1Heading = Math.toRadians(112);
@@ -50,34 +84,8 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
         TrajectoryActionBuilder backToShootingPos = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition.x, 50, Math.PI/2))
                 .splineToLinearHeading(new Pose2d(-39.5, 15, launchPrep1Heading),Math.PI/3);
 
-        int launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.8);
-        double fireTime = 100;
-
-        // action to fire three balls
-        Action prepareBalls = new SequentialAction(
-                bot.spintake.getBlockSortAction(),
-                bot.launcher.getStartCycleAction(0.5),
-                new SleepAction(0.25),
-                bot.launcher.getStopCycleAction(),
-                bot.spintake.getCloseSortAction()
-        );
-
-        // Spin up and fire three balls
-        Action fireThreeBalls = new SequentialAction(
-                bot.launcher.getReadyAction(launchVelocity),
-                bot.launcher.getLaunchWithTimeAction(fireTime), // First Launch
-                new ParallelAction( // spin up and prepare balls
-                        bot.launcher.getReadyAction(launchVelocity),
-                        prepareBalls
-                ),
-                bot.launcher.getLaunchWithTimeAction(fireTime), // Second Launch
-                new ParallelAction( // spin up and prepare balls
-                        bot.launcher.getReadyAction(launchVelocity),
-                        prepareBalls
-                ),
-                bot.launcher.getLaunchWithTimeAction(fireTime), // Third Launch
-                bot.launcher.getUnreadyAction()
-        );
+        launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.8);
+        fireTime = 500;
 
         waitForStart();
         // Do Stuff code here
@@ -86,11 +94,11 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
         Actions.runBlocking(new ParallelAction(
                 launchTrajectory1.build(),
                 bot.launcher.getReadyAction(launchVelocity),
-                prepareBalls
+                prepareBalls()
         ));
 
         // Make sure flywheel is spun up, fire three times, stop flywheel
-        Actions.runBlocking(fireThreeBalls);
+        Actions.runBlocking(fireThreeBalls());
 
         // make your way to the artifacts and pick them up
         Actions.runBlocking(new SequentialAction(
@@ -102,9 +110,9 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
                 new ParallelAction(
                         backToShootingPos.build(),
                         bot.launcher.getReadyAction(launchVelocity),
-                        prepareBalls
+                        prepareBalls()
                         ),
-                fireThreeBalls
+                fireThreeBalls()
         ));
     }
 }
