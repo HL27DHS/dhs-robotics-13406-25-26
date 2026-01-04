@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.dhs.opmodes.autos;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -21,36 +24,46 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
     Bot bot;
     MecanumDrive rrDrive;
 
-    double fireTime;
+    double fireTime1;
+    double fireTime2;
+    double fireTime3;
     int launchVelocity;
 
     public Action fireThreeBalls() {
         return new SequentialAction(
                 bot.launcher.getReadyAction(launchVelocity),
-                bot.launcher.getLaunchWithTimeAction(fireTime), // First Launch
+                bot.launcher.getLaunchWithTimeAction(fireTime1), // First Launch
                 new ParallelAction( // spin up and prepare balls
                         bot.launcher.getReadyAction(launchVelocity),
                         prepareBalls()
                 ),
-                bot.launcher.getLaunchWithTimeAction(fireTime), // Second Launch
+                bot.launcher.getLaunchWithTimeAction(fireTime2), // Second Launch
+                new SleepAction(0.5),
                 new ParallelAction( // spin up and prepare balls
                         bot.launcher.getReadyAction(launchVelocity),
                         prepareBalls()
                 ),
-                bot.launcher.getLaunchWithTimeAction(fireTime), // Third Launch
+                bot.launcher.getLaunchWithTimeAction(fireTime3), // Third Launch
+                new SleepAction(0.5),
                 bot.launcher.getUnreadyAction()
         );
     }
 
     public Action prepareBalls() {
-        return new SequentialAction(
+        return new Action() { // do nothing
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+                return false;
+            }
+        };
+        /*return new SequentialAction(
                 bot.spintake.getBlockSortAction(),
                 new SleepAction(0.25),
-                bot.launcher.getStartCycleAction(1),
+                bot.launcher.getStartCycleAction(0.5),
                 new SleepAction(2),
                 bot.launcher.getStopCycleAction(),
                 bot.spintake.getCloseSortAction()
-        );
+        );*/
     }
 
     public void runOpMode() {
@@ -67,16 +80,16 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
         TrajectoryActionBuilder launchTrajectory1 = rrDrive.actionBuilder(initialPose)
                 .lineToYLinearHeading(15, launchPrep1Heading);
 
-        Vector2d firstRowStartPosition = new Vector2d(-12, 36);
+        Vector2d firstRowStartPosition = new Vector2d(-6, 36);
         TrajectoryActionBuilder artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(-39.5, 15, launchPrep1Heading))
-                .stopAndAdd(bot.spintake.getBlockSortAction()) // TODO: move this into an action variable?
+                //.stopAndAdd(bot.spintake.getBlockSortAction()) // TODO: move this into an action variable?
                 .stopAndAdd(bot.spintake.getStartSpintakeAction(1))
                 .stopAndAdd(bot.launcher.getStartCycleAction(0.5))
                 .splineToLinearHeading(new Pose2d(firstRowStartPosition, Math.PI/2),Math.PI/2)
                 .lineToYConstantHeading(56, new TranslationalVelConstraint(24))
                 .afterTime(0.5, bot.spintake.getStopSpintakeAction())
-                .afterTime(0.5, bot.launcher.getStopCycleAction())
-                .afterTime(0.5, bot.spintake.getCloseSortAction());
+                .afterTime(0.5, bot.launcher.getStopCycleAction());
+                //.afterTime(0.5, bot.spintake.getCloseSortAction());
 
         TrajectoryActionBuilder grabArtifacts1 = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition, Math.PI/2))
                 .lineToYConstantHeading(50, new TranslationalVelConstraint(20));
@@ -84,8 +97,10 @@ public class RoadRunnerRedBigTriangleAuto extends LinearOpMode {
         TrajectoryActionBuilder backToShootingPos = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition.x, 50, Math.PI/2))
                 .splineToLinearHeading(new Pose2d(-39.5, 15, launchPrep1Heading),Math.PI/3);
 
-        launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.8);
-        fireTime = 500;
+        launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.65);
+        fireTime1 = 500;
+        fireTime2 = 700;
+        fireTime3 = 1200;
 
         waitForStart();
         // Do Stuff code here
