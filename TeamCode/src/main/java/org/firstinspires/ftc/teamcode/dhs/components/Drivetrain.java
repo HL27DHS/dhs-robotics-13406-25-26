@@ -60,6 +60,28 @@ public class Drivetrain {
      * @return the robot's current yaw angle
      */
     public double getRealYaw(AngleUnit angleUnit) {
+        return getIMU().getRobotYawPitchRollAngles().getYaw(angleUnit);
+    }
+
+    /**
+     * @param angleUnit the angle unit to return in (degrees, radians)
+     * @return the robot's yaw angle + the IMU offset in specified angle unit
+     */
+    public double getYaw(AngleUnit angleUnit) {
+        double radians = AngleUnit.normalizeRadians(getRealYaw(AngleUnit.RADIANS) - imuOffset_radians);
+
+        if (angleUnit == AngleUnit.DEGREES)
+            return Math.toDegrees(radians);
+
+        return radians;
+    }
+
+    /**
+     * Gets the IMU's real, unmodified yaw value
+     * @param angleUnit the unit of angle measurement to return the yaw in
+     * @return the robot's current yaw angle
+     */
+    public double getPinpointRealYaw(AngleUnit angleUnit) {
         double radians = getDrive().localizer.getPose().heading.toDouble();
 
         if (angleUnit == AngleUnit.DEGREES)
@@ -72,8 +94,8 @@ public class Drivetrain {
      * @param angleUnit the angle unit to return in (degrees, radians)
      * @return the robot's yaw angle + the IMU offset in specified angle unit
      */
-    public double getYaw(AngleUnit angleUnit) {
-        double radians = AngleUnit.normalizeRadians(getRealYaw(AngleUnit.RADIANS) + imuOffset_radians);
+    public double getPinpointYaw(AngleUnit angleUnit) {
+        double radians = AngleUnit.normalizeRadians(getRealYaw(AngleUnit.RADIANS) - imuOffset_radians);
 
         if (angleUnit == AngleUnit.DEGREES)
             return Math.toDegrees(radians);
