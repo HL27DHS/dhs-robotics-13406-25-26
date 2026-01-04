@@ -23,7 +23,7 @@ public class  OneDriverTeleOp extends OpMode {
     double slowModeModifier = 1;
 
     // to FOD or to not FOD, that is the question
-    boolean useFod;
+    boolean useFod = true;
 
     // Disable/enable FOD toggle
     final boolean allowToggleFod = true;
