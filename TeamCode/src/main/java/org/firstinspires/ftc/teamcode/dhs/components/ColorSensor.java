@@ -6,8 +6,6 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
 public class ColorSensor {
     public NormalizedColorSensor sensor;
-    public final NormalizedRGBA GREEN_COLOR = new NormalizedRGBA();
-    public final NormalizedRGBA PURPLE_COLOR = new NormalizedRGBA();
 
     public enum ArtifactState {
         GREEN,
@@ -17,17 +15,7 @@ public class ColorSensor {
 
     public ColorSensor(HardwareMap hardwareMap) {
         sensor = hardwareMap.get(NormalizedColorSensor.class, "colorSensor");
-
-        // TODO: Figure out these colors
-        GREEN_COLOR.red = 0;
-        GREEN_COLOR.green = 0;
-        GREEN_COLOR.blue = 0;
-        GREEN_COLOR.alpha = 1;
-
-        PURPLE_COLOR.red = 0;
-        PURPLE_COLOR.green = 0;
-        PURPLE_COLOR.blue = 0;
-        PURPLE_COLOR.alpha = 1;
+        sensor.setGain(11.3F);
     }
 
     // TODO: Implement
@@ -40,7 +28,6 @@ public class ColorSensor {
         return ArtifactState.NONE;
     }
 
-    // TODO: Implement
     public NormalizedRGBA getSensorColor() {
         return sensor.getNormalizedColors();
     }
