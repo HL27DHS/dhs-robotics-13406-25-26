@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
      - FOD and its toggle are not included
      - Does not use SmartController
  */
-@TeleOp(name="Primitive Drive (the sky is falling)",group="Main Programs")
+@TeleOp(name="Primitive Drive (the sky is falling)",group="A - Main Programs")
 public class PrimitiveTwoDriverTeleOp extends OpMode {
     PrimitiveDrive drivetrain;
     Spintake spintake;

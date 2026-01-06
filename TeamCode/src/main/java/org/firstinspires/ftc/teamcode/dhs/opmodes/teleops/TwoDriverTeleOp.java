@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartUtils;
 
-@TeleOp(name="Ready Player Two",group="Main Programs")
+@TeleOp(name="Ready Player Two",group="A - Main Programs")
 public class TwoDriverTeleOp extends OpMode {
     PrimitiveDrive drivetrain;
     Spintake spintake;
