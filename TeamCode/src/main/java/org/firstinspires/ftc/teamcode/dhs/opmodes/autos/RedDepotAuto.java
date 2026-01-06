@@ -87,6 +87,10 @@ public class RedDepotAuto extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(-39.5, 15, launchPrep1Heading),Math.PI/3)
                 .build();
 
+        Action waiterWaiterMoreLeavePointsPlease = rrDrive.actionBuilder(new Pose2d(-39.5, 15, launchPrep1Heading))
+                .splineToLinearHeading(new Pose2d(-36, 48, Math.PI), 0)
+                .build();
+
         launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.65);
 
         waitForStart();
@@ -125,5 +129,10 @@ public class RedDepotAuto extends LinearOpMode {
                         ),
                 fireThreeBalls()
         ));
+
+        // get those sweet, succulent leave points
+        Actions.runBlocking(
+                waiterWaiterMoreLeavePointsPlease
+        );
     }
 }
