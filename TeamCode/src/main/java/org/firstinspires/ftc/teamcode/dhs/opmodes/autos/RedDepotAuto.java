@@ -83,10 +83,6 @@ public class RedDepotAuto extends LinearOpMode {
                 .lineToYConstantHeading(56, new TranslationalVelConstraint(24))
                 .build();
 
-        Action grabArtifacts1 = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition, Math.PI/2))
-                .lineToYConstantHeading(50, new TranslationalVelConstraint(20))
-                .build();
-
         Action backToShootingPos = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition.x, 50, Math.PI/2))
                 .splineToLinearHeading(new Pose2d(-39.5, 15, launchPrep1Heading),Math.PI/3)
                 .build();
