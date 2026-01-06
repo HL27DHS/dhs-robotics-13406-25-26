@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
 
-@TeleOp(name="PinpointHeadingDebugger",group="Testing Programs")
+@TeleOp(name="PinpointHeadingDebugger",group="B - Testing Programs")
 public class PinpointHeadingDebugger extends OpMode {
     Drivetrain drivetrain;
 

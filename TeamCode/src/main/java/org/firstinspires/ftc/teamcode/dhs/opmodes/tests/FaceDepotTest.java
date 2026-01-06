@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 
-@TeleOp(name="Face Depot Test")
+@TeleOp(name="Face Depot Test",group="B - Testing Programs")
 public class FaceDepotTest extends OpMode {
     Bot bot;
 

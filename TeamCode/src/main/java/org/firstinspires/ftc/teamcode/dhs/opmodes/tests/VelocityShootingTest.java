@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartUtils;
 
 // This OpMode is a modified clone of OneDriverTeleOp (12/30)
-@TeleOp(name="Velocity Shooting Test",group="Testing Programs")
+@TeleOp(name="Velocity Shooting Test",group="B - Testing Programs")
 public class VelocityShootingTest extends OpMode {
     FtcDashboard dashboard;
 

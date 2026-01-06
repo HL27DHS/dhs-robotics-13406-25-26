@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.dhs.components.ColorSensor;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
 
-@TeleOp(name="Color Sensor Test",group="Testing Programs")
+@TeleOp(name="Color Sensor Test",group="B - Testing Programs")
 public class ColorSensorTest extends OpMode {
     ColorSensor sensor;
     SmartController controller1;

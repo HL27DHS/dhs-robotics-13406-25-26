@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartUtils;
 
-@TeleOp(name="FOD Test",group="Testing Programs")
+@TeleOp(name="FOD Test",group="B - Testing Programs")
 public class FodTest extends OpMode {
     Drivetrain drivetrain;
     Spintake spintake;
