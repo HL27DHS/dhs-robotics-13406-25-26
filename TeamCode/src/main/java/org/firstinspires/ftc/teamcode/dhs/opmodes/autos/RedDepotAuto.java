@@ -25,11 +25,18 @@ public class RedDepotAuto extends LinearOpMode {
     MecanumDrive rrDrive;
 
     int launchVelocity;
+    double fireTimeMS;
 
     public Action launchWithSensor() {
+        /* sensor launching doesn't work unfortunately
         return new SequentialAction(
                 bot.launcher.getStartCycleAction(1),
                 bot.colorSensor.getWaitForArtifactLeaveAction(),
+                bot.launcher.getStopCycleAction()
+        );*/
+        return new SequentialAction(
+                bot.launcher.getStartCycleAction(1),
+                new SleepAction(fireTimeMS / 1000),
                 bot.launcher.getStopCycleAction()
         );
     }
@@ -55,6 +62,10 @@ public class RedDepotAuto extends LinearOpMode {
     }
 
     public Action prepareBalls() {
+        // If there's already a ball present, don't even do anything
+        if (bot.colorSensor.isArtifactInSensor())
+            return new SequentialAction();
+
         return new SequentialAction(
                 bot.launcher.getStartCycleAction(1),
                 bot.colorSensor.getWaitForArtifactAction(),
@@ -77,7 +88,7 @@ public class RedDepotAuto extends LinearOpMode {
                 .lineToYLinearHeading(15, launchPrep1Heading)
                 .build();
 
-        Vector2d firstRowStartPosition = new Vector2d(-6, 36);
+        Vector2d firstRowStartPosition = new Vector2d(-12, 36);
         Action artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(-39.5, 15, launchPrep1Heading))
                 .splineToLinearHeading(new Pose2d(firstRowStartPosition, Math.PI/2),Math.PI/2)
                 .lineToYConstantHeading(56, new TranslationalVelConstraint(24))
@@ -92,6 +103,7 @@ public class RedDepotAuto extends LinearOpMode {
                 .build();
 
         launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.65);
+        fireTimeMS = 400;
 
         waitForStart();
         // Do Stuff code here
