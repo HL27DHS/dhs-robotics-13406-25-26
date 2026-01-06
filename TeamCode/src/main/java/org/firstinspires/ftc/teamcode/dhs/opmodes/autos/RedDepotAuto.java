@@ -73,19 +73,23 @@ public class RedDepotAuto extends LinearOpMode {
 
         // first trajectory - move backward to prepare to shoot
         double launchPrep1Heading = Math.toRadians(112);
-        TrajectoryActionBuilder launchTrajectory1 = rrDrive.actionBuilder(initialPose)
-                .lineToYLinearHeading(15, launchPrep1Heading);
+        Action launchTrajectory1 = rrDrive.actionBuilder(initialPose)
+                .lineToYLinearHeading(15, launchPrep1Heading)
+                .build();
 
         Vector2d firstRowStartPosition = new Vector2d(-6, 36);
-        TrajectoryActionBuilder artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(-39.5, 15, launchPrep1Heading))
+        Action artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(-39.5, 15, launchPrep1Heading))
                 .splineToLinearHeading(new Pose2d(firstRowStartPosition, Math.PI/2),Math.PI/2)
-                .lineToYConstantHeading(56, new TranslationalVelConstraint(24));
+                .lineToYConstantHeading(56, new TranslationalVelConstraint(24))
+                .build();
 
-        TrajectoryActionBuilder grabArtifacts1 = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition, Math.PI/2))
-                .lineToYConstantHeading(50, new TranslationalVelConstraint(20));
+        Action grabArtifacts1 = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition, Math.PI/2))
+                .lineToYConstantHeading(50, new TranslationalVelConstraint(20))
+                .build();
 
-        TrajectoryActionBuilder backToShootingPos = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition.x, 50, Math.PI/2))
-                .splineToLinearHeading(new Pose2d(-39.5, 15, launchPrep1Heading),Math.PI/3);
+        Action backToShootingPos = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition.x, 50, Math.PI/2))
+                .splineToLinearHeading(new Pose2d(-39.5, 15, launchPrep1Heading),Math.PI/3)
+                .build();
 
         launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.65);
 
@@ -94,7 +98,7 @@ public class RedDepotAuto extends LinearOpMode {
 
         // Go to firing position while spinning up flywheel
         Actions.runBlocking(new ParallelAction(
-                launchTrajectory1.build(),
+                launchTrajectory1,
                 bot.launcher.getReadyAction(launchVelocity),
                 prepareBalls()
         ));
@@ -107,7 +111,7 @@ public class RedDepotAuto extends LinearOpMode {
                 bot.spintake.getStartSpintakeAction(1),
                 bot.launcher.getStartCycleAction(1),
                 new ParallelAction(
-                        artifactTrajectory1.build(),
+                        artifactTrajectory1,
                         new SequentialAction(
                                 bot.colorSensor.getWaitForArtifactAction(),
                                 bot.launcher.getStopCycleAction()
@@ -119,7 +123,7 @@ public class RedDepotAuto extends LinearOpMode {
         // go back to shooting pos and fire
         Actions.runBlocking(new SequentialAction(
                 new ParallelAction(
-                        backToShootingPos.build(),
+                        backToShootingPos,
                         bot.launcher.getReadyAction(launchVelocity),
                         prepareBalls()
                         ),
