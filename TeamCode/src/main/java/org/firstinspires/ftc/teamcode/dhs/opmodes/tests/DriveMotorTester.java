@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.dhs.opmodes.teleops;
+package org.firstinspires.ftc.teamcode.dhs.opmodes.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
 
-@TeleOp(name="Drive Motor Tester",group="Testing Programs")
+@TeleOp(name="Drive Motor Tester",group="B - Testing Programs")
 public class DriveMotorTester extends OpMode {
     Drivetrain drivetrain;
     double modifier = 1;

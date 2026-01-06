@@ -1,14 +1,13 @@
-package org.firstinspires.ftc.teamcode.dhs.opmodes.teleops;
+package org.firstinspires.ftc.teamcode.dhs.opmodes.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
 import org.firstinspires.ftc.teamcode.dhs.components.Launcher;
 import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
 
-@TeleOp(name="Sort Servo Tester", group="Testing Programs")
+@TeleOp(name="Sort Servo Tester", group="B - Testing Programs")
 public class SortServoTester extends OpMode {
     //Drivetrain drivetrain;
     Spintake spintake;
