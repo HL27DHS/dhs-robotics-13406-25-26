@@ -78,14 +78,8 @@ public class RedDepotAuto extends LinearOpMode {
 
         Vector2d firstRowStartPosition = new Vector2d(-6, 36);
         TrajectoryActionBuilder artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(-39.5, 15, launchPrep1Heading))
-                //.stopAndAdd(bot.spintake.getBlockSortAction()) // TODO: move this into an action variable?
-                .stopAndAdd(bot.spintake.getStartSpintakeAction(1))
-                .stopAndAdd(bot.launcher.getStartCycleAction(0.5))
                 .splineToLinearHeading(new Pose2d(firstRowStartPosition, Math.PI/2),Math.PI/2)
-                .lineToYConstantHeading(56, new TranslationalVelConstraint(24))
-                .afterTime(0.5, bot.spintake.getStopSpintakeAction())
-                .afterTime(0.5, bot.launcher.getStopCycleAction());
-                //.afterTime(0.5, bot.spintake.getCloseSortAction());
+                .lineToYConstantHeading(56, new TranslationalVelConstraint(24));
 
         TrajectoryActionBuilder grabArtifacts1 = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition, Math.PI/2))
                 .lineToYConstantHeading(50, new TranslationalVelConstraint(20));
@@ -110,7 +104,16 @@ public class RedDepotAuto extends LinearOpMode {
 
         // make your way to the artifacts and pick them up
         Actions.runBlocking(new SequentialAction(
-                artifactTrajectory1.build()
+                bot.spintake.getStartSpintakeAction(1),
+                bot.launcher.getStartCycleAction(1),
+                new ParallelAction(
+                        artifactTrajectory1.build(),
+                        new SequentialAction(
+                                bot.colorSensor.getWaitForArtifactAction(),
+                                bot.launcher.getStopCycleAction()
+                        )
+                ),
+                bot.spintake.getStopSpintakeAction()
         ));
 
         // go back to shooting pos and fire
