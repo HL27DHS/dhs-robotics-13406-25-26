@@ -11,6 +11,7 @@ public class Bot {
     public final Drivetrain drivetrain;
     public final Spintake spintake;
     public final Launcher launcher;
+    public final ColorSensor colorSensor;
 
     public Alliance alliance;
 
@@ -18,12 +19,14 @@ public class Bot {
         drivetrain = new Drivetrain(hardwareMap);
         spintake = new Spintake(hardwareMap);
         launcher = new Launcher(hardwareMap);
+        colorSensor = new ColorSensor(hardwareMap);
     }
 
     public Bot(HardwareMap hardwareMap, Alliance alliance) {
         drivetrain = new Drivetrain(hardwareMap);
         spintake = new Spintake(hardwareMap);
         launcher = new Launcher(hardwareMap);
+        colorSensor = new ColorSensor(hardwareMap);
 
         this.alliance = alliance;
     }
@@ -32,6 +35,7 @@ public class Bot {
         drivetrain = new Drivetrain(hardwareMap, initialPose);
         spintake = new Spintake(hardwareMap);
         launcher = new Launcher(hardwareMap);
+        colorSensor = new ColorSensor(hardwareMap);
 
         this.alliance = alliance;
     }
