@@ -1,12 +1,14 @@
-package org.firstinspires.ftc.teamcode.dhs.opmodes.autos;
+package org.firstinspires.ftc.teamcode.dhs.opmodes.autos.noRR;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.dhs.components.PrimitiveDrive;
 
-@Autonomous(name="Blue Big Triangle Auto",group="Terrible Terrible Awful")
-public class BlueBigTriAuto extends LinearOpMode {
+@Disabled
+@Autonomous(name="Red Big Triangle Auto",group="Terrible Terrible Awful")
+public class RedBigTriAuto extends LinearOpMode {
     PrimitiveDrive drivetrain;
 
     public void runOpMode() {
@@ -16,10 +18,10 @@ public class BlueBigTriAuto extends LinearOpMode {
 
         // Go forward for 1 second
         drivetrain.rodDrive(0,0,1);
-        sleep(1);
+        sleep(1000);
 
-        // Go right for 0.5 seconds
-        drivetrain.rodDrive(0,1,0);
+        // Go left for 0.5 seconds
+        drivetrain.rodDrive(0,-1,0);
         sleep(500);
 
         // Stop the bot

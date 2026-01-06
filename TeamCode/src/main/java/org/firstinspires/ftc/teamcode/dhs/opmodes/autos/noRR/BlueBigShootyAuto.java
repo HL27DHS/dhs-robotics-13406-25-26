@@ -1,12 +1,14 @@
-package org.firstinspires.ftc.teamcode.dhs.opmodes.autos;
+package org.firstinspires.ftc.teamcode.dhs.opmodes.autos.noRR;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.dhs.components.Launcher;
 import org.firstinspires.ftc.teamcode.dhs.components.PrimitiveDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
 
+@Disabled
 @Autonomous(name="Blue Big Triangle Shooty Auto",group="Terrible Terrible Awful")
 public class BlueBigShootyAuto extends LinearOpMode {
     PrimitiveDrive drivetrain;
