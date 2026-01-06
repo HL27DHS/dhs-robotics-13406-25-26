@@ -84,9 +84,19 @@ public class ColorSensor {
         return "("+color.red+" "+color.green+" "+color.blue+" "+color.alpha+")";
     }
 
+    /**
+     * @return an {@code Action} that waits for an artifact to be present in front of the color sensor
+     */
     public Action getWaitForArtifactAction() {
         // TODO: Research lambdas and anonymous classes.
         //       This stuff is odd and I don't have the time to give it thought right now.
         return (packet) -> isArtifactInSensor();
+    }
+
+    /**
+     * @return an {@code Action} that waits for an artifact to not be present in front of the color sensor
+     */
+    public Action getWaitForArtifactLeaveAction() {
+        return (packet) -> !isArtifactInSensor();
     }
 }
