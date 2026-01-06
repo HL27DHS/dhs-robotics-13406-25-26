@@ -24,27 +24,32 @@ public class RedDepotAuto extends LinearOpMode {
     Bot bot;
     MecanumDrive rrDrive;
 
-    double fireTime1;
-    double fireTime2;
-    double fireTime3;
     int launchVelocity;
+
+    public Action launchWithSensor() {
+        return new SequentialAction(
+                bot.launcher.getStartCycleAction(1),
+                bot.colorSensor.getWaitForArtifactLeaveAction(),
+                bot.launcher.getStopCycleAction()
+        );
+    }
 
     public Action fireThreeBalls() {
         return new SequentialAction(
                 bot.launcher.getReadyAction(launchVelocity),
-                bot.launcher.getLaunchWithTimeAction(fireTime1), // First Launch
+                launchWithSensor(), // First Launch
                 new ParallelAction( // spin up and prepare balls
                         bot.launcher.getReadyAction(launchVelocity),
                         prepareBalls()
                 ),
-                bot.launcher.getLaunchWithTimeAction(fireTime2), // Second Launch
-                new SleepAction(0.5),
+                launchWithSensor(), // Second Launch
+                new SleepAction(0.5), // small buffer in case extra time for rolling needed
                 new ParallelAction( // spin up and prepare balls
                         bot.launcher.getReadyAction(launchVelocity),
                         prepareBalls()
                 ),
-                bot.launcher.getLaunchWithTimeAction(fireTime3), // Third Launch
-                new SleepAction(0.5),
+                launchWithSensor(), // Third Launch
+                new SleepAction(0.5), // small buffer in case extra time for rolling needed
                 bot.launcher.getUnreadyAction()
         );
     }
@@ -89,9 +94,6 @@ public class RedDepotAuto extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(-39.5, 15, launchPrep1Heading),Math.PI/3);
 
         launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.65);
-        fireTime1 = 500;
-        fireTime2 = 700;
-        fireTime3 = 1200;
 
         waitForStart();
         // Do Stuff code here
