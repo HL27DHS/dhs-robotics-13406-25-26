@@ -50,20 +50,11 @@ public class RedDepotAuto extends LinearOpMode {
     }
 
     public Action prepareBalls() {
-        return new Action() { // do nothing
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                return false;
-            }
-        };
-        /*return new SequentialAction(
-                bot.spintake.getBlockSortAction(),
-                new SleepAction(0.25),
-                bot.launcher.getStartCycleAction(0.5),
-                new SleepAction(2),
-                bot.launcher.getStopCycleAction(),
-                bot.spintake.getCloseSortAction()
-        );*/
+        return new SequentialAction(
+                bot.launcher.getStartCycleAction(1),
+                bot.colorSensor.getWaitForArtifactAction(),
+                bot.launcher.getStopCycleAction()
+        );
     }
 
     public void runOpMode() {
