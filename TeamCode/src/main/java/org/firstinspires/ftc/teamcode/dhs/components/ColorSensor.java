@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dhs.components;
 
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
@@ -80,5 +82,11 @@ public class ColorSensor {
     public String rgbToString() {
         NormalizedRGBA color = getSensorColor();
         return "("+color.red+" "+color.green+" "+color.blue+" "+color.alpha+")";
+    }
+
+    public Action getWaitForArtifactAction() {
+        // TODO: Research lambdas and anonymous classes.
+        //       This stuff is odd and I don't have the time to give it thought right now.
+        return (packet) -> isArtifactInSensor();
     }
 }
