@@ -1,13 +1,18 @@
 package org.firstinspires.ftc.teamcode.dhs.components;
 
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class ColorSensor {
-    public NormalizedColorSensor sensor;
+    public NormalizedColorSensor normalizedColorSensor;
+    public OpticalDistanceSensor opticalDistanceSensor;
+    public DistanceSensor distanceSensor;
 
     public enum ArtifactState {
         GREEN,
@@ -16,8 +21,27 @@ public class ColorSensor {
     }
 
     public ColorSensor(HardwareMap hardwareMap) {
-        sensor = hardwareMap.get(NormalizedColorSensor.class, "colorSensor");
-        sensor.setGain(11.3F);
+        normalizedColorSensor = hardwareMap.get(NormalizedColorSensor.class, "colorSensor");
+        normalizedColorSensor.setGain(11.3F);
+
+        opticalDistanceSensor = (OpticalDistanceSensor) normalizedColorSensor;
+        distanceSensor = (DistanceSensor) normalizedColorSensor;
+    }
+
+    public NormalizedColorSensor getNormalizedColorSensor() {
+        return normalizedColorSensor;
+    }
+
+    public OpticalDistanceSensor getOpticalDistanceSensor() {
+        return opticalDistanceSensor;
+    }
+
+    public DistanceSensor getDistanceSensor() {
+        return distanceSensor;
+    }
+
+    public double getDistance(DistanceUnit unit) {
+        return distanceSensor.getDistance(DistanceUnit.CM);
     }
 
     /**
@@ -72,7 +96,7 @@ public class ColorSensor {
      * @return the color in front of the color sensor
      */
     public NormalizedRGBA getSensorColor() {
-        return sensor.getNormalizedColors();
+        return normalizedColorSensor.getNormalizedColors();
     }
 
     /**
