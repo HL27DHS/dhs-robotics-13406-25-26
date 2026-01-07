@@ -31,6 +31,9 @@ public class ColorSensorTest extends OpMode {
         telemetry.addData("gain",sensor.getNormalizedColorSensor().getGain());
         telemetry.addLine();
         telemetry.addData("distance",sensor.getDistance(DistanceUnit.CM));
+        telemetry.addData("distance light detected",sensor.getDLightDetected());
+        telemetry.addLine();
+        telemetry.addData("ball?",sensor.isArtifactInSensor());
         telemetry.update();
     }
 }
