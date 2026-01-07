@@ -99,7 +99,7 @@ public class RedDepotAuto extends LinearOpMode {
                 .build();
 
         Action waiterWaiterMoreLeavePointsPlease = rrDrive.actionBuilder(new Pose2d(-39.5, 15, launchPrep1Heading))
-                .splineToLinearHeading(new Pose2d(-36, 48, Math.PI), 0)
+                .splineToLinearHeading(new Pose2d(-36, 40, Math.PI), 0)
                 .build();
 
         launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.65);
