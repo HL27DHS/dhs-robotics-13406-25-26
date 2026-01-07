@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dhs.components;
 
 import com.acmerobotics.roadrunner.Action;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
@@ -44,6 +45,10 @@ public class ColorSensor {
         return distanceSensor.getDistance(DistanceUnit.CM);
     }
 
+    public double getDLightDetected() {
+        return opticalDistanceSensor.getLightDetected();
+    }
+
     /**
      * Gets how confident the color sensor is that there is an artifact present in front of it.
      * @return The color sensor's confidence between 0 and 1
@@ -78,7 +83,7 @@ public class ColorSensor {
     public boolean isArtifactInSensor() {
         // TODO: Implement in a way that uses confidence instead of blanket assumptions
         NormalizedRGBA color = getSensorColor();
-        return (color.red > 0.01) && (color.green > 0.01) && (color.blue > 0.01);
+        return getDistance(DistanceUnit.CM) < 3.7;
     }
 
     /**
