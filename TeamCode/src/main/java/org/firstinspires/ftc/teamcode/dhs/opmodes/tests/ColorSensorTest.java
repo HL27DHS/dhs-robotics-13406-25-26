@@ -1,10 +1,9 @@
 package org.firstinspires.ftc.teamcode.dhs.opmodes.tests;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.dhs.components.ColorSensor;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
 
@@ -23,13 +22,15 @@ public class ColorSensorTest extends OpMode {
         controller1.think(gamepad1);
 
         if (controller1.dpadUp.justPressed())
-            sensor.sensor.setGain(sensor.sensor.getGain() + (float) gainStep);
+            sensor.getNormalizedColorSensor().setGain(sensor.getNormalizedColorSensor().getGain() + (float) gainStep);
         if (controller1.dpadDown.justPressed())
-            sensor.sensor.setGain(sensor.sensor.getGain() - (float) gainStep);
+            sensor.getNormalizedColorSensor().setGain(sensor.getNormalizedColorSensor().getGain() - (float) gainStep);
 
 
         telemetry.addData("color",sensor.rgbToString());
-        telemetry.addData("gain",sensor.sensor.getGain());
+        telemetry.addData("gain",sensor.getNormalizedColorSensor().getGain());
+        telemetry.addLine();
+        telemetry.addData("distance",sensor.getDistance(DistanceUnit.CM));
         telemetry.update();
     }
 }
