@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dhs.components;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -59,7 +60,7 @@ public class Bot {
      * @return the necessary heading to face the depot
      */
     public double getAngleToFaceDepot(AngleUnit unit) {
-        return getAngleToFaceDepotAtPos(unit, drivetrain.getDrive().localizer.getPose());
+        return getAngleToFaceDepotAtPos(unit, drivetrain.getDrive().localizer.getPose().position);
     }
 
     /**
@@ -68,11 +69,11 @@ public class Bot {
      * @param position the position from which the angle should be calculated
      * @return the necessary heading to face the depot at that position
      */
-    public double getAngleToFaceDepotAtPos(AngleUnit unit, Pose2d position) {
+    public double getAngleToFaceDepotAtPos(AngleUnit unit, Vector2d position) {
         Pose2d depotPosition = getDepotPosition();
 
-        double deltaX = depotPosition.position.x - position.position.x;
-        double deltaY = depotPosition.position.y - position.position.y;
+        double deltaX = depotPosition.position.x - position.x;
+        double deltaY = depotPosition.position.y - position.y;
 
         double radians = Math.atan2(deltaY, deltaX);
 
