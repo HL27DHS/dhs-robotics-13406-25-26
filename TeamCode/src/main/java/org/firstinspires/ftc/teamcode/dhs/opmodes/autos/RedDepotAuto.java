@@ -1,20 +1,17 @@
 package org.firstinspires.ftc.teamcode.dhs.opmodes.autos;
 
-import androidx.annotation.NonNull;
-
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
-import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
@@ -27,13 +24,7 @@ public class RedDepotAuto extends LinearOpMode {
     int launchVelocity;
     double fireTimeMS;
 
-    public Action launchWithSensor() {
-        /* sensor launching doesn't work unfortunately
-        return new SequentialAction(
-                bot.launcher.getStartCycleAction(1),
-                bot.colorSensor.getWaitForArtifactLeaveAction(),
-                bot.launcher.getStopCycleAction()
-        );*/
+    public Action launchWithTime() {
         return new SequentialAction(
                 bot.launcher.getStartCycleAction(1),
                 new SleepAction(fireTimeMS / 1000),
@@ -41,19 +32,28 @@ public class RedDepotAuto extends LinearOpMode {
         );
     }
 
-    public Action fireThreeBalls() {
+    public Action launchWithSensor() {
+        return new SequentialAction(
+                bot.launcher.getStartCycleAction(1),
+                bot.colorSensor.getWaitForArtifactLeaveAction(),
+                new SleepAction(fireTimeMS),
+                bot.launcher.getStopCycleAction()
+        );
+    }
+
+    public Action fireThreeBalls(boolean spintake) {
         return new SequentialAction(
                 bot.launcher.getReadyAction(launchVelocity),
-                launchWithSensor(), // First Launch
+                launchWithTime(), // First Launch
                 new ParallelAction( // spin up and prepare balls
                         bot.launcher.getReadyAction(launchVelocity),
-                        prepareBalls()
+                        prepareBalls(spintake)
                 ),
-                launchWithSensor(), // Second Launch
+                launchWithTime(), // Second Launch
                 new SleepAction(0.5), // small buffer in case extra time for rolling needed
                 new ParallelAction( // spin up and prepare balls
                         bot.launcher.getReadyAction(launchVelocity),
-                        prepareBalls()
+                        prepareBalls(spintake)
                 ),
                 launchWithSensor(), // Third Launch
                 new SleepAction(0.5), // small buffer in case extra time for rolling needed
@@ -61,10 +61,19 @@ public class RedDepotAuto extends LinearOpMode {
         );
     }
 
-    public Action prepareBalls() {
+    public Action prepareBalls(boolean spintake) {
         // If there's already a ball present, don't even do anything
         if (bot.colorSensor.isArtifactInSensor())
             return new SequentialAction();
+
+        if (!spintake)
+            return new SequentialAction(
+                bot.launcher.getStartCycleAction(1),
+                bot.spintake.getStartSpintakeAction(1),
+                bot.colorSensor.getWaitForArtifactAction(),
+                bot.spintake.getStopSpintakeAction(),
+                bot.launcher.getStopCycleAction()
+            );
 
         return new SequentialAction(
                 bot.launcher.getStartCycleAction(1),
@@ -83,9 +92,11 @@ public class RedDepotAuto extends LinearOpMode {
         rrDrive = bot.drivetrain.getDrive();
 
         // first trajectory - move backward to prepare to shoot
-        double launchPrep1Heading = Math.toRadians(112);
+        Vector2d launchPos = new Vector2d(-15, 15);
+        double launchPrep1Heading = bot.getAngleToFaceDepotAtPos(AngleUnit.RADIANS, launchPos);
         Action launchTrajectory1 = rrDrive.actionBuilder(initialPose)
-                .lineToYLinearHeading(15, launchPrep1Heading)
+                .setTangent(-Math.PI/2)
+                .splineToLinearHeading(new Pose2d(launchPos, launchPrep1Heading), 0)
                 .build();
 
         Vector2d firstRowStartPosition = new Vector2d(-12, 36);
@@ -99,11 +110,11 @@ public class RedDepotAuto extends LinearOpMode {
                 .build();
 
         Action waiterWaiterMoreLeavePointsPlease = rrDrive.actionBuilder(new Pose2d(-39.5, 15, launchPrep1Heading))
-                .splineToLinearHeading(new Pose2d(-36, 40, Math.PI), 0)
+                .splineToLinearHeading(new Pose2d(-10, 45, Math.PI), 0)
                 .build();
 
-        launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.65);
-        fireTimeMS = 400;
+        launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.62);
+        fireTimeMS = 500;
 
         waitForStart();
         // Do Stuff code here
@@ -112,11 +123,11 @@ public class RedDepotAuto extends LinearOpMode {
         Actions.runBlocking(new ParallelAction(
                 launchTrajectory1,
                 bot.launcher.getReadyAction(launchVelocity),
-                prepareBalls()
+                prepareBalls(false)
         ));
 
         // Make sure flywheel is spun up, fire three times, stop flywheel
-        Actions.runBlocking(fireThreeBalls());
+        Actions.runBlocking(fireThreeBalls(false));
 
         // make your way to the artifacts and pick them up
         Actions.runBlocking(new SequentialAction(
@@ -125,10 +136,12 @@ public class RedDepotAuto extends LinearOpMode {
                 new ParallelAction(
                         artifactTrajectory1,
                         new SequentialAction(
-                                bot.colorSensor.getWaitForArtifactAction(),
+                                //bot.colorSensor.getWaitForArtifactAction(),
+                                new SleepAction(1.2),
                                 bot.launcher.getStopCycleAction()
                         )
                 ),
+                new SleepAction(1),
                 bot.spintake.getStopSpintakeAction()
         ));
 
@@ -137,9 +150,9 @@ public class RedDepotAuto extends LinearOpMode {
                 new ParallelAction(
                         backToShootingPos,
                         bot.launcher.getReadyAction(launchVelocity),
-                        prepareBalls()
+                        prepareBalls(true)
                         ),
-                fireThreeBalls()
+                fireThreeBalls(true)
         ));
 
         // get those sweet, succulent leave points
