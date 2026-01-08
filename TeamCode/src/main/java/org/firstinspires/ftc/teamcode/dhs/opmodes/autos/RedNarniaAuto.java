@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 
-@Autonomous(name="Red Narnia Auto",preselectTeleOp="Ready Player Two")
+@Autonomous(name="Red Narnia Auto",group="A - Main Autos",preselectTeleOp="Ready Player Two")
 public class RedNarniaAuto extends LinearOpMode {
     Bot bot;
     MecanumDrive rrDrive;

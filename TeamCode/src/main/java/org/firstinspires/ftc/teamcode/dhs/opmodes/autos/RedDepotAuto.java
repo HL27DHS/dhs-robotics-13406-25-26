@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 
-@Autonomous(name="Red Depot Auto",preselectTeleOp="Ready Player Two")
+@Autonomous(name="Red Depot Auto",group="A - Main Autos",preselectTeleOp="Ready Player Two")
 public class RedDepotAuto extends LinearOpMode {
     Bot bot;
     MecanumDrive rrDrive;
