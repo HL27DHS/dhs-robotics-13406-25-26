@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dhs.opmodes.autos;
+package org.firstinspires.ftc.teamcode.dhs.opmodes.autos.leave;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -10,20 +10,20 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 
-@Autonomous(name="Red Narnia Leave Points", group="B - Leave Pts", preselectTeleOp="Ready Player Two")
-public class RedNarniaLeavePts extends LinearOpMode {
+@Autonomous(name="Blue Depot Leave Points", group="B - Leave Pts", preselectTeleOp="Ready Player Two")
+public class BlueDepotLeavePts extends LinearOpMode {
     Bot bot;
 
     public void runOpMode() {
         // TODO: Figure out starting position for this autonomous
         Pose2d initialPos = new Pose2d(0,0,0);
-        double leaveY = 36;
+        double leaveX = -36;
 
-        bot = new Bot(hardwareMap, Alliance.RED, initialPos);
+        bot = new Bot(hardwareMap, Alliance.BLUE, initialPos);
         MecanumDrive rrDrive = bot.drivetrain.getDrive();
 
         Action leaveTrajectory = rrDrive.actionBuilder(initialPos)
-                .lineToYConstantHeading(leaveY)
+                .lineToXConstantHeading(leaveX)
                 .build();
 
         waitForStart();
