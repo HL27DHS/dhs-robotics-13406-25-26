@@ -32,11 +32,19 @@ public class RedDepotAuto extends LinearOpMode {
         );
     }
 
+    public Action launchWithTime(double seconds) {
+        return new SequentialAction(
+                bot.launcher.getStartCycleAction(1),
+                new SleepAction(seconds),
+                bot.launcher.getStopCycleAction()
+        );
+    }
+
     public Action launchWithSensor() {
         return new SequentialAction(
                 bot.launcher.getStartCycleAction(1),
                 bot.colorSensor.getWaitForArtifactLeaveAction(),
-                new SleepAction(fireTimeMS),
+                new SleepAction(0.1),
                 bot.launcher.getStopCycleAction()
         );
     }
@@ -55,7 +63,7 @@ public class RedDepotAuto extends LinearOpMode {
                         bot.launcher.getReadyAction(launchVelocity),
                         prepareBalls(spintake)
                 ),
-                launchWithSensor(), // Third Launch
+                launchWithTime((fireTimeMS+100)/1000), // Third Launch
                 new SleepAction(0.5), // small buffer in case extra time for rolling needed
                 bot.launcher.getUnreadyAction()
         );
@@ -66,7 +74,7 @@ public class RedDepotAuto extends LinearOpMode {
         if (bot.colorSensor.isArtifactInSensor())
             return new SequentialAction();
 
-        if (!spintake)
+        if (spintake)
             return new SequentialAction(
                 bot.launcher.getStartCycleAction(1),
                 bot.spintake.getStartSpintakeAction(1),
@@ -100,16 +108,16 @@ public class RedDepotAuto extends LinearOpMode {
                 .build();
 
         Vector2d firstRowStartPosition = new Vector2d(-12, 36);
-        Action artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(-39.5, 15, launchPrep1Heading))
+        Action artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(-15, 15, launchPrep1Heading))
                 .splineToLinearHeading(new Pose2d(firstRowStartPosition, Math.PI/2),Math.PI/2)
                 .lineToYConstantHeading(56, new TranslationalVelConstraint(24))
                 .build();
 
         Action backToShootingPos = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition.x, 50, Math.PI/2))
-                .splineToLinearHeading(new Pose2d(-39.5, 15, launchPrep1Heading),Math.PI/3)
+                .splineToLinearHeading(new Pose2d(launchPos, launchPrep1Heading),Math.PI/3)
                 .build();
 
-        Action waiterWaiterMoreLeavePointsPlease = rrDrive.actionBuilder(new Pose2d(-39.5, 15, launchPrep1Heading))
+        Action waiterWaiterMoreLeavePointsPlease = rrDrive.actionBuilder(new Pose2d(launchPos, launchPrep1Heading))
                 .splineToLinearHeading(new Pose2d(-10, 45, Math.PI), 0)
                 .build();
 
@@ -136,12 +144,11 @@ public class RedDepotAuto extends LinearOpMode {
                 new ParallelAction(
                         artifactTrajectory1,
                         new SequentialAction(
-                                //bot.colorSensor.getWaitForArtifactAction(),
-                                new SleepAction(1.2),
+                                bot.colorSensor.getWaitForArtifactAction(),
                                 bot.launcher.getStopCycleAction()
                         )
                 ),
-                new SleepAction(1),
+                new SleepAction(0.5),
                 bot.spintake.getStopSpintakeAction()
         ));
 

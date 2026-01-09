@@ -16,15 +16,13 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 
-@Autonomous(name="Red Narnia Auto",group="A - Main Autos",preselectTeleOp="Ready Player Two")
-public class RedNarniaAuto extends LinearOpMode {
+@Autonomous(name="Blue Depot Auto",group="A - Main Autos",preselectTeleOp="Ready Player Two")
+public class BlueDepotAuto extends LinearOpMode {
     Bot bot;
     MecanumDrive rrDrive;
 
     int launchVelocity;
-
     double fireTimeMS;
-    double fireDelayMS;
 
     public Action launchWithTime() {
         return new SequentialAction(
@@ -34,8 +32,6 @@ public class RedNarniaAuto extends LinearOpMode {
         );
     }
 
-
-
     public Action launchWithTime(double seconds) {
         return new SequentialAction(
                 bot.launcher.getStartCycleAction(1),
@@ -43,8 +39,6 @@ public class RedNarniaAuto extends LinearOpMode {
                 bot.launcher.getStopCycleAction()
         );
     }
-
-
 
     public Action launchWithSensor() {
         return new SequentialAction(
@@ -59,19 +53,18 @@ public class RedNarniaAuto extends LinearOpMode {
         return new SequentialAction(
                 bot.launcher.getReadyAction(launchVelocity),
                 launchWithTime(), // First Launch
-                new SleepAction(fireDelayMS / 1000),
                 new ParallelAction( // spin up and prepare balls
                         bot.launcher.getReadyAction(launchVelocity),
                         prepareBalls(spintake)
                 ),
                 launchWithTime(), // Second Launch
-                new SleepAction(fireDelayMS / 1000), // small buffer in case extra time for rolling needed
+                new SleepAction(0.5), // small buffer in case extra time for rolling needed
                 new ParallelAction( // spin up and prepare balls
                         bot.launcher.getReadyAction(launchVelocity),
                         prepareBalls(spintake)
                 ),
                 launchWithTime((fireTimeMS+100)/1000), // Third Launch
-                //new SleepAction(fireDelayMS / 1000), // small buffer in case extra time for rolling needed
+                new SleepAction(0.5), // small buffer in case extra time for rolling needed
                 bot.launcher.getUnreadyAction()
         );
     }
@@ -98,56 +91,51 @@ public class RedNarniaAuto extends LinearOpMode {
     }
 
     public void runOpMode() {
-        // INITIALIZATION
-        Pose2d initialPose = new Pose2d(63,12, Math.PI);
+        // "somethin' eleven" - James Fonseca 2025
+        Pose2d initialPose = new Pose2d(-39.5,-58.6, -Math.PI / 2);
 
-        bot = new Bot(hardwareMap, Alliance.RED, initialPose);
+        // Init code here
+        bot = new Bot(hardwareMap, Alliance.BLUE, initialPose);
+
         rrDrive = bot.drivetrain.getDrive();
 
-        launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.8);
-
-        fireTimeMS = 400;
-        fireDelayMS = 0;
-
-        // PATHS & BUILDERS
-        double launchHeading = bot.getAngleToFaceDepot(AngleUnit.RADIANS);
-        Pose2d launchPose = new Pose2d(60, 12, launchHeading);
-
-        telemetry.addData("heading",bot.getAngleToFaceDepot(AngleUnit.RADIANS));
-        telemetry.update();
-
-        Action launchTraj1 = rrDrive.actionBuilder(initialPose)
-                .splineToLinearHeading(launchPose, 0)
+        // first trajectory - move backward to prepare to shoot
+        Vector2d launchPos = new Vector2d(-15, -15);
+        double launchPrep1Heading = bot.getAngleToFaceDepotAtPos(AngleUnit.RADIANS, launchPos);
+        Action launchTrajectory1 = rrDrive.actionBuilder(initialPose)
+                .setTangent(Math.PI/2)
+                .splineToLinearHeading(new Pose2d(launchPos, launchPrep1Heading), 0)
                 .build();
 
-        Vector2d lastRowStartPosition = new Vector2d(36, 36);
-        Action artifactGrabTraj = rrDrive.actionBuilder(launchPose)
-                .splineToLinearHeading(new Pose2d(lastRowStartPosition, Math.PI/2), Math.PI/2)
-                .lineToYConstantHeading(56, new TranslationalVelConstraint(24))
+        Vector2d firstRowStartPosition = new Vector2d(-12, -36);
+        Action artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(-15, -15, launchPrep1Heading))
+                .setTangent(Math.PI/2)
+                .splineToLinearHeading(new Pose2d(firstRowStartPosition, -Math.PI/2),-Math.PI/2)
+                .lineToYConstantHeading(-56, new TranslationalVelConstraint(24))
                 .build();
 
-        Action launchTraj2 = rrDrive.actionBuilder(new Pose2d(36, 56, Math.PI/2))
-                .setTangent(-Math.PI/2)
-                .splineToLinearHeading(launchPose, Math.PI)
+        Action backToShootingPos = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition.x, -50, -Math.PI/2))
+                .splineToLinearHeading(new Pose2d(launchPos, launchPrep1Heading),-Math.PI/3)
                 .build();
 
-        Action leaveTraj = rrDrive.actionBuilder(launchPose)
-                .splineToLinearHeading(new Pose2d(40, 30, -Math.PI/2), -Math.PI/2)
+        Action waiterWaiterMoreLeavePointsPlease = rrDrive.actionBuilder(new Pose2d(launchPos, launchPrep1Heading))
+                .splineToLinearHeading(new Pose2d(-10, -45, Math.PI), 0)
                 .build();
+
+        launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.62);
+        fireTimeMS = 500;
 
         waitForStart();
-        // RUNNING CODE
+        // Do Stuff code here
 
-        // Get to launch position, spin up flywheel and ready artifacts
-        Actions.runBlocking(
-                new ParallelAction(
-                        launchTraj1,
-                        bot.launcher.getReadyAction(launchVelocity),
-                        prepareBalls(false)
-                )
-        );
+        // Go to firing position while spinning up flywheel
+        Actions.runBlocking(new ParallelAction(
+                launchTrajectory1,
+                bot.launcher.getReadyAction(launchVelocity),
+                prepareBalls(false)
+        ));
 
-        // Fire the three pre-loaded balls
+        // Make sure flywheel is spun up, fire three times, stop flywheel
         Actions.runBlocking(fireThreeBalls(false));
 
         // make your way to the artifacts and pick them up
@@ -155,19 +143,20 @@ public class RedNarniaAuto extends LinearOpMode {
                 bot.spintake.getStartSpintakeAction(1),
                 bot.launcher.getStartCycleAction(1),
                 new ParallelAction(
-                        artifactGrabTraj,
+                        artifactTrajectory1,
                         new SequentialAction(
                                 bot.colorSensor.getWaitForArtifactAction(),
                                 bot.launcher.getStopCycleAction()
                         )
                 ),
+                new SleepAction(0.5),
                 bot.spintake.getStopSpintakeAction()
         ));
 
         // go back to shooting pos and fire
         Actions.runBlocking(new SequentialAction(
                 new ParallelAction(
-                        launchTraj2,
+                        backToShootingPos,
                         bot.launcher.getReadyAction(launchVelocity),
                         prepareBalls(true)
                 ),
@@ -175,6 +164,8 @@ public class RedNarniaAuto extends LinearOpMode {
         ));
 
         // get those sweet, succulent leave points
-        Actions.runBlocking(leaveTraj);
+        Actions.runBlocking(
+                waiterWaiterMoreLeavePointsPlease
+        );
     }
 }

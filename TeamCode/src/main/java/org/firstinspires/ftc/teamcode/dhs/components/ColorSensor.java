@@ -121,7 +121,7 @@ public class ColorSensor {
         //       This stuff is odd and I don't have the time to give it thought right now.
         return (packet) -> {
             packet.put("sensor",isArtifactInSensor());
-            return isArtifactInSensor();
+            return !isArtifactInSensor();
         };
     }
 
@@ -131,7 +131,7 @@ public class ColorSensor {
     public Action getWaitForArtifactLeaveAction() {
         return (packet) -> {
             packet.put("sensor",isArtifactInSensor());
-            return !isArtifactInSensor();
+            return isArtifactInSensor();
         };
     }
 }
