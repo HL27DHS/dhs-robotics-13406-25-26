@@ -16,8 +16,8 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 
-@Autonomous(name="Red Narnia Auto",group="A - Main Autos",preselectTeleOp="Ready Player Two")
-public class RedNarniaAuto extends LinearOpMode {
+@Autonomous(name="Blue Narnia Auto 3+3",group="A - 3+3 Autos",preselectTeleOp="Ready Player Two")
+public class BlueNarniaAuto3x3 extends LinearOpMode {
     Bot bot;
     MecanumDrive rrDrive;
 
@@ -100,9 +100,9 @@ public class RedNarniaAuto extends LinearOpMode {
 
     public void runOpMode() {
         // INITIALIZATION
-        Pose2d initialPose = new Pose2d(63,12, Math.PI);
+        Pose2d initialPose = new Pose2d(63,-12, Math.PI);
 
-        bot = new Bot(hardwareMap, Alliance.RED, initialPose);
+        bot = new Bot(hardwareMap, Alliance.BLUE, initialPose);
         rrDrive = bot.drivetrain.getDrive();
 
         launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.8);
@@ -112,7 +112,7 @@ public class RedNarniaAuto extends LinearOpMode {
 
         // PATHS & BUILDERS
         double launchHeading = bot.getAngleToFaceDepot(AngleUnit.RADIANS);
-        Pose2d launchPose = new Pose2d(60, 12, launchHeading);
+        Pose2d launchPose = new Pose2d(60, -12, launchHeading);
 
         telemetry.addData("heading",bot.getAngleToFaceDepot(AngleUnit.RADIANS));
         telemetry.update();
@@ -121,19 +121,19 @@ public class RedNarniaAuto extends LinearOpMode {
                 .splineToLinearHeading(launchPose, 0)
                 .build();
 
-        Vector2d lastRowStartPosition = new Vector2d(36, 36);
+        Vector2d lastRowStartPosition = new Vector2d(36, -36);
         Action artifactGrabTraj = rrDrive.actionBuilder(launchPose)
-                .splineToLinearHeading(new Pose2d(lastRowStartPosition, Math.PI/2), Math.PI/2)
-                .lineToYConstantHeading(56, new TranslationalVelConstraint(24))
+                .splineToLinearHeading(new Pose2d(lastRowStartPosition, -Math.PI/2), -Math.PI/2)
+                .lineToYConstantHeading(-56, new TranslationalVelConstraint(24))
                 .build();
 
-        Action launchTraj2 = rrDrive.actionBuilder(new Pose2d(36, 56, Math.PI/2))
-                .setTangent(-Math.PI/2)
+        Action launchTraj2 = rrDrive.actionBuilder(new Pose2d(36, -56, -Math.PI/2))
+                .setTangent(Math.PI/2)
                 .splineToLinearHeading(launchPose, Math.PI)
                 .build();
 
         Action leaveTraj = rrDrive.actionBuilder(launchPose)
-                .splineToLinearHeading(new Pose2d(40, 30, -Math.PI/2), -Math.PI/2)
+                .splineToLinearHeading(new Pose2d(40, -30, Math.PI/2), Math.PI/2)
                 .build();
 
         waitForStart();
