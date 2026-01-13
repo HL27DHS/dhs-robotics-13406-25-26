@@ -95,6 +95,9 @@ public class Launcher {
      */
     public void setCyclePower(double power) { cycleMotor.setPower(power); }
 
+    // ACTIONS BELOW
+
+    // TODO: Javadoc
     public class Ready implements Action {
         boolean initialized = false;
         int desiredVelocity;
@@ -110,7 +113,6 @@ public class Launcher {
                 initialized = true;
             }
 
-            // FIXME: Currently runs forever due to the fact that getFlywheelVelocity incorrectly reports value
             double vel = getFlywheelVelocity();
             packet.put("shooterVelocity", vel);
             return vel < desiredVelocity;
@@ -120,8 +122,7 @@ public class Launcher {
         return new Ready(desiredVelocity);
     }
 
-    // This action (as of right now) just spins the cycle
-    // motor for the time set in cycleSpinToFireMS
+    // TODO: Javadoc
     public class Launch implements Action {
         ElapsedTime timer;
         boolean initialized;
@@ -148,14 +149,53 @@ public class Launcher {
         return new Launch();
     }
 
-    public Action getLaunchWithTimeAction(double fireTimeMS) {
-        return new SequentialAction(
-                getStartCycleAction(0.5),
-                new SleepAction(fireTimeMS/1000),
-                getStopCycleAction()
-        );
+    // TODO: Javadoc
+    public class LaunchWithSensor implements Action {
+        ColorSensor sensor;
+
+        public LaunchWithSensor(ColorSensor sensor) {
+            this.sensor = sensor;
+        }
+
+        public boolean run(TelemetryPacket packet) {
+            // TODO: Implement
+            return false;
+        }
+    }
+    public Action getLaunchWithSensorAction(ColorSensor sensor) {
+        return new LaunchWithSensor(sensor);
     }
 
+    // TODO: improve Javadoc
+    /**
+     * Action that launches a ball using a set time
+     */
+    public class LaunchWithTime implements Action {
+        public double fireTimeMS;
+
+        public LaunchWithTime(double fireTimeMS) {
+            this.fireTimeMS = fireTimeMS;
+        }
+
+        public boolean run(TelemetryPacket packet) {
+            // TODO: Implement
+            return false;
+        }
+    }
+    /**
+     * Returns an {@link com.acmerobotics.roadrunner.Action} to spin the cycler for a certain
+     * amount of time to fire an artifact
+     * @param fireTimeMS the time (milliseconds) to spin the cycler to fire
+     * @return an {@link org.firstinspires.ftc.teamcode.dhs.components.Launcher.LaunchWithTime} action
+     */
+    public Action getLaunchWithTimeAction(double fireTimeMS) {
+        return new LaunchWithTime(fireTimeMS);
+    }
+
+    // TODO: improve Javadoc
+    /**
+     * Action that unreadies the flywheel for flying
+     */
     public class Unready implements Action {
         public boolean run(TelemetryPacket packet) {
             setFlywheelVelocity(0);
@@ -163,10 +203,15 @@ public class Launcher {
             //return flywheelMotor.getVelocity() > 0;
         }
     }
+    /**
+     * Returns an {@link com.acmerobotics.roadrunner.Action} to unready the flywheel
+     * @return an {@link org.firstinspires.ftc.teamcode.dhs.components.Launcher.Unready} action
+     */
     public Action getUnreadyAction() {
         return new Unready();
     }
 
+    // TODO: Javadoc
     public class StartCycle implements Action {
         double power;
 
@@ -183,6 +228,7 @@ public class Launcher {
         return new StartCycle(power);
     }
 
+    // TODO: Javadoc
     public class StopCycle implements Action {
         public boolean run(TelemetryPacket packet) {
             setCyclePower(0);
