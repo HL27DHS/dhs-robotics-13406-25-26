@@ -26,6 +26,7 @@ public class RedNarniaAuto extends LinearOpMode {
     double fireTimeMS;
     double fireDelayMS;
 
+    // TODO: Port to Bot class or Launcher class (with real implementation)
     public Action launchWithTime() {
         return new SequentialAction(
                 bot.launcher.getStartCycleAction(1),
@@ -34,8 +35,7 @@ public class RedNarniaAuto extends LinearOpMode {
         );
     }
 
-
-
+    // TODO: Port to Bot class or Launcher class (with real implementation)
     public Action launchWithTime(double seconds) {
         return new SequentialAction(
                 bot.launcher.getStartCycleAction(1),
@@ -44,8 +44,7 @@ public class RedNarniaAuto extends LinearOpMode {
         );
     }
 
-
-
+    // TODO: Port to Bot class or Launcher class (with real implementation)
     public Action launchWithSensor() {
         return new SequentialAction(
                 bot.launcher.getStartCycleAction(1),
@@ -55,6 +54,7 @@ public class RedNarniaAuto extends LinearOpMode {
         );
     }
 
+    // TODO: Port to Bot class or Launcher class (with real implementation)
     public Action fireThreeBalls(boolean spintake) {
         return new SequentialAction(
                 bot.launcher.getReadyAction(launchVelocity),
@@ -76,6 +76,7 @@ public class RedNarniaAuto extends LinearOpMode {
         );
     }
 
+    // TODO: Port to Bot class or Launcher class (with real implementation)
     public Action prepareBalls(boolean spintake) {
         // If there's already a ball present, don't even do anything
         if (bot.colorSensor.isArtifactInSensor())
