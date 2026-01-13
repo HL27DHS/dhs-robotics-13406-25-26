@@ -149,23 +149,6 @@ public class Launcher {
         return new Launch();
     }
 
-    // TODO: Javadoc
-    public class LaunchWithSensor implements Action {
-        ColorSensor sensor;
-
-        public LaunchWithSensor(ColorSensor sensor) {
-            this.sensor = sensor;
-        }
-
-        public boolean run(TelemetryPacket packet) {
-            // TODO: Implement
-            return false;
-        }
-    }
-    public Action getLaunchWithSensorAction(ColorSensor sensor) {
-        return new LaunchWithSensor(sensor);
-    }
-
     // TODO: improve Javadoc
     /**
      * Action that launches a ball using a set time
