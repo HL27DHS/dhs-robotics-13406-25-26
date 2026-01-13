@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dhs.components;
 
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -92,5 +94,22 @@ public class Bot {
         drivetrain.getFlMotor().setZeroPowerBehavior(behavior);
         drivetrain.getBrMotor().setZeroPowerBehavior(behavior);
         drivetrain.getBlMotor().setZeroPowerBehavior(behavior);
+    }
+
+    /**
+     * Action for getting artifacts ready for firing
+     */
+    public class PrepareArtifacts implements Action {
+        public boolean run(TelemetryPacket packet) {
+            // TODO: Implement PrepareArtifacts, similar to prepareBalls in current autos
+            return false;
+        }
+    }
+    /**
+     * Returns an {@code Action} for preparing artifacts to be ready for firing
+     * @return an {@link org.firstinspires.ftc.teamcode.dhs.components.Bot.PrepareArtifacts} action
+     */
+    public Action getPrepareArtifactsAction() { // TODO: come to a consensus on naming of these functions
+        return new PrepareArtifacts();
     }
 }
