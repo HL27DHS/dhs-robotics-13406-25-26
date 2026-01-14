@@ -20,6 +20,7 @@ public class Launcher {
     public final double cycleSpinToFireMS = 50;
     private int flywheelTargetVelocity = 0;
 
+    public final double flywheelTicksPerRotation = 28;
 
     public Launcher(HardwareMap hardwareMap) {
         flywheelMotor = hardwareMap.get(DcMotorEx.class, "flywheel");
@@ -53,6 +54,16 @@ public class Launcher {
      * @return The flywheel's current velocity
      */
     public double getFlywheelVelocity() { return flywheelMotor.getVelocity(); }
+
+    /**
+     * @return the flywheel's rotations per second
+     */
+    public double getFlywheelRPS() { return getFlywheelVelocity() / flywheelTicksPerRotation; }
+
+    /**
+     * @return the flywheel's rotations per minute
+     */
+    public double getFlywheelRPM() { return getFlywheelRPS() * 60; }
 
     public int getFlywheelTargetVelocity() {
         return flywheelTargetVelocity;
