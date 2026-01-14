@@ -97,7 +97,9 @@ public class Launcher {
 
     // ACTIONS BELOW
 
-    // TODO: Javadoc
+    /**
+     * Action to ready the flywheel at a certain velocity, and wait until it's ready
+     */
     public class Ready implements Action {
         boolean initialized = false;
         int desiredVelocity;
@@ -118,11 +120,18 @@ public class Launcher {
             return vel < desiredVelocity;
         }
     }
+    /**
+     * @param desiredVelocity The desired velocity to spin the flywheel at
+     * @return an {@link com.acmerobotics.roadrunner.Action} to ready the flywheel for firing
+     *         by setting it to a specified velocity. Will return true until velocity is met.
+     */
     public Action getReadyAction(int desiredVelocity) {
         return new Ready(desiredVelocity);
     }
 
-    // TODO: Javadoc
+    /**
+     * Action that launches a ball
+     */
     public class Launch implements Action {
         ElapsedTime timer;
         boolean initialized;
@@ -145,13 +154,15 @@ public class Launcher {
             return true;
         }
     }
+    /**
+     * @return an {@link com.acmerobotics.roadrunner.Action} to launch an artifact
+     */
     public Action getLaunchAction() {
         return new Launch();
     }
 
-    // TODO: improve Javadoc
     /**
-     * Action that launches a ball using a set time
+     * Action that launches a ball using a set time to spin the cycler
      */
     public class LaunchWithTime implements Action {
         public double fireTimeMS;
@@ -161,23 +172,21 @@ public class Launcher {
         }
 
         public boolean run(TelemetryPacket packet) {
-            // TODO: Implement
+            // TODO: Implement LaunchWithTime
             return false;
         }
     }
     /**
-     * Returns an {@link com.acmerobotics.roadrunner.Action} to spin the cycler for a certain
-     * amount of time to fire an artifact
      * @param fireTimeMS the time (milliseconds) to spin the cycler to fire
-     * @return an {@link org.firstinspires.ftc.teamcode.dhs.components.Launcher.LaunchWithTime} action
+     * @return an {@link com.acmerobotics.roadrunner.Action} to spin the cycler for a certain
+     *         amount of time to fire an artifact
      */
     public Action getLaunchWithTimeAction(double fireTimeMS) {
         return new LaunchWithTime(fireTimeMS);
     }
 
-    // TODO: improve Javadoc
     /**
-     * Action that unreadies the flywheel for flying
+     * Action that stops the flywheel
      */
     public class Unready implements Action {
         public boolean run(TelemetryPacket packet) {
@@ -187,14 +196,15 @@ public class Launcher {
         }
     }
     /**
-     * Returns an {@link com.acmerobotics.roadrunner.Action} to unready the flywheel
-     * @return an {@link org.firstinspires.ftc.teamcode.dhs.components.Launcher.Unready} action
+     * @return an {@link com.acmerobotics.roadrunner.Action} to unready the flywheel
      */
     public Action getUnreadyAction() {
         return new Unready();
     }
 
-    // TODO: Javadoc
+    /**
+     * Action to start the cycler motor with a given power
+     */
     public class StartCycle implements Action {
         double power;
 
@@ -207,17 +217,27 @@ public class Launcher {
             return false;
         }
     }
+    /**
+     * @param power the power to set the cycler motor to spin at
+     * @return an {@link com.acmerobotics.roadrunner.Action} to start the cycler motor with specified
+     *         power
+     */
     public Action getStartCycleAction(double power) {
         return new StartCycle(power);
     }
 
-    // TODO: Javadoc
+    /**
+     * Action to stop the cycler motor
+     */
     public class StopCycle implements Action {
         public boolean run(TelemetryPacket packet) {
             setCyclePower(0);
             return false;
         }
     }
+    /**
+     * @return an {@link com.acmerobotics.roadrunner.Action} to stop the cycler motor
+     */
     public Action getStopCycleAction() {
         return new StopCycle();
     }
