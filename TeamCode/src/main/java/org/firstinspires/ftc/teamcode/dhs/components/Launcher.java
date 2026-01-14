@@ -100,11 +100,11 @@ public class Launcher {
     /**
      * Action to ready the flywheel at a certain velocity, and wait until it's ready
      */
-    public class Ready implements Action {
+    private class Ready implements Action {
         boolean initialized = false;
         int desiredVelocity;
 
-        public Ready(int desiredVelocity) {
+        private Ready(int desiredVelocity) {
             this.desiredVelocity = Math.min(desiredVelocity, getFlywheelMaxVelocity());
         }
 
@@ -132,11 +132,11 @@ public class Launcher {
     /**
      * Action that launches a ball
      */
-    public class Launch implements Action {
+    private class Launch implements Action {
         ElapsedTime timer;
         boolean initialized;
 
-        public Launch() {
+        private Launch() {
             timer = new ElapsedTime();
             timer.reset();
         }
@@ -164,10 +164,10 @@ public class Launcher {
     /**
      * Action that launches a ball using a set time to spin the cycler
      */
-    public class LaunchWithTime implements Action {
+    private class LaunchWithTime implements Action {
         public double fireTimeMS;
 
-        public LaunchWithTime(double fireTimeMS) {
+        private LaunchWithTime(double fireTimeMS) {
             this.fireTimeMS = fireTimeMS;
         }
 
@@ -188,7 +188,9 @@ public class Launcher {
     /**
      * Action that stops the flywheel
      */
-    public class Unready implements Action {
+    private class Unready implements Action {
+        private Unready() {}
+
         public boolean run(TelemetryPacket packet) {
             setFlywheelVelocity(0);
             return false;
@@ -205,10 +207,10 @@ public class Launcher {
     /**
      * Action to start the cycler motor with a given power
      */
-    public class StartCycle implements Action {
+    private class StartCycle implements Action {
         double power;
 
-        public StartCycle(double power) {
+        private StartCycle(double power) {
             this.power = power;
         }
 
@@ -229,7 +231,9 @@ public class Launcher {
     /**
      * Action to stop the cycler motor
      */
-    public class StopCycle implements Action {
+    private class StopCycle implements Action {
+        private StopCycle() {}
+
         public boolean run(TelemetryPacket packet) {
             setCyclePower(0);
             return false;
