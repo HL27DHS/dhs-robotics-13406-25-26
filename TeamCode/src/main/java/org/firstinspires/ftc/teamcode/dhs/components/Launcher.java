@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.dhs.utils.DataUtils;
 import org.firstinspires.ftc.teamcode.dhs.utils.History;
 
 public class Launcher {
@@ -18,6 +19,10 @@ public class Launcher {
     private final int FLYWHEEL_MAX_VELOCITY = 2380; // thank you Hayden
     // TODO: Clean up usages and make private
     public DcMotor cycleMotor;
+
+    // TODO: Make this value final and private once it is tuned
+    // Threshold for ball fired detection (RPM)
+    public double flywheelFireThreshold = 60;
 
     public final double cycleSpinToFireMS = 50;
     private int flywheelTargetVelocity = 0;
@@ -128,23 +133,22 @@ public class Launcher {
      */
     public Action getLaunchAction() {
         return new Action() {
-            final ElapsedTime timer;
-            boolean initialized;
-
-            { // instance initializer
-                timer = new ElapsedTime();
-                timer.reset();
-            }
+            boolean initialized = false;
 
             public boolean run(@NonNull TelemetryPacket packet) {
-                // TODO: Make launch functionality more consistent, use dips in flywheel velocity
-                if (timer.milliseconds() >= cycleSpinToFireMS) {
-                    setCyclePower(0);
-                    return false;
+                // start cycler
+                if (!initialized) {
+                    setCyclePower(1);
+                    packet.addLine("shot not fired yet!");
                 }
 
-                if (!initialized)
-                    setCyclePower(1);
+                // TODO: Find better, more consistent way to check if shot has been fired
+                // if within firing threshold, stop because we've fired
+                if (DataUtils.threshold(getFlywheelRPM(), getFlywheelTargetRPM(), flywheelFireThreshold)) {
+                    setCyclePower(0);
+                    packet.addLine("shots fired!");
+                    return false;
+                }
 
                 return true;
             }
