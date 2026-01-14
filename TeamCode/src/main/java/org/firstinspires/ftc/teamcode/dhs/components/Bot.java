@@ -99,7 +99,9 @@ public class Bot {
     /**
      * Action for getting artifacts ready for firing
      */
-    public class PrepareArtifacts implements Action {
+    private class PrepareArtifacts implements Action {
+        private PrepareArtifacts() {}
+
         public boolean run(TelemetryPacket packet) {
             // TODO: Implement PrepareArtifacts, similar to prepareBalls in current autos
             return false;
@@ -115,10 +117,10 @@ public class Bot {
     /**
      * Action for firing three artifacts
      */
-    public class FireThrice implements Action {
+    private class FireThrice implements Action {
         double velocity;
 
-        public FireThrice(double velocity) {
+        private FireThrice(double velocity) {
             this.velocity = velocity;
         }
 
