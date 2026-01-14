@@ -106,10 +106,33 @@ public class Bot {
         }
     }
     /**
-     * Returns an {@code Action} for preparing artifacts to be ready for firing
-     * @return an {@link org.firstinspires.ftc.teamcode.dhs.components.Bot.PrepareArtifacts} action
+     * @return an {@link com.acmerobotics.roadrunner.Action} for preparing artifacts to be ready for firing
      */
     public Action getPrepareArtifactsAction() {
         return new PrepareArtifacts();
+    }
+
+    /**
+     * Action for firing three artifacts
+     */
+    public class FireThrice implements Action {
+        double velocity;
+
+        public FireThrice(double velocity) {
+            this.velocity = velocity;
+        }
+
+        public boolean run(TelemetryPacket packet) {
+            // TODO: Implement FireThrice, similar to fireThreeTimes in current autos
+            return false;
+        }
+    }
+
+    /**
+     * @param velocity the desired flywheel velocity to fire the artifacts at
+     * @return an {@link com.acmerobotics.roadrunner.Action} for firing three artifacts
+     */
+    public Action getFireThriceAction(double velocity) {
+        return new FireThrice(velocity);
     }
 }
