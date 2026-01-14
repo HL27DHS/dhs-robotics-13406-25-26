@@ -54,7 +54,7 @@ public class ColorSensor {
      * @return The color sensor's confidence between 0 and 1
      */
     public double getArtifactPresentConfidence() {
-        // TODO: Implement
+        // TODO: Implement getArtifactPresentConfidence
         return 0.0;
     }
 
@@ -63,7 +63,7 @@ public class ColorSensor {
      * @return The color sensor's confidence between 0 and 1
      */
     public double getPurpleArtifactConfidence() {
-        // TODO: Implement
+        // TODO: Implement getPurpleArtifactConfidence
         return 0.0;
     }
 
@@ -72,7 +72,7 @@ public class ColorSensor {
      * @return The color sensor's confidence between 0 and 1
      */
     public double getGreenArtifactConfidence() {
-        // TODO: Implement
+        // TODO: Implement getGreenArtifactConfidence
         return 0.0;
     }
 
@@ -81,7 +81,6 @@ public class ColorSensor {
      * @return true if there is; false if there isn't
      */
     public boolean isArtifactInSensor() {
-        // TODO: Implement in a way that uses confidence instead of blanket assumptions
         NormalizedRGBA color = getSensorColor();
         return getDistance(DistanceUnit.CM) < 3.7;
     }
@@ -92,7 +91,7 @@ public class ColorSensor {
      * @return the type of artifact in front of the sensor
      */
     public ArtifactState getArtifactInSensor() {
-        // TODO: Implement
+        // TODO: Implement getArtifactInSensor
         return ArtifactState.NONE;
     }
 
