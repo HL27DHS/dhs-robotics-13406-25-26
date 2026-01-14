@@ -109,7 +109,7 @@ public class Bot {
      * Returns an {@code Action} for preparing artifacts to be ready for firing
      * @return an {@link org.firstinspires.ftc.teamcode.dhs.components.Bot.PrepareArtifacts} action
      */
-    public Action getPrepareArtifactsAction() { // TODO: come to a consensus on naming of these functions
+    public Action getPrepareArtifactsAction() {
         return new PrepareArtifacts();
     }
 }
