@@ -116,8 +116,7 @@ public class ColorSensor {
      * @return an {@code Action} that waits for an artifact to be present in front of the color sensor
      */
     public Action getWaitForArtifactAction() {
-        // TODO: Research lambdas and anonymous classes.
-        //       This stuff is odd and I don't have the time to give it thought right now.
+        // lambda function
         return (packet) -> {
             packet.put("sensor",isArtifactInSensor());
             return !isArtifactInSensor();
@@ -128,6 +127,7 @@ public class ColorSensor {
      * @return an {@code Action} that waits for an artifact to not be present in front of the color sensor
      */
     public Action getWaitForArtifactLeaveAction() {
+        // lambda function
         return (packet) -> {
             packet.put("sensor",isArtifactInSensor());
             return isArtifactInSensor();
