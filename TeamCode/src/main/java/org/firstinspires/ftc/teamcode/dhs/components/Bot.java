@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dhs.components;
 
+import androidx.annotation.NonNull;
+
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -97,44 +99,32 @@ public class Bot {
     }
 
     /**
-     * Action for getting artifacts ready for firing
-     */
-    private class PrepareArtifacts implements Action {
-        private PrepareArtifacts() {}
-
-        public boolean run(TelemetryPacket packet) {
-            // TODO: Implement PrepareArtifacts, similar to prepareBalls in current autos
-            return false;
-        }
-    }
-    /**
      * @return an {@link com.acmerobotics.roadrunner.Action} for preparing artifacts to be ready for firing
      */
     public Action getPrepareArtifactsAction() {
-        return new PrepareArtifacts();
+        return new Action() {
+            public boolean run(@NonNull TelemetryPacket packet) {
+                // TODO: Implement PrepareArtifacts, similar to prepareBalls in current autos
+                return false;
+            }
+        };
     }
 
     /**
-     * Action for firing three artifacts
-     */
-    private class FireThrice implements Action {
-        double velocity;
-
-        private FireThrice(double velocity) {
-            this.velocity = velocity;
-        }
-
-        public boolean run(TelemetryPacket packet) {
-            // TODO: Implement FireThrice, similar to fireThreeTimes in current autos
-            return false;
-        }
-    }
-
-    /**
-     * @param velocity the desired flywheel velocity to fire the artifacts at
+     * @param vel the desired flywheel velocity to fire the artifacts at
      * @return an {@link com.acmerobotics.roadrunner.Action} for firing three artifacts
      */
-    public Action getFireThriceAction(double velocity) {
-        return new FireThrice(velocity);
+    public Action getFireThriceAction(double vel) {
+        return new Action() {
+            final double velocity;
+
+            // instance initializer
+            { this.velocity = vel; }
+
+            public boolean run(@NonNull TelemetryPacket packet) {
+                // TODO: Implement FireThrice, similar to fireThreeTimes in current autos
+                return false;
+            }
+        };
     }
 }
