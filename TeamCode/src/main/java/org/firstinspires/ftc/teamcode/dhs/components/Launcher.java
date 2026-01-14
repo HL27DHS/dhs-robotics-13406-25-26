@@ -20,12 +20,6 @@ public class Launcher {
     public final double cycleSpinToFireMS = 50;
     private int flywheelTargetVelocity = 0;
 
-    public final double FLYWHEEL_POLLING_RATE_MS = 150;
-    public final int FLYWHEEL_HISTORY_DEPTH = 10;
-    private final History<Double> flywheelHistory;
-    private ElapsedTime deltaTimer;
-    private double deltaTimeSum_ms = 0;
-
 
     public Launcher(HardwareMap hardwareMap) {
         flywheelMotor = hardwareMap.get(DcMotorEx.class, "flywheel");
@@ -36,24 +30,6 @@ public class Launcher {
 
         cycleMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         flywheelMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        flywheelHistory = new History<Double>(FLYWHEEL_HISTORY_DEPTH);
-
-        deltaTimer = new ElapsedTime();
-        deltaTimer.reset();
-    }
-
-    public void think() {
-        double dt = deltaTimer.milliseconds();
-        deltaTimer.reset();
-
-        deltaTimeSum_ms += dt;
-
-        if (deltaTimeSum_ms >= FLYWHEEL_POLLING_RATE_MS) {
-            deltaTimeSum_ms = 0;
-
-            flywheelHistory.add(getFlywheelVelocity());
-        }
     }
 
     /**
