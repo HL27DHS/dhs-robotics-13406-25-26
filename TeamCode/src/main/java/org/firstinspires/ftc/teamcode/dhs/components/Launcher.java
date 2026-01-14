@@ -43,7 +43,8 @@ public class Launcher {
      * @param velocity The velocity to set the flywheel motor to
      */
     public void setFlywheelVelocity(int velocity) {
-        flywheelMotor.setVelocity(velocity);
+        // make sure velocity isn't set too high
+        flywheelMotor.setVelocity(Math.min(velocity, getFlywheelMaxVelocity()));
         flywheelTargetVelocity = velocity;
     }
 
