@@ -198,4 +198,15 @@ public class DataUtils {
 
         return result;
     }
+
+    /**
+     * Checks if the difference between two numbers is within a given threshold
+     * @param a First number to check the distance between
+     * @param b Second number to check the distance between
+     * @param threshold the maximum allowed difference between the two numbers, should be positive
+     * @return if the distance between {@code a} and {@code b} is within {@code threshold}
+     */
+    public static boolean threshold(double a, double b, double threshold) {
+        return Math.abs(a - b) <= threshold;
+    }
 }
