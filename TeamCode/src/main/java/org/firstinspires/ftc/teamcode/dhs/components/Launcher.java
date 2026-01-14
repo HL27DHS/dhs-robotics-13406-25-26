@@ -104,7 +104,7 @@ public class Launcher {
         // anonymous class
         return new Action() {
             boolean initialized = false;
-            int desiredVelocity;
+            final int desiredVelocity;
 
             // instance initializer
             { this.desiredVelocity = Math.min(desiredVel, getFlywheelMaxVelocity()); }
@@ -128,7 +128,7 @@ public class Launcher {
      */
     public Action getLaunchAction() {
         return new Action() {
-            ElapsedTime timer;
+            final ElapsedTime timer;
             boolean initialized;
 
             { // instance initializer
@@ -136,7 +136,7 @@ public class Launcher {
                 timer.reset();
             }
 
-            public boolean run(TelemetryPacket packet) {
+            public boolean run(@NonNull TelemetryPacket packet) {
                 // TODO: Make launch functionality more consistent, use dips in flywheel velocity
                 if (timer.milliseconds() >= cycleSpinToFireMS) {
                     setCyclePower(0);
@@ -158,12 +158,12 @@ public class Launcher {
      */
     public Action getLaunchWithTimeAction(double fireMS) {
         return new Action() {
-            public double fireTimeMS;
+            final double fireTimeMS;
 
             // instance initializer
             { this.fireTimeMS = fireMS; }
 
-            public boolean run(TelemetryPacket packet) {
+            public boolean run(@NonNull TelemetryPacket packet) {
                 // TODO: Implement LaunchWithTime
                 return false;
             }};
@@ -174,7 +174,7 @@ public class Launcher {
      */
     public Action getUnreadyAction() {
         return new Action() {
-            public boolean run(TelemetryPacket packet) {
+            public boolean run(@NonNull TelemetryPacket packet) {
                 setFlywheelVelocity(0);
                 return false;
                 //return flywheelMotor.getVelocity() > 0;
@@ -189,12 +189,12 @@ public class Launcher {
      */
     public Action getStartCycleAction(double pwr) {
         return new Action() {
-            double power;
+            final double power;
 
             // instance initializer
             { this.power = pwr; }
 
-            public boolean run(TelemetryPacket packet) {
+            public boolean run(@NonNull TelemetryPacket packet) {
                 setCyclePower(power);
                 return false;
             }
@@ -206,7 +206,7 @@ public class Launcher {
      */
     public Action getStopCycleAction() {
         return new Action() {
-            public boolean run(TelemetryPacket packet) {
+            public boolean run(@NonNull TelemetryPacket packet) {
                 setCyclePower(0);
                 return false;
             }
