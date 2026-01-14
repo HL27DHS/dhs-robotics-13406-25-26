@@ -110,6 +110,8 @@ public class Bot {
         };
     }
 
+    // IDEA: spin the cycler slow enough so that the flywheel has time to recover speed
+    //       before the next ball fires?
     /**
      * @param vel the desired flywheel velocity to fire the artifacts at
      * @return an {@link com.acmerobotics.roadrunner.Action} for firing three artifacts
