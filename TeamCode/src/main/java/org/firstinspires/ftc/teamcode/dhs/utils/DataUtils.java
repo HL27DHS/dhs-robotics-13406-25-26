@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.dhs.utils;
 
-public class ArrayUtils {
+public class DataUtils {
     /**
      * Calculate an array containing the change between each element in {@code array}, where
      * {@code result[i]} is the difference between {@code array[i+1]} and {@code array[i]}
