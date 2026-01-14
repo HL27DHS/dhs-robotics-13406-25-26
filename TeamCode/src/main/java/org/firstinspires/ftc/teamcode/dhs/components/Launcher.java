@@ -13,8 +13,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.dhs.utils.History;
 
 public class Launcher {
+    // TODO: Clean up usages and make private
     public DcMotorEx flywheelMotor;
     private final int FLYWHEEL_MAX_VELOCITY = 2380; // thank you Hayden
+    // TODO: Clean up usages and make private
     public DcMotor cycleMotor;
 
     public final double cycleSpinToFireMS = 50;
