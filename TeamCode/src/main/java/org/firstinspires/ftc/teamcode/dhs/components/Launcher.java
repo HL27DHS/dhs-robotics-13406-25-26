@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -98,151 +96,120 @@ public class Launcher {
     // ACTIONS BELOW
 
     /**
-     * Action to ready the flywheel at a certain velocity, and wait until it's ready
-     */
-    private class Ready implements Action {
-        boolean initialized = false;
-        int desiredVelocity;
-
-        private Ready(int desiredVelocity) {
-            this.desiredVelocity = Math.min(desiredVelocity, getFlywheelMaxVelocity());
-        }
-
-        public boolean run(@NonNull TelemetryPacket packet) {
-            if (!initialized) {
-                setFlywheelPower(1);
-                setFlywheelVelocity(desiredVelocity);
-                initialized = true;
-            }
-
-            double vel = getFlywheelVelocity();
-            packet.put("shooterVelocity", vel);
-            return vel < desiredVelocity;
-        }
-    }
-    /**
-     * @param desiredVelocity The desired velocity to spin the flywheel at
+     * @param desiredVel The desired velocity to spin the flywheel at
      * @return an {@link com.acmerobotics.roadrunner.Action} to ready the flywheel for firing
      *         by setting it to a specified velocity. Will return true until velocity is met.
      */
-    public Action getReadyAction(int desiredVelocity) {
-        return new Ready(desiredVelocity);
-    }
+    public Action getReadyAction(int desiredVel) {
+        // anonymous class
+        return new Action() {
+            boolean initialized = false;
+            int desiredVelocity;
 
-    /**
-     * Action that launches a ball
-     */
-    private class Launch implements Action {
-        ElapsedTime timer;
-        boolean initialized;
+            // instance initializer
+            { this.desiredVelocity = Math.min(desiredVel, getFlywheelMaxVelocity()); }
 
-        private Launch() {
-            timer = new ElapsedTime();
-            timer.reset();
-        }
+            public boolean run(@NonNull TelemetryPacket packet) {
+                if (!initialized) {
+                    setFlywheelPower(1);
+                    setFlywheelVelocity(desiredVelocity);
+                    initialized = true;
+                }
 
-        public boolean run(TelemetryPacket packet) {
-            // TODO: Make launch functionality more consistent, use dips in flywheel velocity
-            if (timer.milliseconds() >= cycleSpinToFireMS) {
-                setCyclePower(0);
-                return false;
+                double vel = getFlywheelVelocity();
+                packet.put("shooterVelocity", vel);
+                return vel < desiredVelocity;
             }
-
-            if (!initialized)
-                setCyclePower(1);
-
-            return true;
-        }
+        };
     }
+
     /**
      * @return an {@link com.acmerobotics.roadrunner.Action} to launch an artifact
      */
     public Action getLaunchAction() {
-        return new Launch();
+        return new Action() {
+            ElapsedTime timer;
+            boolean initialized;
+
+            { // instance initializer
+                timer = new ElapsedTime();
+                timer.reset();
+            }
+
+            public boolean run(TelemetryPacket packet) {
+                // TODO: Make launch functionality more consistent, use dips in flywheel velocity
+                if (timer.milliseconds() >= cycleSpinToFireMS) {
+                    setCyclePower(0);
+                    return false;
+                }
+
+                if (!initialized)
+                    setCyclePower(1);
+
+                return true;
+            }
+        };
     }
 
     /**
-     * Action that launches a ball using a set time to spin the cycler
-     */
-    private class LaunchWithTime implements Action {
-        public double fireTimeMS;
-
-        private LaunchWithTime(double fireTimeMS) {
-            this.fireTimeMS = fireTimeMS;
-        }
-
-        public boolean run(TelemetryPacket packet) {
-            // TODO: Implement LaunchWithTime
-            return false;
-        }
-    }
-    /**
-     * @param fireTimeMS the time (milliseconds) to spin the cycler to fire
+     * @param fireMS the time (milliseconds) to spin the cycler to fire
      * @return an {@link com.acmerobotics.roadrunner.Action} to spin the cycler for a certain
      *         amount of time to fire an artifact
      */
-    public Action getLaunchWithTimeAction(double fireTimeMS) {
-        return new LaunchWithTime(fireTimeMS);
+    public Action getLaunchWithTimeAction(double fireMS) {
+        return new Action() {
+            public double fireTimeMS;
+
+            // instance initializer
+            { this.fireTimeMS = fireMS; }
+
+            public boolean run(TelemetryPacket packet) {
+                // TODO: Implement LaunchWithTime
+                return false;
+            }};
     }
 
-    /**
-     * Action that stops the flywheel
-     */
-    private class Unready implements Action {
-        private Unready() {}
-
-        public boolean run(TelemetryPacket packet) {
-            setFlywheelVelocity(0);
-            return false;
-            //return flywheelMotor.getVelocity() > 0;
-        }
-    }
     /**
      * @return an {@link com.acmerobotics.roadrunner.Action} to unready the flywheel
      */
     public Action getUnreadyAction() {
-        return new Unready();
+        return new Action() {
+            public boolean run(TelemetryPacket packet) {
+                setFlywheelVelocity(0);
+                return false;
+                //return flywheelMotor.getVelocity() > 0;
+            }
+        };
     }
 
     /**
-     * Action to start the cycler motor with a given power
-     */
-    private class StartCycle implements Action {
-        double power;
-
-        private StartCycle(double power) {
-            this.power = power;
-        }
-
-        public boolean run(TelemetryPacket packet) {
-            setCyclePower(power);
-            return false;
-        }
-    }
-    /**
-     * @param power the power to set the cycler motor to spin at
+     * @param pwr the power to set the cycler motor to spin at
      * @return an {@link com.acmerobotics.roadrunner.Action} to start the cycler motor with specified
      *         power
      */
-    public Action getStartCycleAction(double power) {
-        return new StartCycle(power);
+    public Action getStartCycleAction(double pwr) {
+        return new Action() {
+            double power;
+
+            // instance initializer
+            { this.power = pwr; }
+
+            public boolean run(TelemetryPacket packet) {
+                setCyclePower(power);
+                return false;
+            }
+        };
     }
 
-    /**
-     * Action to stop the cycler motor
-     */
-    private class StopCycle implements Action {
-        private StopCycle() {}
-
-        public boolean run(TelemetryPacket packet) {
-            setCyclePower(0);
-            return false;
-        }
-    }
     /**
      * @return an {@link com.acmerobotics.roadrunner.Action} to stop the cycler motor
      */
     public Action getStopCycleAction() {
-        return new StopCycle();
+        return new Action() {
+            public boolean run(TelemetryPacket packet) {
+                setCyclePower(0);
+                return false;
+            }
+        };
     }
 }
