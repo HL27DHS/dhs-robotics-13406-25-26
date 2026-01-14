@@ -67,6 +67,16 @@ public class Launcher {
      */
     public double getFlywheelRPM() { return getFlywheelRPS() * 60; }
 
+    /**
+     * @return the flywheel's desired rotations per second
+     */
+    public double getFlywheelTargetRPS() { return getFlywheelTargetVelocity() / flywheelTicksPerRotation; }
+
+    /**
+     * @return the flywheel's desired rotations per minute
+     */
+    public double getFlywheelTargetRPM() { return getFlywheelTargetRPS() * 60; }
+
     public int getFlywheelTargetVelocity() {
         return flywheelTargetVelocity;
     }
