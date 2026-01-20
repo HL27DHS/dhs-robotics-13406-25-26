@@ -51,7 +51,7 @@ public class Bot {
      */
     public Pose2d getDepotPosition() {
         if (alliance == Alliance.BLUE)
-            return new Pose2d(-60,-60,0);
+            return new Pose2d(-60,-68,0);
         if (alliance == Alliance.RED)
             return new Pose2d(-60,60,0);
 
