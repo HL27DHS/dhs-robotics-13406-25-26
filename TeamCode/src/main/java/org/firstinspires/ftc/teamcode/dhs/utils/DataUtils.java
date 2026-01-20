@@ -241,4 +241,26 @@ public class DataUtils {
 
         return result;
     }
+
+    /**
+     * Smooth a set of numbers using the EMA smoothing algorithm
+     * @param array a list of numbers to smooth
+     * @param factor the EMA smoothing "factor"
+     * @return a smoothed version of the provided data set
+     */
+    public static int[] emaSmooth(int[] array, double factor) {
+        // TODO: Implement
+        return new int[0];
+    }
+
+    /**
+     * Smooth a set of numbers using the EMA smoothing algorithm
+     * @param array a list of numbers to smooth
+     * @param factor the EMA smoothing "factor"
+     * @return a smoothed version of the provided data set
+     */
+    public static double[] emaSmooth(double[] array, double factor) {
+        // TODO: Implement
+        return new double[0];
+    }
 }
