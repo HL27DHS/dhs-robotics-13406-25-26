@@ -209,4 +209,24 @@ public class DataUtils {
     public static boolean threshold(double a, double b, double threshold) {
         return Math.abs(a - b) <= threshold;
     }
+
+    /**
+     * Calculate the set of slopes between each number in a set of numbers
+     * @param array The list of numbers to calculate the slopes of
+     * @return A list containing the slopes between each number
+     */ // TODO: Improve Javadoc (indices)
+    public static double[] slopes(double array) {
+        // TODO: Implement
+        return new double[0];
+    }
+
+    /**
+     * Calculate the set of slopes between each number in a set of numbers
+     * @param array The list of numbers to calculate the slopes of
+     * @return A list containing the slopes between each number
+     */ // TODO: Improve Javadoc (indices)
+    public static double[] slopes(int array) {
+        // TODO: Implement
+        return new double[0];
+    }
 }
