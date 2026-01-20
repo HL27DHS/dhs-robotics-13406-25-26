@@ -212,21 +212,33 @@ public class DataUtils {
 
     /**
      * Calculate the set of slopes between each number in a set of numbers
+     * {@code result[i]} is the slope between {@code array[i+1]} and {@code array[i]}
      * @param array The list of numbers to calculate the slopes of
      * @return A list containing the slopes between each number
      */ // TODO: Improve Javadoc (indices)
-    public static double[] slopes(double array) {
-        // TODO: Implement
-        return new double[0];
+    public static double[] slopes(double[] array) {
+        double[] result = new double[array.length - 1];
+
+        for (int i = 0; i < result.length; i++) {
+            result[i] = array[i+1] / array[i];
+        }
+
+        return result;
     }
 
     /**
      * Calculate the set of slopes between each number in a set of numbers
+     * {@code result[i]} is the slope between {@code array[i+1]} and {@code array[i]}
      * @param array The list of numbers to calculate the slopes of
      * @return A list containing the slopes between each number
      */ // TODO: Improve Javadoc (indices)
-    public static double[] slopes(int array) {
-        // TODO: Implement
-        return new double[0];
+    public static double[] slopes(int[] array) {
+        double[] result = new double[array.length - 1];
+
+        for (int i = 0; i < result.length; i++) {
+            result[i] = (double) array[i+1] / array[i];
+        }
+
+        return result;
     }
 }
