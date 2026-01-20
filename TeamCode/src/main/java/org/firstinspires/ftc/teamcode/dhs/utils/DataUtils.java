@@ -4,7 +4,7 @@ public class DataUtils {
     /**
      * Calculate an array containing the change between each element in {@code array}, where
      * {@code result[i]} is the difference between {@code array[i+1]} and {@code array[i]}
-     * @param array the input array of which each element's chance will be calculated
+     * @param array the input array of which each element's change will be calculated
      * @return the result of the calculation
      */
     public static double[] change(double[] array) {
@@ -20,7 +20,7 @@ public class DataUtils {
     /**
      * Calculate an array containing the change between each element in {@code array}, where
      * {@code result[i]} is the difference between {@code array[i+1]} and {@code array[i]}
-     * @param array the input array of which each element's chance will be calculated
+     * @param array the input array of which each element's change will be calculated
      * @return the result of the calculation
      */
     public static int[] change(int[] array) {
