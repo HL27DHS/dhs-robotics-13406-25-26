@@ -215,12 +215,12 @@ public class DataUtils {
      * {@code result[i]} is the slope between {@code array[i+1]} and {@code array[i]}
      * @param array The list of numbers to calculate the slopes of
      * @return A list containing the slopes between each number
-     */ // TODO: Improve Javadoc (indices)
-    public static double[] slopes(double[] array) {
+     */
+    public static double[] slopes(int[] array) {
         double[] result = new double[array.length - 1];
 
         for (int i = 0; i < result.length; i++) {
-            result[i] = array[i+1] / array[i];
+            result[i] = (double) array[i+1] / array[i];
         }
 
         return result;
@@ -231,12 +231,12 @@ public class DataUtils {
      * {@code result[i]} is the slope between {@code array[i+1]} and {@code array[i]}
      * @param array The list of numbers to calculate the slopes of
      * @return A list containing the slopes between each number
-     */ // TODO: Improve Javadoc (indices)
-    public static double[] slopes(int[] array) {
+     */
+    public static double[] slopes(double[] array) {
         double[] result = new double[array.length - 1];
 
         for (int i = 0; i < result.length; i++) {
-            result[i] = (double) array[i+1] / array[i];
+            result[i] = array[i+1] / array[i];
         }
 
         return result;
