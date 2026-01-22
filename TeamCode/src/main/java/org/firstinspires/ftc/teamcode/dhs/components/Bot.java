@@ -99,13 +99,36 @@ public class Bot {
     }
 
     /**
+     * @param doSpintake whether or not to use the spintake to prepare the balls
      * @return an {@link com.acmerobotics.roadrunner.Action} for preparing artifacts to be ready for firing
      */
-    public Action getPrepareArtifactsAction() {
+    public Action getPrepareArtifactsAction(boolean doSpintake) {
         return new Action() {
+            boolean initialized = false;
+            final boolean useSpintake = doSpintake;
+
             public boolean run(@NonNull TelemetryPacket packet) {
-                // TODO: Implement PrepareArtifacts, similar to prepareBalls in current autos
-                return false;
+                // if on first pass and there's already an artifact, just give up
+                if (!initialized && colorSensor.isArtifactInSensor())
+                    return true;
+
+                // if not initialized, make it happen
+                if (!initialized) {
+                    if (useSpintake) spintake.setSpintakePower(1);
+                    launcher.setCyclePower(1);
+
+                    initialized = true;
+                }
+
+                // if ball is present, stop everything and return yes
+                if (colorSensor.isArtifactInSensor()) {
+                    if (useSpintake) spintake.setSpintakePower(0);
+                    launcher.setCyclePower(0);
+
+                    return false;
+                }
+
+                return true;
             }
         };
     }
