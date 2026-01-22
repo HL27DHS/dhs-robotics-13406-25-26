@@ -29,6 +29,12 @@ public class Launcher {
 
     public final double flywheelTicksPerRotation = 28;
 
+    // flywheel history related variables
+    private final int HISTORY_DEPTH = 10;
+    private History<Double> flywheelHistory = new History(HISTORY_DEPTH);
+
+
+
     public Launcher(HardwareMap hardwareMap) {
         flywheelMotor = hardwareMap.get(DcMotorEx.class, "flywheel");
         cycleMotor = hardwareMap.get(DcMotor.class, "cycle");
