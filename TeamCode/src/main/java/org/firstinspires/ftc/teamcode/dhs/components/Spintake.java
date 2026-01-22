@@ -17,7 +17,7 @@ public class Spintake {
     // GATE CLOSED: 0.1
     // CHUTE CLOSED: 0
 
-    public final double sortOpenPos = 0.2;
+    public final double sortOpenPos = 0.25;
     public final double sortBlockingPos = 0.1;
     public final double sortClosePos = 0;
 
