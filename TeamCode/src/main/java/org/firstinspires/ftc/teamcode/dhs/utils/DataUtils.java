@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dhs.utils;
 
+import java.util.Arrays;
+
 public class DataUtils {
     /**
      * Calculate an array containing the change between each element in {@code array}, where
@@ -248,9 +250,21 @@ public class DataUtils {
      * @param factor the EMA smoothing "factor"
      * @return a smoothed version of the provided data set
      */
-    public static int[] emaSmooth(int[] array, double factor) {
-        // TODO: Implement
-        return new int[0];
+    public static double[] emaSmooth(int[] array, double factor) {
+        // TODO: Actually verify that this does it's job
+        double[] result = new double[array.length];
+
+        // map the list of integers to doubles
+        for (int i = 0; i < result.length; i++) {
+            result[i] = (double) array[i];
+        }
+
+        // basic exponential smoothing
+        for (int i = 1; i < array.length; i++) {
+            result[i] = factor * array[i] + (1 - factor) * result[i-1];
+        }
+
+        return result;
     }
 
     /**
@@ -260,7 +274,14 @@ public class DataUtils {
      * @return a smoothed version of the provided data set
      */
     public static double[] emaSmooth(double[] array, double factor) {
-        // TODO: Implement
-        return new double[0];
+        // TODO: Actually verify that this does it's job
+        double[] result = array;
+
+        // basic exponential smoothing
+        for (int i = 1; i < array.length; i++) {
+            result[i] = factor * array[i] + (1 - factor) * result[i-1];
+        }
+
+        return result;
     }
 }
