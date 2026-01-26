@@ -81,16 +81,21 @@ public class  OneDriverTeleOp extends OpMode {
             useFod = !useFod;
         }
 
+        double turn = controller1.rightStick.getX();
+
+        if (controller1.rightStickButton.isPressed())
+            turn = bot.getTurnValueToFaceDepot();
+
         // Do Robot-Oriented or Field-Oriented Drive
         if (useFod)
             bot.drivetrain.fodDrive(
-                    controller1.rightStick.getX(),
+                    turn,
                     controller1.leftStick.getX() * slowModeModifier,
                     -controller1.leftStick.getY() * slowModeModifier
             );
         else
             bot.drivetrain.rodDrive(
-                    controller1.rightStick.getX(),
+                    turn,
                     controller1.leftStick.getX() * slowModeModifier,
                     -controller1.leftStick.getY() * slowModeModifier
             );
