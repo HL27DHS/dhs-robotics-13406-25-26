@@ -119,8 +119,8 @@ public class Drivetrain {
     public void fodDrive(double turnVal, double strafe, double forward) {
         double botHeading = getYaw(AngleUnit.RADIANS);
 
-        double rotX = strafe * Math.cos(-botHeading) - forward * Math.sin(-botHeading);
-        double rotY = strafe * Math.sin(-botHeading) + forward * Math.cos(-botHeading);
+        double rotX = strafe * Math.cos(botHeading) - forward * Math.sin(botHeading);
+        double rotY = strafe * Math.sin(botHeading) + forward * Math.cos(botHeading);
 
         double modifiedX = rotX * 1.1; // set modifier as needed
 
