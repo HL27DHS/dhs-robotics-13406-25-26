@@ -99,16 +99,22 @@ public class TwoDriverTeleOp extends OpMode {
             useFod = !useFod;
         }
 
+        double turn = controller2.rightStick.getX();
+
+        // if A is pressed, use function to automatically lock on to the depot
+        if (controller2.a.isPressed())
+            turn = bot.getTurnValueToFaceDepot();
+
         // Do Robot-Oriented or Field-Oriented Drive
         if (useFod)
             bot.drivetrain.fodDrive(
-                    controller2.rightStick.getX(),
+                    turn,
                     controller2.leftStick.getX() * slowModeModifier,
                     -controller2.leftStick.getY() * slowModeModifier
             );
         else
             bot.drivetrain.rodDrive(
-                    controller2.rightStick.getX(),
+                    turn,
                     controller2.leftStick.getX() * slowModeModifier,
                     -controller2.leftStick.getY() * slowModeModifier
             );
