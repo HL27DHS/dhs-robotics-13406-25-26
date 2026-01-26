@@ -113,14 +113,14 @@ public class Bot {
         // the way rotation is needed (1 or -1)
         int sign = (int) (difference / Math.abs(difference));
 
-        if (Math.abs(difference) >= upper) return sign;
+        if (Math.abs(difference) >= upper) return -sign;
         if (Math.abs(difference) <= lower) return 0;
 
         // function is split into two variables to be more digestible
         double multiplier = 1 / Math.pow(upper - lower, power);
         double poweredDiff = Math.pow(difference - lower, power);
 
-        return multiplier * poweredDiff * sign;
+        return -(multiplier * poweredDiff * sign);
     }
 
     /**
