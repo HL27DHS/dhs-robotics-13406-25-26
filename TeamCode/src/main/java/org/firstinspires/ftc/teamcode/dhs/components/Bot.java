@@ -89,6 +89,41 @@ public class Bot {
     }
 
     /**
+     * Get the needed turning value to face this robot's depot. Can be passed into the
+     * drivetrain's drive functions to automatically face the depot at all times
+     * @return the amount of steering necessary to face the depot
+     */
+    public double getTurnValueToFaceDepot() {
+        // if you would like to visualize this functioning function, see it graphed on desmos
+        // https://www.desmos.com/calculator/9sw8llfrp4
+
+        // the upper limit at which the function will give up and just say to give it full power
+        double upper = Math.PI / 18;
+
+        // the lower limit at which the function will give up and just say to give it no power
+        double lower = Math.PI / 90;
+
+        // the power the function is multiplied by, changes how it's curved
+        double power = 3;
+
+        double currentYaw = drivetrain.getYaw(AngleUnit.RADIANS);
+        double neededYaw = getAngleToFaceDepot(AngleUnit.RADIANS);
+        double difference = AngleUnit.normalizeRadians(neededYaw - currentYaw);
+
+        // the way rotation is needed (1 or -1)
+        int sign = (int) (difference / Math.abs(difference));
+
+        if (Math.abs(difference) >= upper) return sign;
+        if (Math.abs(difference) <= lower) return 0;
+
+        // function is split into two variables to be more digestible
+        double multiplier = 1 / Math.pow(upper - lower, power);
+        double poweredDiff = Math.pow(difference - lower, power);
+
+        return multiplier * poweredDiff * sign;
+    }
+
+    /**
      * Sets every drivetrain motor's zero power behavior to a designated behavior
      * @param behavior the desired zero power behavior
      */
