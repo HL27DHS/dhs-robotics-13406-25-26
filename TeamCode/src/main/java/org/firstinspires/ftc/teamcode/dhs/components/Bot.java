@@ -18,7 +18,8 @@ public class Bot {
     public final Launcher launcher;
     public final ColorSensor colorSensor;
 
-    public Alliance alliance;
+    // static, saved between OpModes
+    public static Alliance alliance;
 
     public Bot(HardwareMap hardwareMap) {
         drivetrain = new Drivetrain(hardwareMap);
