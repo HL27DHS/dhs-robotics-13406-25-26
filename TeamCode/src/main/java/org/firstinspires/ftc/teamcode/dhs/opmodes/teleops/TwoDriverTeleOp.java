@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.dhs.opmodes.teleops;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
 import org.firstinspires.ftc.teamcode.dhs.components.Launcher;
 import org.firstinspires.ftc.teamcode.dhs.components.PrimitiveDrive;
@@ -12,9 +13,7 @@ import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartUtils;
 
 @TeleOp(name="Ready Player Two",group="A - Main Programs")
 public class TwoDriverTeleOp extends OpMode {
-    PrimitiveDrive drivetrain;
-    Spintake spintake;
-    Launcher launcher;
+    Bot bot;
 
     SmartController controller1 = new SmartController();
     SmartController controller2 = new SmartController();
@@ -39,9 +38,7 @@ public class TwoDriverTeleOp extends OpMode {
 
     @Override
     public void init() {
-        launcher = new Launcher(hardwareMap);
-        spintake = new Spintake(hardwareMap);
-        drivetrain = new PrimitiveDrive(hardwareMap);
+        bot = new Bot(hardwareMap);
 
         // Left stick deadzone is 0.2 so you can't accidentally slow down or speed up flywheel
         controller1.leftStick.deadzone = 0.2;
@@ -55,7 +52,7 @@ public class TwoDriverTeleOp extends OpMode {
 
         // If Y pressed, reset FOD angle
         if (controller2.y.justPressed()) {
-            drivetrain.resetImuOffset();
+            bot.drivetrain.resetImuOffset();
         }
 
         // If X is pressed, reverse spintake & flywheel (this comes in handy more than you'd think)
@@ -78,16 +75,16 @@ public class TwoDriverTeleOp extends OpMode {
         double cyclePower = (controller1.rightTrigger.getValue() > 0.5) ? 1 : 0;
         double launchPower = (controller1.leftTrigger.getValue() > 0.5) ? (1 - launchModifierRange) + launchModifier : 0;
 
-        spintake.setSpintakePower(spintakePower * c2ReverseModifier);
-        launcher.setCyclePower(cyclePower * c1ReverseModifier);
-        launcher.setFlywheelPower(launchPower * c1ReverseModifier);
+        bot.spintake.setSpintakePower(spintakePower * c2ReverseModifier);
+        bot.launcher.setCyclePower(cyclePower * c1ReverseModifier);
+        bot.launcher.setFlywheelPower(launchPower * c1ReverseModifier);
 
         // If B is pressed, open the sort chute, if it's not, close it
         // Holding B will keep the sort chute open, letting go will close the sort chute
         if (controller1.b.isPressed())
-            spintake.openSort();
+            bot.spintake.openSort();
         else
-            spintake.closeSort();
+            bot.spintake.closeSort();
 
         // Manage the Slow Mode modifier (does not affect turning, just driving)
         // If one of the bumpers is pressed, the bot will move at roughly 2/3 of normal speed
@@ -104,13 +101,13 @@ public class TwoDriverTeleOp extends OpMode {
 
         // Do Robot-Oriented or Field-Oriented Drive
         if (useFod)
-            drivetrain.fodDrive(
+            bot.drivetrain.fodDrive(
                     controller2.rightStick.getX(),
                     controller2.leftStick.getX() * slowModeModifier,
                     -controller2.leftStick.getY() * slowModeModifier
             );
         else
-            drivetrain.rodDrive(
+            bot.drivetrain.rodDrive(
                     controller2.rightStick.getX(),
                     controller2.leftStick.getX() * slowModeModifier,
                     -controller2.leftStick.getY() * slowModeModifier
