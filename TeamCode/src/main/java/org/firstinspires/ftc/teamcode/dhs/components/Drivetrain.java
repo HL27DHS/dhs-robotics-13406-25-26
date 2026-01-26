@@ -11,20 +11,23 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 public class Drivetrain {
     public HardwareMap hardwareMap;
 
-    private MecanumDrive drive;
+    private static MecanumDrive drive;
 
 
     public IMU imu;
     public double imuOffset_radians; // IMU offset in RADIANS
 
     public Drivetrain(HardwareMap hardwareMap, Pose2d pose) {
-        this.drive = new MecanumDrive(hardwareMap, pose);
+        drive = new MecanumDrive(hardwareMap, pose);
     }
 
     public Drivetrain(HardwareMap hardwareMap) {
+        // If drivetrain class already exists, don't make a new one
+        if (drive != null) return;
+
         Pose2d initialPose = new Pose2d(0, 0, 0);
 
-        this.drive = new MecanumDrive(hardwareMap, initialPose);
+        drive = new MecanumDrive(hardwareMap, initialPose);
     }
 
     /** @return The IMU object */
