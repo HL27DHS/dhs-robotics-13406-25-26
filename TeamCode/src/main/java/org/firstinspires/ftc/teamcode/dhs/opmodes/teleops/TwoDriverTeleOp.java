@@ -26,7 +26,7 @@ public class TwoDriverTeleOp extends OpMode {
     double slowModeModifier = 1;
 
     // to FOD or to not FOD, that is the question
-    boolean useFod = false;
+    boolean useFod = true;
 
     // Disable/enable FOD toggle
     final boolean allowToggleFod = true;
