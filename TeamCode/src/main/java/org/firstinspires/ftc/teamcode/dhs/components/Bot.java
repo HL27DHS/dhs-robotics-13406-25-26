@@ -27,22 +27,22 @@ public class Bot {
         colorSensor = new ColorSensor(hardwareMap);
     }
 
-    public Bot(HardwareMap hardwareMap, Alliance alliance) {
+    public Bot(HardwareMap hardwareMap, Alliance botAlliance) {
         drivetrain = new Drivetrain(hardwareMap);
         spintake = new Spintake(hardwareMap);
         launcher = new Launcher(hardwareMap);
         colorSensor = new ColorSensor(hardwareMap);
 
-        this.alliance = alliance;
+        alliance = botAlliance;
     }
 
-    public Bot(HardwareMap hardwareMap, Alliance alliance, Pose2d initialPose) {
+    public Bot(HardwareMap hardwareMap, Alliance botAlliance, Pose2d initialPose) {
         drivetrain = new Drivetrain(hardwareMap, initialPose);
         spintake = new Spintake(hardwareMap);
         launcher = new Launcher(hardwareMap);
         colorSensor = new ColorSensor(hardwareMap);
 
-        this.alliance = alliance;
+        alliance = botAlliance;
     }
 
     /**
