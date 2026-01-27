@@ -1,13 +1,20 @@
 package org.firstinspires.ftc.teamcode.dhs.utils;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class History<T> {
-    // TODO: Make history keep a "timeline" of the distance between each point in history
-
     /** The ArrayList containing each point in history */
     private final List<T> points;
+
+    /** The ArrayList containing the difference in time (ms) between each point in history */
+    private final List<Long> timeline;
+
+    /** The ElapsedTime that keeps track of the time between each point in history */
+    private final ElapsedTime timer;
 
     /** How many points in history the timeline keeps */
     private final int depth;
@@ -18,11 +25,16 @@ public class History<T> {
      */
     public History(int depth) {
         this.depth = depth;
+
         this.points = new ArrayList<T>();
+        this.timeline = new ArrayList<Long>();
+
+        this.timer = new ElapsedTime();
+        timer.reset();
     }
 
     /**
-     * Get the depth of the history, which is how long it tracks
+     * Get the depth of the history, which is how many points it tracks
      * @return the depth of the history
      */
     public int getDepth() { return depth; }
@@ -34,9 +46,15 @@ public class History<T> {
     public void add(T item) {
         points.add(0, item);
 
+        timeline.add(0, timer.time(TimeUnit.MILLISECONDS));
+        timer.reset();
+
         // Make sure list isn't too large
         if (points.size() > depth)
             points.subList(depth, points.size()).clear();
+
+        if (timeline.size() > depth - 1)
+            timeline.subList(depth - 1, timeline.size()).clear();
     }
 
     /**
@@ -44,13 +62,15 @@ public class History<T> {
      */
     public void clear() {
         points.clear();
+        timeline.clear();
+        timer.reset();
     }
 
     /**
      * Get the points in history, stored from newest to oldest
      * @return the list
      */
-    public List<T> toList() { return points; }
+    public List<T> getPointsList() { return points; }
 
     /**
      * Get the stored points in history as an array, sorted from newest to oldest
@@ -58,5 +78,19 @@ public class History<T> {
      */
     @SuppressWarnings("unchecked") // In this case, the unchecked cast is fine because we don't
                                    // actually do anything with the array we created.
-    public T[] toArray() { return points.toArray( (T[]) new Object[0] ); }
+    public T[] getPointsArray() { return points.toArray( (T[]) new Object[0] ); }
+
+    /**
+     * Get the time between the points in history as a list,
+     * where timeline[i] is the time difference (ms) between points[i+1] and points[i]
+     * @return the list
+     */
+    public List<Long> getTimelineList() { return timeline; }
+
+    /**
+     * Get the time between the points in history as an array,
+     * where timeline[i] is the time difference (ms) between points[i+1] and points[i]
+     * @return the array
+     */
+    public Long[] getTimelineArray() { return timeline.toArray( new Long[0] ); }
 }
