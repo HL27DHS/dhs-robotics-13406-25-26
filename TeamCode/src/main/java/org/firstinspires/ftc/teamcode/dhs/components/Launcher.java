@@ -141,6 +141,11 @@ public class Launcher {
             // before the shot is considered fired
             final double minSlopeToFire = -0.2;
 
+            /*
+                I have serious doubts as to if this functionality will see the light of day by
+                second qualifier. so much testing! arghhh not worth my time!
+            */
+
             public boolean run(@NonNull TelemetryPacket packet) {
                 // start cycler
                 if (!initialized) {
@@ -150,8 +155,18 @@ public class Launcher {
 
                 rpmHistory.add(getFlywheelRPM());
 
+                History<Double> smoothedHistory;
+
+                try { // oh fucking god please save me anything but try/catch
+                    smoothedHistory = (History<Double>) rpmHistory.clone();
+                } catch (CloneNotSupportedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                HistoryUtils.emaSmooth(smoothedHistory, 1);
+
                 // if decrease in velocity is steep enough, stop because we've fired
-                if (HistoryUtils.slopes(rpmHistory)[0] < minSlopeToFire) {
+                if (HistoryUtils.slopes(smoothedHistory)[0] < minSlopeToFire) {
                     setCyclePower(0);
                     packet.addLine("shot fired!");
                     return false;
