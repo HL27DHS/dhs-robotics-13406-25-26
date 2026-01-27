@@ -3,21 +3,22 @@ package org.firstinspires.ftc.teamcode.dhs.utils;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class History<T> {
     /** The ArrayList containing each point in history */
-    private final List<T> points;
+    private List<T> points;
 
     /** The ArrayList containing the difference in time (ms) between each point in history */
-    private final List<Long> timeline;
+    private List<Long> timeline;
 
     /** The ElapsedTime that keeps track of the time between each point in history */
-    private final ElapsedTime timer;
+    private ElapsedTime timer;
 
     /** How many points in history the timeline keeps */
-    private final int depth;
+    private int depth;
 
     /**
      * Create an object of the History class
@@ -99,4 +100,54 @@ public class History<T> {
      * @return the array
      */
     public Long[] getTimelineArray() { return timeline.toArray( new Long[0] ); }
+
+    /**
+     * Sets this history's depth
+     * <p>NOTE: This will trim the history down if the history's points don't conform to the new depth
+     * @param newDepth the new depth to replace the old one with
+     */
+    protected void setDepth(int newDepth) {
+        this.depth = newDepth;
+        trim();
+    }
+
+    /**
+     * Sets this history's points
+     * <p>NOTE: This will trim the history down and discard extra points if the passed in points list is too large
+     * @param newPoints a list containing the new points
+     */
+    protected void setPointsList(List<T> newPoints) {
+        this.points = newPoints;
+        trim();
+    }
+
+    /**
+     * Sets this history's points
+     * <p>NOTE: This will trim the history down and discard extra points if the passed in points list is too large
+     * @param newPoints an array containing the new points
+     */
+    protected void setPointsArray(T[] newPoints) {
+        this.points = Arrays.asList(newPoints);
+        trim();
+    }
+
+    /**
+     * Sets this history's timeline
+     * <p>NOTE: This will trim the history down and discard extra timeline points if the passed in timeline list is too large
+     * @param newTimeline a list containing the new timeline
+     */
+    protected void setTimelineList(List<Long> newTimeline) {
+        this.timeline = newTimeline;
+        trim();
+    }
+
+    /**
+     * Sets this history's timeline
+     * <p>NOTE: This will trim the history down and discard extra timeline points if the passed in timeline list is too large
+     * @param newTimeline an array containing the new timeline
+     */
+    protected void setTimelineArray(Long[] newTimeline) {
+        this.timeline = Arrays.asList(newTimeline);
+        trim();
+    }
 }
