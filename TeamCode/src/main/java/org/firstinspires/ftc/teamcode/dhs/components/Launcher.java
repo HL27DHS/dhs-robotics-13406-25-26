@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.dhs.utils.DataUtils;
 import org.firstinspires.ftc.teamcode.dhs.utils.History;
+import org.firstinspires.ftc.teamcode.dhs.utils.HistoryUtils;
 
 public class Launcher {
     // TODO: Clean up usages and make private
@@ -135,21 +136,28 @@ public class Launcher {
     public Action getLaunchAction() {
         return new Action() {
             boolean initialized = false;
+            History<Double> rpmHistory = new History<Double>(10);
+            // The smallest value the slope between the rpm history
+            // before the shot is considered fired
+            final double minSlopeToFire = -0.2;
 
             public boolean run(@NonNull TelemetryPacket packet) {
                 // start cycler
                 if (!initialized) {
                     setCyclePower(1);
-                    packet.addLine("shot not fired yet!");
+                    initialized = true;
                 }
 
-                // TODO: Find better, more consistent way to check if shot has been fired
-                // if within firing threshold, stop because we've fired
-                if (DataUtils.threshold(getFlywheelRPM(), getFlywheelTargetRPM(), flywheelFireThreshold)) {
+                rpmHistory.add(getFlywheelRPM());
+
+                // if decrease in velocity is steep enough, stop because we've fired
+                if (HistoryUtils.slopes(rpmHistory)[0] < minSlopeToFire) {
                     setCyclePower(0);
-                    packet.addLine("shots fired!");
+                    packet.addLine("shot fired!");
                     return false;
                 }
+
+                packet.addLine("shot not fired yet!");
 
                 return true;
             }
