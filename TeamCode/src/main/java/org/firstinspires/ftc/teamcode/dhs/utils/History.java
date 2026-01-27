@@ -49,12 +49,7 @@ public class History<T> {
         timeline.add(0, timer.time(TimeUnit.MILLISECONDS));
         timer.reset();
 
-        // Make sure list isn't too large
-        if (points.size() > depth)
-            points.subList(depth, points.size()).clear();
-
-        if (timeline.size() > depth - 1)
-            timeline.subList(depth - 1, timeline.size()).clear();
+        trim();
     }
 
     /**
@@ -64,6 +59,17 @@ public class History<T> {
         points.clear();
         timeline.clear();
         timer.reset();
+    }
+
+    /**
+     * Trim the history down to fit the depth
+     */
+    public void trim() {
+        if (points.size() > depth)
+            points.subList(depth, points.size()).clear();
+
+        if (timeline.size() > depth - 1)
+            timeline.subList(depth - 1, timeline.size()).clear();
     }
 
     /**
