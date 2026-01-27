@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.dhs.utils;
 
+import androidx.annotation.NonNull;
+
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.ArrayList;
@@ -7,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class History<T> {
+public class History<T> implements Cloneable {
     /** The ArrayList containing each point in history */
     private List<T> points;
 
@@ -33,12 +35,6 @@ public class History<T> {
         this.timer = new ElapsedTime();
         timer.reset();
     }
-
-    /**
-     * Get the depth of the history, which is how many points it tracks
-     * @return the depth of the history
-     */
-    public int getDepth() { return depth; }
 
     /**
      * Add another item to the history
@@ -72,6 +68,18 @@ public class History<T> {
         if (timeline.size() > depth - 1)
             timeline.subList(depth - 1, timeline.size()).clear();
     }
+
+    @NonNull
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    /**
+     * Get the depth of the history, which is how many points it tracks
+     * @return the depth of the history
+     */
+    public int getDepth() { return depth; }
 
     /**
      * Get the points in history, stored from newest to oldest
