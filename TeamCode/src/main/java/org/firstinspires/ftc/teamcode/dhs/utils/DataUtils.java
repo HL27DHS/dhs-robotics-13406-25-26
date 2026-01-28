@@ -207,7 +207,7 @@ public class DataUtils {
      * @return if the distance between {@code a} and {@code b} is within {@code threshold}
      */
     public static boolean threshold(double a, double b, double threshold) {
-        return Math.abs(a - b) <= threshold;
+        return (Math.abs(a - b) <= threshold);
     }
 
     /**
