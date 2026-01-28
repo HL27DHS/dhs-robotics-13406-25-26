@@ -77,11 +77,12 @@ public class TwoDriverTeleOp extends OpMode {
         // C2 Left = Spintake, C1 Left = Cycle, C1 Right = Flywheel
         double spintakePower = (controller2.leftTrigger.getValue() > 0.5) ? 1 : 0;
         double cyclePower = (controller1.rightTrigger.getValue() > 0.5) ? 1 : 0;
-        double launchPower = (controller1.leftTrigger.getValue() > 0.5) ? (1 - launchModifierRange) + launchModifier : 0;
+        double launchVelocity = (controller1.leftTrigger.getValue() > 0.5)
+                ? (launcher.getFlywheelMaxVelocity() - launchModifierRange * launcher.getFlywheelMaxVelocity()) + launchModifier * launcher.getFlywheelMaxVelocity(): 0;
 
         spintake.setSpintakePower(spintakePower * c2ReverseModifier);
         launcher.setCyclePower(cyclePower * c1ReverseModifier);
-        launcher.setFlywheelPower(launchPower * c1ReverseModifier);
+        launcher.setFlywheelVelocity((int) (launchVelocity * c1ReverseModifier));
 
         // If B is pressed, open the sort chute, if it's not, close it
         // Holding B will keep the sort chute open, letting go will close the sort chute
@@ -103,8 +104,10 @@ public class TwoDriverTeleOp extends OpMode {
             useFod = !useFod;
         }
 
-        if (DataUtils.threshold(launcher.getFlywheelVelocity(), launcher.getFlywheelTargetVelocity(),  20)){
+        if (DataUtils.threshold(launcher.getFlywheelVelocity(), launcher.getFlywheelTargetVelocity(), 25)){
             telemetry.addLine("READY TO FIRE!!!!");
+        } else {
+            telemetry.addLine("");
         }
 
         // Do Robot-Oriented or Field-Oriented Drive
