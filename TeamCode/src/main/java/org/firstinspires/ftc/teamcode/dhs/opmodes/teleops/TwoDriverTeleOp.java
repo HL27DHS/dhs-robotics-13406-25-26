@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
 import org.firstinspires.ftc.teamcode.dhs.components.Launcher;
 import org.firstinspires.ftc.teamcode.dhs.components.PrimitiveDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
+import org.firstinspires.ftc.teamcode.dhs.utils.DataUtils;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartUtils;
 
@@ -73,11 +74,12 @@ public class TwoDriverTeleOp extends OpMode {
         // C2 Left = Spintake, C1 Left = Cycle, C1 Right = Flywheel
         double spintakePower = (controller2.leftTrigger.getValue() > 0.5) ? 1 : 0;
         double cyclePower = (controller1.rightTrigger.getValue() > 0.5) ? 1 : 0;
-        double launchPower = (controller1.leftTrigger.getValue() > 0.5) ? (1 - launchModifierRange) + launchModifier : 0;
+        double launchVelocity = (controller1.leftTrigger.getValue() > 0.5)
+                ? (bot.launcher.getFlywheelMaxVelocity() - launchModifierRange * bot.launcher.getFlywheelMaxVelocity()) + launchModifier * bot.launcher.getFlywheelMaxVelocity(): 0;
 
         bot.spintake.setSpintakePower(spintakePower * c2ReverseModifier);
         bot.launcher.setCyclePower(cyclePower * c1ReverseModifier);
-        bot.launcher.setFlywheelPower(launchPower * c1ReverseModifier);
+        bot.launcher.setFlywheelVelocity((int) (launchVelocity * c1ReverseModifier));
 
         // If B is pressed, open the sort chute, if it's not, close it
         // Holding B will keep the sort chute open, letting go will close the sort chute
@@ -97,6 +99,12 @@ public class TwoDriverTeleOp extends OpMode {
         // Uses SmartUtils.combo to debounce buttons so that the combo is doable
         if (SmartUtils.combo(controller2.dpadUp, controller2.dpadLeft).justPressed() && allowToggleFod) {
             useFod = !useFod;
+        }
+
+        if (DataUtils.threshold(bot.launcher.getFlywheelVelocity(), bot.launcher.getFlywheelTargetVelocity(), 25)){
+            telemetry.addLine("READY TO FIRE!!!!");
+        } else {
+            telemetry.addLine("");
         }
 
         double turn = controller2.rightStick.getX();
