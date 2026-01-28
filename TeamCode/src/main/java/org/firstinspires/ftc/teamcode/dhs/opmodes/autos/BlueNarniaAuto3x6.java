@@ -111,7 +111,7 @@ public class BlueNarniaAuto3x6 extends LinearOpMode {
 
         fireTimeMS = 350;
         fireDelayMS = 500;
-        intakeY = -60;
+        intakeY = -75;
 
         // PATHS & BUILDERS
         double launchHeading = bot.getAngleToFaceDepot(AngleUnit.RADIANS);

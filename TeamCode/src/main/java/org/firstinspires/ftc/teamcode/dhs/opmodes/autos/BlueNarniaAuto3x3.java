@@ -26,6 +26,8 @@ public class BlueNarniaAuto3x3 extends LinearOpMode {
     double fireTimeMS;
     double fireDelayMS;
 
+    double intakeY;
+
     // TODO: Port to Bot class or Launcher class (with real implementation)
     public Action launchWithTime() {
         return new SequentialAction(
@@ -100,7 +102,7 @@ public class BlueNarniaAuto3x3 extends LinearOpMode {
 
     public void runOpMode() {
         // INITIALIZATION
-        Pose2d initialPose = new Pose2d(63,-12, Math.PI);
+        Pose2d initialPose = new Pose2d(61.659440168245574,-15.60489324134166, Math.PI);
 
         bot = new Bot(hardwareMap, Alliance.BLUE, initialPose);
         rrDrive = bot.drivetrain.getDrive();
@@ -108,11 +110,12 @@ public class BlueNarniaAuto3x3 extends LinearOpMode {
         launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.8);
 
         fireTimeMS = 400;
-        fireDelayMS = 0;
+        fireDelayMS = 500;
+        intakeY = -75;
 
         // PATHS & BUILDERS
         double launchHeading = bot.getAngleToFaceDepot(AngleUnit.RADIANS);
-        Pose2d launchPose = new Pose2d(60, -12, launchHeading);
+        Pose2d launchPose = new Pose2d(55, -12, launchHeading);
 
         telemetry.addData("heading",bot.getAngleToFaceDepot(AngleUnit.RADIANS));
         telemetry.update();
@@ -121,13 +124,13 @@ public class BlueNarniaAuto3x3 extends LinearOpMode {
                 .splineToLinearHeading(launchPose, 0)
                 .build();
 
-        Vector2d lastRowStartPosition = new Vector2d(36, -36);
+        Vector2d lastRowStartPosition = new Vector2d(39.3, -30);
         Action artifactGrabTraj = rrDrive.actionBuilder(launchPose)
                 .splineToLinearHeading(new Pose2d(lastRowStartPosition, -Math.PI/2), -Math.PI/2)
-                .lineToYConstantHeading(-56, new TranslationalVelConstraint(24))
+                .lineToYConstantHeading(intakeY, new TranslationalVelConstraint(24))
                 .build();
 
-        Action launchTraj2 = rrDrive.actionBuilder(new Pose2d(36, -56, -Math.PI/2))
+        Action launchTraj2 = rrDrive.actionBuilder(new Pose2d(36, intakeY, -Math.PI/2))
                 .setTangent(Math.PI/2)
                 .splineToLinearHeading(launchPose, Math.PI)
                 .build();
@@ -167,12 +170,14 @@ public class BlueNarniaAuto3x3 extends LinearOpMode {
 
         // go back to shooting pos and fire
         Actions.runBlocking(new SequentialAction(
+                bot.spintake.getStartSpintakeAction(1),
                 new ParallelAction(
                         launchTraj2,
                         bot.launcher.getReadyAction(launchVelocity),
-                        prepareBalls(true)
+                        prepareBalls(false)
                 ),
-                fireThreeBalls(true)
+                fireThreeBalls(false),
+                bot.spintake.getStopSpintakeAction()
         ));
 
         // get those sweet, succulent leave points
