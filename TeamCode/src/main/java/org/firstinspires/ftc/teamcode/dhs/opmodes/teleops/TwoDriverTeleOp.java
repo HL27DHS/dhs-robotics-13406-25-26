@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
 import org.firstinspires.ftc.teamcode.dhs.components.Launcher;
 import org.firstinspires.ftc.teamcode.dhs.components.PrimitiveDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
+import org.firstinspires.ftc.teamcode.dhs.utils.DataUtils;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartUtils;
 
@@ -100,6 +101,10 @@ public class TwoDriverTeleOp extends OpMode {
         // Uses SmartUtils.combo to debounce buttons so that the combo is doable
         if (SmartUtils.combo(controller2.dpadUp, controller2.dpadLeft).justPressed() && allowToggleFod) {
             useFod = !useFod;
+        }
+
+        if (DataUtils.threshold(launcher.getFlywheelVelocity(), launcher.getFlywheelTargetVelocity(),  20)){
+            telemetry.addLine("READY TO FIRE!!!!");
         }
 
         // Do Robot-Oriented or Field-Oriented Drive
