@@ -65,11 +65,12 @@ public class  OneDriverTeleOp extends OpMode {
         // A = Spintake, Left Trigger = Cycle, Right Trigger = Flywheel
         double spintakePower = (controller1.a.isPressed()) ? 1 : 0;
         double cyclePower = (controller1.rightTrigger.getValue() > 0.5) ? 1 : 0;
-        double launchPower = (controller1.leftTrigger.getValue() > 0.5) ? (1 - launchModifierRange) + launchModifier : 0;
+        double launchVelocity = (controller1.leftTrigger.getValue() > 0.5)
+                ? (launcher.getFlywheelMaxVelocity() - launchModifierRange * launcher.getFlywheelMaxVelocity()) + launchModifier * launcher.getFlywheelMaxVelocity(): 0;
 
         spintake.setSpintakePower(spintakePower * reverseModifier);
         launcher.setCyclePower(cyclePower * reverseModifier);
-        launcher.setFlywheelPower(launchPower * reverseModifier);
+        launcher.setFlywheelVelocity((int) (launchVelocity * reverseModifier));
 
         // If B is pressed, open the sort chute, if it's not, close it
         // Holding B will keep the sort chute open, letting go will close the sort chute
