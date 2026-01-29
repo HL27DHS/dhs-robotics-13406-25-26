@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
+import org.firstinspires.ftc.teamcode.dhs.utils.PoseUtils;
 
 public class Bot {
     public final Drivetrain drivetrain;
@@ -121,6 +122,13 @@ public class Bot {
         double poweredDiff = Math.pow(difference - lower, power);
 
         return -(multiplier * poweredDiff * sign);
+    }
+
+    /**
+     * @return robot's current distance from the depot.
+     */
+    public double getDistanceFromDepot() {
+        return PoseUtils.distance(drivetrain.getDrive().localizer.getPose(), getDepotPosition());
     }
 
     /**
