@@ -89,5 +89,7 @@ public class FireVelocityTest extends OpMode {
         telemetry.addLine("Left Trigger - Ready Flywheel");
         telemetry.addLine("DPad Up/Down - Change Launch Velocity by Step");
         telemetry.addLine("Y/X - Increase / Decrease Step");
+
+        telemetry.update();
     }
 }
