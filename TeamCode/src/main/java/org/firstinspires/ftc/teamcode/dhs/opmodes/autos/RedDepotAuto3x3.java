@@ -15,94 +15,25 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
+import org.firstinspires.ftc.teamcode.dhs.utils.AutoUtils;
 
 @Autonomous(name="Red Depot Auto 3+3",group="A - 3+3 Autos",preselectTeleOp="Ready Player Two")
 public class RedDepotAuto3x3 extends LinearOpMode {
     Bot bot;
     MecanumDrive rrDrive;
-
-    int launchVelocity;
-    double fireTimeMS;
-
-    // TODO: Port to Bot class or Launcher class (with real implementation)
-    public Action launchWithTime() {
-        return new SequentialAction(
-                bot.launcher.getStartCycleAction(1),
-                new SleepAction(fireTimeMS / 1000),
-                bot.launcher.getStopCycleAction()
-        );
-    }
-
-    // TODO: Port to Bot class or Launcher class (with real implementation)
-    public Action launchWithTime(double seconds) {
-        return new SequentialAction(
-                bot.launcher.getStartCycleAction(1),
-                new SleepAction(seconds),
-                bot.launcher.getStopCycleAction()
-        );
-    }
-
-    // TODO: Port to Bot class or Launcher class (with real implementation)
-    public Action launchWithSensor() {
-        return new SequentialAction(
-                bot.launcher.getStartCycleAction(1),
-                bot.colorSensor.getWaitForArtifactLeaveAction(),
-                new SleepAction(0.1),
-                bot.launcher.getStopCycleAction()
-        );
-    }
-
-    // TODO: Port to Bot class or Launcher class (with real implementation)
-    public Action fireThreeBalls(boolean spintake) {
-        return new SequentialAction(
-                bot.launcher.getReadyAction(launchVelocity),
-                launchWithTime(), // First Launch
-                new ParallelAction( // spin up and prepare balls
-                        bot.launcher.getReadyAction(launchVelocity),
-                        prepareBalls(spintake)
-                ),
-                launchWithTime(), // Second Launch
-                new SleepAction(0.5), // small buffer in case extra time for rolling needed
-                new ParallelAction( // spin up and prepare balls
-                        bot.launcher.getReadyAction(launchVelocity),
-                        prepareBalls(spintake)
-                ),
-                launchWithTime((fireTimeMS+100)/1000), // Third Launch
-                new SleepAction(0.5), // small buffer in case extra time for rolling needed
-                bot.launcher.getUnreadyAction()
-        );
-    }
-
-    // TODO: Port to Bot class or Launcher class (with real implementation)
-    public Action prepareBalls(boolean spintake) {
-        // If there's already a ball present, don't even do anything
-        if (bot.colorSensor.isArtifactInSensor())
-            return new SequentialAction();
-
-        if (spintake)
-            return new SequentialAction(
-                bot.launcher.getStartCycleAction(1),
-                bot.spintake.getStartSpintakeAction(1),
-                bot.colorSensor.getWaitForArtifactAction(),
-                bot.spintake.getStopSpintakeAction(),
-                bot.launcher.getStopCycleAction()
-            );
-
-        return new SequentialAction(
-                bot.launcher.getStartCycleAction(1),
-                bot.colorSensor.getWaitForArtifactAction(),
-                bot.launcher.getStopCycleAction()
-        );
-    }
-
+    
+    AutoUtils utils;
+    
     public void runOpMode() {
         // "somethin' eleven" - James Fonseca 2025
         Pose2d initialPose = new Pose2d(-39.5,58.6, Math.PI / 2);
 
         // Init code here
         bot = new Bot(hardwareMap, Alliance.RED, initialPose);
-
         rrDrive = bot.drivetrain.getDrive();
+
+        utils.launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.62);
+        utils.fireTimeMS = 500;
 
         // first trajectory - move backward to prepare to shoot
         Vector2d launchPos = new Vector2d(-15, 15);
@@ -126,21 +57,18 @@ public class RedDepotAuto3x3 extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(-10, 45, Math.PI), 0)
                 .build();
 
-        launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.62);
-        fireTimeMS = 500;
-
         waitForStart();
         // Do Stuff code here
 
         // Go to firing position while spinning up flywheel
         Actions.runBlocking(new ParallelAction(
                 launchTrajectory1,
-                bot.launcher.getReadyAction(launchVelocity),
-                prepareBalls(false)
+                bot.launcher.getReadyAction(utils.launchVelocity),
+                utils.prepareBalls(false)
         ));
 
         // Make sure flywheel is spun up, fire three times, stop flywheel
-        Actions.runBlocking(fireThreeBalls(false));
+        Actions.runBlocking(utils.fireThreeBalls(false));
 
         // make your way to the artifacts and pick them up
         Actions.runBlocking(new SequentialAction(
@@ -161,10 +89,10 @@ public class RedDepotAuto3x3 extends LinearOpMode {
         Actions.runBlocking(new SequentialAction(
                 new ParallelAction(
                         backToShootingPos,
-                        bot.launcher.getReadyAction(launchVelocity),
-                        prepareBalls(true)
+                        bot.launcher.getReadyAction(utils.launchVelocity),
+                        utils.prepareBalls(true)
                         ),
-                fireThreeBalls(true)
+                utils.fireThreeBalls(true)
         ));
 
         // get those sweet, succulent leave points
