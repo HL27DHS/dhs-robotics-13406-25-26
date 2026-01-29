@@ -22,6 +22,10 @@ public class Bot {
     // static, saved between OpModes
     public static Alliance alliance;
 
+    // TODO: Calculate conversion factor using LOBF of data
+    // Conversion factor used to multiply distance from depot to velocity of flywheel
+    public final double distanceToVelocityConversionFactor = 0;
+
     public Bot(HardwareMap hardwareMap) {
         drivetrain = new Drivetrain(hardwareMap);
         spintake = new Spintake(hardwareMap);
@@ -129,6 +133,10 @@ public class Bot {
      */
     public double getDistanceFromDepot() {
         return PoseUtils.distance(drivetrain.getDrive().localizer.getPose(), getDepotPosition());
+    }
+
+    public int getRecommendedFlywheelVelocity() {
+        return (int) (getDistanceFromDepot() * distanceToVelocityConversionFactor);
     }
 
     /**
