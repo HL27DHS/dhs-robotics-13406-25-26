@@ -62,12 +62,28 @@ public class FireVelocityTest extends OpMode {
         else
             bot.launcher.setFlywheelVelocity(0);
 
+        // Auto Aim (Right Stick Button)
+        double turn = controller1.rightStick.getX();
+
+        if (controller1.rightStickButton.isPressed())
+            turn = bot.getTurnValueToFaceDepot();
+
+        // Driving (Left/Right Stick)
+        bot.drivetrain.rodDrive(
+                turn,
+                controller1.leftStick.getX(),
+                -controller1.leftStick.getY()
+        );
+
         // Telemetry
         telemetry.addData("current distance",bot.getDistanceFromDepot());
         telemetry.addData("launch velocity ",velocity);
         telemetry.addData("real velocity",bot.launcher.getFlywheelVelocity());
         telemetry.addData("launch velocity step",step);
         telemetry.addLine();
+        telemetry.addLine("Left Stick - Drive X/Y");
+        telemetry.addLine("Right Stick - Turn");
+        telemetry.addLine("Right Stick Button - Auto Aim (hold)");
         telemetry.addLine("A - Spintake");
         telemetry.addLine("Right Trigger - Cycler");
         telemetry.addLine("Left Trigger - Ready Flywheel");
