@@ -10,18 +10,14 @@ import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 
 public class AutoUtils {
     private final Bot bot;
-    private final MecanumDrive rrDrive;
 
-    public int launchVelocity;
+    public int launchVelocity = 0;
 
-    public double fireTimeMS;
-    public double fireDelayMS;
-
-    public double intakeY;
+    public double fireTimeMS = 0;
+    public double fireDelayMS = 0;
 
     public AutoUtils(Bot bot) {
         this.bot = bot;
-        rrDrive = bot.drivetrain.getDrive();
     }
 
     public Action launchWithTime() {
@@ -94,9 +90,4 @@ public class AutoUtils {
                 bot.launcher.getStopCycleAction()
         );
     }
-
-
-
-
-
 }
