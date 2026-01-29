@@ -80,6 +80,7 @@ public class FireVelocityTest extends OpMode {
         telemetry.addData("launch velocity ",velocity);
         telemetry.addData("real velocity",bot.launcher.getFlywheelVelocity());
         telemetry.addData("launch velocity step",step);
+        telemetry.addData("velocity prediction",bot.getRecommendedFlywheelVelocity());
         telemetry.addLine();
         telemetry.addLine("Left Stick - Drive X/Y");
         telemetry.addLine("Right Stick - Turn");
