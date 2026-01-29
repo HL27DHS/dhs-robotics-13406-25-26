@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.dhs.opmodes.tests;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -14,9 +17,13 @@ public class AutoAimTest extends OpMode {
     Bot bot;
     SmartController controller1;
 
+    MultipleTelemetry dashTelem;
+
     public void init() {
         bot = new Bot(hardwareMap, Alliance.RED, new Pose2d(0,0,0));
         controller1 = new SmartController();
+
+        dashTelem = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
     }
 
     public void loop() {
@@ -24,6 +31,8 @@ public class AutoAimTest extends OpMode {
 
         // Auto Aim (Right Stick Button)
         double turn = controller1.rightStick.getX();
+
+        PoseVelocity2d vel = bot.drivetrain.getDrive().updatePoseEstimate();
 
         if (controller1.rightStickButton.isPressed())
             turn = bot.getTurnValueToFaceDepot();
@@ -35,13 +44,14 @@ public class AutoAimTest extends OpMode {
                 -controller1.leftStick.getY()
         );
 
-        telemetry.addData("current heading",bot.drivetrain.getDrive().localizer.getPose().heading);
-        telemetry.addData("auto aim heading",bot.getAngleToFaceDepot(AngleUnit.RADIANS));
-        telemetry.addData("auto aim steer val",bot.getTurnValueToFaceDepot());
-        telemetry.addLine();
-        telemetry.addLine("Use left/right stick to drive");
-        telemetry.addLine("Hold right stick button to use auto aim");
+        dashTelem.addData("current heading",bot.drivetrain.getYaw(AngleUnit.RADIANS));
+        dashTelem.addData("current pos",bot.drivetrain.getDrive().localizer.getPose().position);
+        dashTelem.addData("auto aim heading",bot.getAngleToFaceDepot(AngleUnit.RADIANS));
+        dashTelem.addData("auto aim steer val",bot.getTurnValueToFaceDepot());
+        dashTelem.addLine();
+        dashTelem.addLine("Use left/right stick to drive");
+        dashTelem.addLine("Hold right stick button to use auto aim");
 
-        telemetry.update();
+        dashTelem.update();
     }
 }
