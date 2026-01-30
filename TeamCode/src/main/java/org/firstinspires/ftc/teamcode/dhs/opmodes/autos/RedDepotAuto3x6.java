@@ -32,6 +32,8 @@ public class RedDepotAuto3x6 extends LinearOpMode {
         bot = new Bot(hardwareMap, Alliance.RED, initialPose);
         rrDrive = bot.drivetrain.getDrive();
 
+        utils = new AutoUtils(bot);
+
         utils.launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.62);
         utils.fireTimeMS = 500;
         

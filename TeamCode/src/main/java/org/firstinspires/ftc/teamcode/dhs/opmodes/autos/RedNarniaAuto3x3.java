@@ -40,7 +40,7 @@ public class RedNarniaAuto3x3 extends LinearOpMode {
 
         // PATHS & BUILDERS
         double launchHeading = bot.getAngleToFaceDepot(AngleUnit.RADIANS);
-        Pose2d launchPose = new Pose2d(60, 12, launchHeading);
+        Pose2d launchPose = new Pose2d(60, 15, launchHeading);
 
         telemetry.addData("heading",bot.getAngleToFaceDepot(AngleUnit.RADIANS));
         telemetry.update();

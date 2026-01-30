@@ -35,6 +35,7 @@ public class BlueNarniaAuto3x6 extends LinearOpMode {
         bot = new Bot(hardwareMap, Alliance.BLUE, initialPose);
         rrDrive = bot.drivetrain.getDrive();
 
+        utils = new AutoUtils(bot);
         utils.launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.8);
 
         utils.fireTimeMS = 350;
@@ -43,7 +44,7 @@ public class BlueNarniaAuto3x6 extends LinearOpMode {
 
         // PATHS & BUILDERS
         double launchHeading = bot.getAngleToFaceDepot(AngleUnit.RADIANS);
-        Pose2d launchPose = new Pose2d(55, -12, launchHeading);
+        Pose2d launchPose = new Pose2d(55, -15, launchHeading);
 
         telemetry.addData("heading",bot.getAngleToFaceDepot(AngleUnit.RADIANS));
         telemetry.update();
