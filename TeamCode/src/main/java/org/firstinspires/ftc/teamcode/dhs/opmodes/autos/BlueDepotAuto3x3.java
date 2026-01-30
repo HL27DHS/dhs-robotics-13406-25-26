@@ -36,6 +36,7 @@ public class BlueDepotAuto3x3 extends LinearOpMode {
 
         utils.launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.62);
         utils.fireTimeMS = 500;
+        utils.fireDelayMS = 500;
 
         // first trajectory - move backward to prepare to shoot
         Vector2d launchPos = new Vector2d(-15, -15);

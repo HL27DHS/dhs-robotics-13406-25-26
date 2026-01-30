@@ -36,6 +36,7 @@ public class BlueDepotAuto3x6 extends LinearOpMode {
 
         utils.launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.62);
         utils.fireTimeMS = 500;
+        utils.fireDelayMS = 500;
 
         double intakeY = -56;
 
