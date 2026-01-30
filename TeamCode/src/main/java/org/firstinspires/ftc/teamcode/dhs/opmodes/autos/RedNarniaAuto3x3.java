@@ -35,12 +35,12 @@ public class RedNarniaAuto3x3 extends LinearOpMode {
 
         utils.launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.8);
 
-        utils.fireTimeMS = 400;
-        utils.fireDelayMS = 0;
+        utils.fireTimeMS = 350;
+        utils.fireDelayMS = 500;
 
         // PATHS & BUILDERS
         double launchHeading = bot.getAngleToFaceDepot(AngleUnit.RADIANS);
-        Pose2d launchPose = new Pose2d(60, 15, launchHeading);
+        Pose2d launchPose = new Pose2d(60, 20, launchHeading);
 
         telemetry.addData("heading",bot.getAngleToFaceDepot(AngleUnit.RADIANS));
         telemetry.update();
@@ -52,12 +52,12 @@ public class RedNarniaAuto3x3 extends LinearOpMode {
         Vector2d lastRowStartPosition = new Vector2d(36, 36);
         Action artifactGrabTraj = rrDrive.actionBuilder(launchPose)
                 .splineToLinearHeading(new Pose2d(lastRowStartPosition, Math.PI/2), Math.PI/2)
-                .lineToYConstantHeading(56, new TranslationalVelConstraint(24))
+                .lineToYConstantHeading(56, new TranslationalVelConstraint(20))
                 .build();
 
         Action launchTraj2 = rrDrive.actionBuilder(new Pose2d(36, 56, Math.PI/2))
                 .setTangent(-Math.PI/2)
-                .splineToLinearHeading(launchPose, Math.PI)
+                .splineToLinearHeading(launchPose, 0)
                 .build();
 
         Action leaveTraj = rrDrive.actionBuilder(launchPose)
@@ -84,14 +84,16 @@ public class RedNarniaAuto3x3 extends LinearOpMode {
         // make your way to the artifacts and pick them up
         Actions.runBlocking(new SequentialAction(
                 bot.spintake.getStartSpintakeAction(1),
-                bot.launcher.getStartCycleAction(1),
+                new SleepAction(0.1),
+                bot.launcher.getStartCycleAction(0.65),
                 new ParallelAction(
                         artifactGrabTraj,
                         new SequentialAction(
-                                bot.colorSensor.getWaitForArtifactAction(),
-                                bot.launcher.getStopCycleAction()
+                                bot.colorSensor.getWaitForArtifactAction()
+                                //bot.launcher.getStopCycleAction()
                         )
                 ),
+                bot.launcher.getStopCycleAction(),
                 bot.spintake.getStopSpintakeAction()
         ));
 
