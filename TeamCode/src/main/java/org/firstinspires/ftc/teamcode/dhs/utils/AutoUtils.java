@@ -90,4 +90,26 @@ public class AutoUtils {
                 bot.launcher.getStopCycleAction()
         );
     }
+
+    public Action startIntake() {
+        return new SequentialAction(
+                bot.spintake.getStartSpintakeAction(1),
+                bot.launcher.getStartCycleAction(1)
+        );
+    }
+
+    public Action stopIntake() {
+        return new SequentialAction(
+                bot.launcher.getStopCycleAction(),
+                bot.spintake.getStopSpintakeAction()
+        );
+    }
+
+    public Action intakeForTime(double ms) {
+        return new SequentialAction(
+                startIntake(),
+                new SleepAction(ms / 1000),
+                stopIntake()
+        );
+    }
 }
