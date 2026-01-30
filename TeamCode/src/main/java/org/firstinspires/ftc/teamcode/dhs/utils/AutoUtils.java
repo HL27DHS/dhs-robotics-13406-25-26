@@ -13,8 +13,8 @@ public class AutoUtils {
 
     public int launchVelocity = 0;
 
-    public double fireTimeMS = 0;
-    public double fireDelayMS = 0;
+    public double fireTimeMS = 350;
+    public double fireDelayMS = 500;
 
     public AutoUtils(Bot bot) {
         this.bot = bot;
