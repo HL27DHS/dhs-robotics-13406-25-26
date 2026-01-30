@@ -63,8 +63,8 @@ public class AutoUtils {
                         bot.launcher.getReadyAction(launchVelocity),
                         prepareBalls(spintake)
                 ),
-                launchWithTime((fireTimeMS+500)/1000), // Third Launch
-                //new SleepAction(fireDelayMS / 1000), // small buffer in case extra time for rolling needed
+                launchWithTime((fireTimeMS+600)/1000), // Third Launch
+                new SleepAction(fireDelayMS / 500), // small buffer in case extra time for rolling needed
                 bot.launcher.getUnreadyAction()
         );
     }
