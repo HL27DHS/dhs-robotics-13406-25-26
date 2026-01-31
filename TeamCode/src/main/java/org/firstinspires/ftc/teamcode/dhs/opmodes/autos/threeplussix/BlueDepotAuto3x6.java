@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dhs.opmodes.autos;
+package org.firstinspires.ftc.teamcode.dhs.opmodes.autos.threeplussix;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -17,8 +17,8 @@ import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 import org.firstinspires.ftc.teamcode.dhs.utils.AutoUtils;
 
-@Autonomous(name="Red Depot Auto 3+6",group="A - 3+6 Autos",preselectTeleOp="Ready Player Two")
-public class RedDepotAuto3x6 extends LinearOpMode {
+@Autonomous(name="Blue Depot Auto 3+6",group="A - 3+6 Autos",preselectTeleOp="Ready Player Two")
+public class BlueDepotAuto3x6 extends LinearOpMode {
     Bot bot;
     MecanumDrive rrDrive;
 
@@ -26,10 +26,10 @@ public class RedDepotAuto3x6 extends LinearOpMode {
 
     public void runOpMode() {
         // "somethin' eleven" - James Fonseca 2025
-        Pose2d initialPose = new Pose2d(-39.5,58.6, Math.PI / 2);
+        Pose2d initialPose = new Pose2d(-39.5,-58.6, -Math.PI / 2);
 
         // Init code here
-        bot = new Bot(hardwareMap, Alliance.RED, initialPose);
+        bot = new Bot(hardwareMap, Alliance.BLUE, initialPose);
         rrDrive = bot.drivetrain.getDrive();
 
         utils = new AutoUtils(bot);
@@ -37,41 +37,41 @@ public class RedDepotAuto3x6 extends LinearOpMode {
         utils.launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.62);
         utils.fireTimeMS = 500;
         utils.fireDelayMS = 500;
-        
-        double intakeY = 56;
+
+        double intakeY = -56;
 
         // first trajectory - move backward to prepare to shoot
-        Vector2d launchPos = new Vector2d(-15, 15);
+        Vector2d launchPos = new Vector2d(-15, -15);
         double launchPrep1Heading = bot.getAngleToFaceDepotAtPos(AngleUnit.RADIANS, launchPos);
         Action launchTrajectory1 = rrDrive.actionBuilder(initialPose)
-                .setTangent(-Math.PI/2)
+                .setTangent(Math.PI/2)
                 .splineToLinearHeading(new Pose2d(launchPos, launchPrep1Heading), 0)
                 .build();
 
-        Vector2d firstRowStartPosition = new Vector2d(-12, 36);
-        Action artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(-15, 15, launchPrep1Heading))
-                .splineToLinearHeading(new Pose2d(firstRowStartPosition, Math.PI/2),Math.PI/2)
+        Vector2d firstRowStartPosition = new Vector2d(-12, -36);
+        Action artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(-15, -15, launchPrep1Heading))
+                .splineToLinearHeading(new Pose2d(firstRowStartPosition, -Math.PI/2),-Math.PI/2)
                 .lineToYConstantHeading(intakeY, new TranslationalVelConstraint(24))
                 .build();
 
-        Action backToShootingPos1 = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition.x, intakeY, Math.PI/2))
-                .setTangent(-Math.PI/2)
-                .splineToLinearHeading(new Pose2d(launchPos, launchPrep1Heading),Math.PI/3)
+        Action backToShootingPos1 = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition.x, intakeY, -Math.PI/2))
+                .setTangent(Math.PI/2)
+                .splineToLinearHeading(new Pose2d(launchPos, launchPrep1Heading),-Math.PI/3)
                 .build();
 
-        Vector2d secondRowStartPosition = new Vector2d(14, 36);
-        Action artifactTrajectory2 = rrDrive.actionBuilder(new Pose2d(-15, 15, launchPrep1Heading))
-                .splineToLinearHeading(new Pose2d(secondRowStartPosition, Math.PI/2),Math.PI/2)
+        Vector2d secondRowStartPosition = new Vector2d(14, -36);
+        Action artifactTrajectory2 = rrDrive.actionBuilder(new Pose2d(-15, -15, launchPrep1Heading))
+                .splineToLinearHeading(new Pose2d(secondRowStartPosition, -Math.PI/2),-Math.PI/2)
                 .lineToYConstantHeading(intakeY, new TranslationalVelConstraint(24))
                 .build();
 
-        Action backToShootingPos2 = rrDrive.actionBuilder(new Pose2d(secondRowStartPosition.x, intakeY, Math.PI/2))
-                .setTangent(-Math.PI/2)
-                .splineToLinearHeading(new Pose2d(launchPos, launchPrep1Heading),Math.PI/3)
+        Action backToShootingPos2 = rrDrive.actionBuilder(new Pose2d(secondRowStartPosition.x, intakeY, -Math.PI/2))
+                .setTangent(Math.PI/2)
+                .splineToLinearHeading(new Pose2d(launchPos, launchPrep1Heading),-Math.PI/3)
                 .build();
 
         Action waiterWaiterMoreLeavePointsPlease = rrDrive.actionBuilder(new Pose2d(launchPos, launchPrep1Heading))
-                .splineToLinearHeading(new Pose2d(-10, 45, Math.PI), 0)
+                .splineToLinearHeading(new Pose2d(-10, -45, Math.PI), 0)
                 .build();
 
         waitForStart();

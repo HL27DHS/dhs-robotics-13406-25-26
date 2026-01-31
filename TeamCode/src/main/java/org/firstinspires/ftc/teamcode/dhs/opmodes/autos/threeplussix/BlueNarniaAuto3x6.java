@@ -1,10 +1,9 @@
-package org.firstinspires.ftc.teamcode.dhs.opmodes.autos;
+package org.firstinspires.ftc.teamcode.dhs.opmodes.autos.threeplussix;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -17,120 +16,127 @@ import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 import org.firstinspires.ftc.teamcode.dhs.utils.AutoUtils;
 
-@Autonomous(name="Blue Depot Auto 3+6",group="A - 3+6 Autos",preselectTeleOp="Ready Player Two")
-public class BlueDepotAuto3x6 extends LinearOpMode {
+@Autonomous(name="Blue Narnia Auto 3+6",group="A - 3+6 Autos",preselectTeleOp="Ready Player Two")
+public class BlueNarniaAuto3x6 extends LinearOpMode {
     Bot bot;
     MecanumDrive rrDrive;
 
     AutoUtils utils;
 
-    public void runOpMode() {
-        // "somethin' eleven" - James Fonseca 2025
-        Pose2d initialPose = new Pose2d(-39.5,-58.6, -Math.PI / 2);
+    double intakeY;
 
-        // Init code here
+    // TODO: Port to Bot class or Launcher class (with real implementation)
+
+    public void runOpMode() {
+        // INITIALIZATION
+        Pose2d initialPose = new Pose2d(61.659440168245574,-15.60489324134166, Math.PI);
+
         bot = new Bot(hardwareMap, Alliance.BLUE, initialPose);
         rrDrive = bot.drivetrain.getDrive();
 
         utils = new AutoUtils(bot);
+        utils.launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.8);
 
-        utils.launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.62);
-        utils.fireTimeMS = 500;
+        utils.fireTimeMS = 350;
         utils.fireDelayMS = 500;
+        intakeY = -75;
 
-        double intakeY = -56;
+        // PATHS & BUILDERS
+        double launchHeading = bot.getAngleToFaceDepot(AngleUnit.RADIANS);
+        Pose2d launchPose = new Pose2d(55, -15, launchHeading);
 
-        // first trajectory - move backward to prepare to shoot
-        Vector2d launchPos = new Vector2d(-15, -15);
-        double launchPrep1Heading = bot.getAngleToFaceDepotAtPos(AngleUnit.RADIANS, launchPos);
-        Action launchTrajectory1 = rrDrive.actionBuilder(initialPose)
-                .setTangent(Math.PI/2)
-                .splineToLinearHeading(new Pose2d(launchPos, launchPrep1Heading), 0)
+        telemetry.addData("heading",bot.getAngleToFaceDepot(AngleUnit.RADIANS));
+        telemetry.update();
+
+        Action launchTraj1 = rrDrive.actionBuilder(initialPose)
+                .splineToLinearHeading(launchPose, 0)
                 .build();
 
-        Vector2d firstRowStartPosition = new Vector2d(-12, -36);
-        Action artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(-15, -15, launchPrep1Heading))
-                .splineToLinearHeading(new Pose2d(firstRowStartPosition, -Math.PI/2),-Math.PI/2)
+        Vector2d lastRowStartPosition = new Vector2d(39.3, -30);
+        Action artifactGrabTraj = rrDrive.actionBuilder(launchPose)
+                .splineToLinearHeading(new Pose2d(lastRowStartPosition, -Math.PI/2), -Math.PI/2)
                 .lineToYConstantHeading(intakeY, new TranslationalVelConstraint(24))
                 .build();
 
-        Action backToShootingPos1 = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition.x, intakeY, -Math.PI/2))
+        Action launchTraj2 = rrDrive.actionBuilder(new Pose2d(36, intakeY, -Math.PI/2))
                 .setTangent(Math.PI/2)
-                .splineToLinearHeading(new Pose2d(launchPos, launchPrep1Heading),-Math.PI/3)
+                .splineToLinearHeading(launchPose, 0)
                 .build();
 
-        Vector2d secondRowStartPosition = new Vector2d(14, -36);
-        Action artifactTrajectory2 = rrDrive.actionBuilder(new Pose2d(-15, -15, launchPrep1Heading))
+        Vector2d secondRowStartPosition = new Vector2d(16.4, -30);
+        Action artifactGrabTraj2 = rrDrive.actionBuilder(launchPose)
                 .splineToLinearHeading(new Pose2d(secondRowStartPosition, -Math.PI/2),-Math.PI/2)
                 .lineToYConstantHeading(intakeY, new TranslationalVelConstraint(24))
                 .build();
 
-        Action backToShootingPos2 = rrDrive.actionBuilder(new Pose2d(secondRowStartPosition.x, intakeY, -Math.PI/2))
+        Action launchTraj3 = rrDrive.actionBuilder(new Pose2d(36, intakeY, -Math.PI/2))
                 .setTangent(Math.PI/2)
-                .splineToLinearHeading(new Pose2d(launchPos, launchPrep1Heading),-Math.PI/3)
+                .splineToLinearHeading(launchPose, 0)
                 .build();
 
-        Action waiterWaiterMoreLeavePointsPlease = rrDrive.actionBuilder(new Pose2d(launchPos, launchPrep1Heading))
-                .splineToLinearHeading(new Pose2d(-10, -45, Math.PI), 0)
+        Action leaveTraj = rrDrive.actionBuilder(launchPose)
+                .splineToLinearHeading(new Pose2d(40, -30, Math.PI/2), -Math.PI/2)
                 .build();
 
         waitForStart();
-        // Do Stuff code here
+        // RUNNING CODE
 
-        // Go to firing position while spinning up flywheel
-        Actions.runBlocking(new ParallelAction(
-                launchTrajectory1,
-                bot.launcher.getReadyAction(utils.launchVelocity),
-                utils.prepareBalls(false)
-        ));
+        // Get to launch position, spin up flywheel and ready artifacts
+        Actions.runBlocking(
+                new ParallelAction(
+                        launchTraj1,
+                        bot.launcher.getReadyAction(utils.launchVelocity),
+                        utils.prepareBalls(false)
+                )
+        );
 
-        // Make sure flywheel is spun up, fire three times, stop flywheel
+        // Fire the three pre-loaded balls
         Actions.runBlocking(utils.fireThreeBalls(false));
+
 
         // make your way to the artifacts and pick them up
         Actions.runBlocking(new SequentialAction(
                 bot.spintake.getStartSpintakeAction(1),
                 bot.launcher.getStartCycleAction(1),
                 new ParallelAction(
-                        artifactTrajectory1,
+                        artifactGrabTraj,
                         new SequentialAction(
                                 bot.colorSensor.getWaitForArtifactAction(),
                                 bot.launcher.getStopCycleAction()
                         )
                 ),
-                new SleepAction(0.5),
                 bot.spintake.getStopSpintakeAction()
         ));
 
         // go back to shooting pos and fire
         Actions.runBlocking(new SequentialAction(
                 new ParallelAction(
-                        backToShootingPos1,
+                        launchTraj2,
                         bot.launcher.getReadyAction(utils.launchVelocity),
                         utils.prepareBalls(true)
-                        ),
+                ),
                 utils.fireThreeBalls(true)
         ));
 
+
         // make your way to the artifacts and pick them up
         Actions.runBlocking(new SequentialAction(
                 bot.spintake.getStartSpintakeAction(1),
                 bot.launcher.getStartCycleAction(1),
                 new ParallelAction(
-                        artifactTrajectory2,
+                        artifactGrabTraj2,
                         new SequentialAction(
                                 bot.colorSensor.getWaitForArtifactAction(),
                                 bot.launcher.getStopCycleAction()
                         )
                 ),
-                new SleepAction(0.5),
                 bot.spintake.getStopSpintakeAction()
         ));
 
         // go back to shooting pos and fire
         Actions.runBlocking(new SequentialAction(
                 new ParallelAction(
-                        backToShootingPos2,
+                        launchTraj3,
                         bot.launcher.getReadyAction(utils.launchVelocity),
                         utils.prepareBalls(true)
                 ),
@@ -138,8 +144,6 @@ public class BlueDepotAuto3x6 extends LinearOpMode {
         ));
 
         // get those sweet, succulent leave points
-        Actions.runBlocking(
-                waiterWaiterMoreLeavePointsPlease
-        );
+        Actions.runBlocking(leaveTraj);
     }
 }
