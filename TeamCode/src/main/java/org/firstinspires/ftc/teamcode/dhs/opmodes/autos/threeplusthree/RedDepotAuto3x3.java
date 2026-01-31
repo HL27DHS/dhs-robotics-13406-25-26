@@ -26,7 +26,7 @@ public class RedDepotAuto3x3 extends LinearOpMode {
     
     public void runOpMode() {
         // "somethin' eleven" - James Fonseca 2025
-        Pose2d initialPose = new Pose2d(-39.5,58.6, Math.PI / 2);
+        Pose2d initialPose = new Pose2d(39.5,58.6, Math.PI / 2);
 
         // Init code here
         bot = new Bot(hardwareMap, Alliance.RED, initialPose);
@@ -34,26 +34,27 @@ public class RedDepotAuto3x3 extends LinearOpMode {
 
         utils = new AutoUtils(bot);
 
-        utils.launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.62);
-        utils.fireTimeMS = 500;
-        utils.fireDelayMS = 500;
+        utils.launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.63);
+        utils.fireDelayMS += 100;
 
         // first trajectory - move backward to prepare to shoot
-        Vector2d launchPos = new Vector2d(-15, 15);
+        Vector2d launchPos = new Vector2d(-15, 20);
         double launchPrep1Heading = bot.getAngleToFaceDepotAtPos(AngleUnit.RADIANS, launchPos);
         Action launchTrajectory1 = rrDrive.actionBuilder(initialPose)
                 .setTangent(-Math.PI/2)
                 .splineToLinearHeading(new Pose2d(launchPos, launchPrep1Heading), 0)
                 .build();
 
-        Vector2d firstRowStartPosition = new Vector2d(-12, 36);
-        Action artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(-15, 15, launchPrep1Heading))
+        Vector2d firstRowStartPosition = new Vector2d(-8, 30);
+        Action artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(-15, -15, launchPrep1Heading))
+                .setTangent(-3 * Math.PI / 2)
                 .splineToLinearHeading(new Pose2d(firstRowStartPosition, Math.PI/2),Math.PI/2)
-                .lineToYConstantHeading(56, new TranslationalVelConstraint(24))
+                .lineToYConstantHeading(56, new TranslationalVelConstraint(16))
                 .build();
 
         Action backToShootingPos = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition.x, 50, Math.PI/2))
-                .splineToLinearHeading(new Pose2d(launchPos, launchPrep1Heading),Math.PI/3)
+                .setTangent(-Math.PI/2)
+                .splineToLinearHeading(new Pose2d(launchPos, launchPrep1Heading),-Math.PI/3)
                 .build();
 
         Action waiterWaiterMoreLeavePointsPlease = rrDrive.actionBuilder(new Pose2d(launchPos, launchPrep1Heading))
@@ -76,15 +77,16 @@ public class RedDepotAuto3x3 extends LinearOpMode {
         // make your way to the artifacts and pick them up
         Actions.runBlocking(new SequentialAction(
                 bot.spintake.getStartSpintakeAction(1),
-                bot.launcher.getStartCycleAction(1),
+                bot.launcher.getStartCycleAction(0.5),
                 new ParallelAction(
                         artifactTrajectory1,
                         new SequentialAction(
-                                bot.colorSensor.getWaitForArtifactAction(),
-                                bot.launcher.getStopCycleAction()
+                                bot.colorSensor.getWaitForArtifactAction()
+                                //bot.launcher.getStopCycleAction()
                         )
                 ),
                 new SleepAction(0.5),
+                bot.launcher.getStopCycleAction(),
                 bot.spintake.getStopSpintakeAction()
         ));
 
@@ -94,7 +96,7 @@ public class RedDepotAuto3x3 extends LinearOpMode {
                         backToShootingPos,
                         bot.launcher.getReadyAction(utils.launchVelocity),
                         utils.prepareBalls(true)
-                        ),
+                ),
                 utils.fireThreeBalls(true)
         ));
 
