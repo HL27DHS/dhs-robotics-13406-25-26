@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 import org.firstinspires.ftc.teamcode.dhs.utils.AutoUtils;
 
-@Autonomous(name="UNSTABLE Red Narnia Auto +6",group="C - Unstable Autos")
+@Autonomous(name="UNSTABLE Red Narnia Auto +6",group="D - Unstable Autos")
 public class UnstableRedNarniaAuto3x6 extends LinearOpMode {
     Bot bot;
     MecanumDrive rrDrive;

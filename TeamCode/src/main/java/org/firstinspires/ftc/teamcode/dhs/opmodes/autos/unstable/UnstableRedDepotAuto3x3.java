@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 import org.firstinspires.ftc.teamcode.dhs.utils.AutoUtils;
 
-@Autonomous(name="UNSTABLE Red Depot Auto 3+3",group="C - Unstable Autos",preselectTeleOp="Ready Player Two")
+@Autonomous(name="UNSTABLE Red Depot Auto 3+3",group="D - Unstable Autos",preselectTeleOp="Ready Player Two")
 public class UnstableRedDepotAuto3x3 extends LinearOpMode {
     Bot bot;
     MecanumDrive rrDrive;

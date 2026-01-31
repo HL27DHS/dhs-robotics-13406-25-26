@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 import org.firstinspires.ftc.teamcode.dhs.utils.AutoUtils;
 
-@Autonomous(name="Unstable Red Depot Auto 3+6",group="C - Unstable Autos")
+@Autonomous(name="Unstable Red Depot Auto 3+6",group="D - Unstable Autos")
 public class UnstableRedDepotAuto3x6 extends LinearOpMode {
     Bot bot;
     MecanumDrive rrDrive;
