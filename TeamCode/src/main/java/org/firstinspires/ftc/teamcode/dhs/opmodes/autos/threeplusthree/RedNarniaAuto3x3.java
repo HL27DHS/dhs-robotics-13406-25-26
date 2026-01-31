@@ -38,6 +38,8 @@ public class RedNarniaAuto3x3 extends LinearOpMode {
         utils.fireTimeMS = 350;
         utils.fireDelayMS = 500;
 
+        double intakeY = 56;
+
         // PATHS & BUILDERS
         double launchHeading = bot.getAngleToFaceDepot(AngleUnit.RADIANS);
         Pose2d launchPose = new Pose2d(60, 20, launchHeading);
@@ -52,7 +54,7 @@ public class RedNarniaAuto3x3 extends LinearOpMode {
         Vector2d lastRowStartPosition = new Vector2d(36, 36);
         Action artifactGrabTraj = rrDrive.actionBuilder(launchPose)
                 .splineToLinearHeading(new Pose2d(lastRowStartPosition, Math.PI/2), Math.PI/2)
-                .lineToYConstantHeading(56, new TranslationalVelConstraint(20))
+                .lineToYConstantHeading(intakeY, new TranslationalVelConstraint(20))
                 .build();
 
         Action launchTraj2 = rrDrive.actionBuilder(new Pose2d(36, 56, Math.PI/2))

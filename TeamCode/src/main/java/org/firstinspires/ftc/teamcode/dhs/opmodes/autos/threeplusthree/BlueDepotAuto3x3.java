@@ -37,6 +37,8 @@ public class BlueDepotAuto3x3 extends LinearOpMode {
         utils.launchVelocity = (int) (bot.launcher.getFlywheelMaxVelocity() * 0.63);
         utils.fireDelayMS += 100;
 
+        double intakeY = -56;
+
         // first trajectory - move backward to prepare to shoot
         Vector2d launchPos = new Vector2d(-15, -20);
         double launchPrep1Heading = bot.getAngleToFaceDepotAtPos(AngleUnit.RADIANS, launchPos);
@@ -49,7 +51,7 @@ public class BlueDepotAuto3x3 extends LinearOpMode {
         Action artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(-15, -15, launchPrep1Heading))
                 .setTangent(3 * Math.PI / 2)
                 .splineToLinearHeading(new Pose2d(firstRowStartPosition, -Math.PI/2),-Math.PI/2)
-                .lineToYConstantHeading(-56, new TranslationalVelConstraint(16))
+                .lineToYConstantHeading(intakeY, new TranslationalVelConstraint(16))
                 .build();
 
         Action backToShootingPos = rrDrive.actionBuilder(new Pose2d(firstRowStartPosition.x, -50, -Math.PI/2))
