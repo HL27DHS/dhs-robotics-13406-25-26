@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.dhs.opmodes.autos;
+package org.firstinspires.ftc.teamcode.dhs.opmodes.autos.threeplusthree;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
