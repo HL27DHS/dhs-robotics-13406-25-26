@@ -51,7 +51,7 @@ public class BlueNarniaAuto3x3 extends LinearOpMode {
                 .splineToLinearHeading(launchPose, 0)
                 .build();
 
-        Vector2d lastRowStartPosition = new Vector2d(36, -36);
+        Vector2d lastRowStartPosition = new Vector2d(40, -30);
         Action artifactGrabTraj = rrDrive.actionBuilder(launchPose)
                 .splineToLinearHeading(new Pose2d(lastRowStartPosition, -Math.PI/2), -Math.PI/2)
                 .lineToYConstantHeading(-56, new TranslationalVelConstraint(20))
@@ -87,7 +87,7 @@ public class BlueNarniaAuto3x3 extends LinearOpMode {
         Actions.runBlocking(new SequentialAction(
                 bot.spintake.getStartSpintakeAction(1),
                 new SleepAction(0.1),
-                bot.launcher.getStartCycleAction(0.65),
+                bot.launcher.getStartCycleAction(0.60),
                 new ParallelAction(
                         artifactGrabTraj,
                         new SequentialAction(
