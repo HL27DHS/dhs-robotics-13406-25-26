@@ -80,7 +80,7 @@ public class TwoDriverTeleOp extends OpMode {
         double launchVelocity = (controller1.leftTrigger.getValue() > 0.5)
                 ? (launcher.getFlywheelMaxVelocity() - launchModifierRange * launcher.getFlywheelMaxVelocity()) + launchModifier * launcher.getFlywheelMaxVelocity(): 0;
 
-        launchVelocity -= launcher.getFlywheelMaxVelocity() * 0.1;
+        launchVelocity -= launcher.getFlywheelMaxVelocity() * 0.15;
         launchVelocity = Math.max(0, launchVelocity);
 
         spintake.setSpintakePower(spintakePower * c2ReverseModifier);
