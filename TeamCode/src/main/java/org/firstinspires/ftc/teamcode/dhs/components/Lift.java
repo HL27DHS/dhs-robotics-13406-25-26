@@ -19,7 +19,7 @@ public class Lift {
         liftMotorLeft.setPower(power);
     }
 
-    public void  setLiftMotorLeftPower(double power) {l}
+    //public void  setLiftMotorLeftPower(double power) {l}
 
 
 }
