@@ -31,7 +31,10 @@ public class Lift {
     //public void  setLiftMotorRightPower(double power) {liftMotorRight.setPower(power);}
 
 */
-    public void setLiftTargetPosition(){
+
+
+    public  void setLiftTargetPosition(int target){
+        liftTargetPosition = target;
         liftMotorLeft.setTargetPosition(liftTargetPosition);
         liftMotorRight.setTargetPosition(liftTargetPosition);
     }
