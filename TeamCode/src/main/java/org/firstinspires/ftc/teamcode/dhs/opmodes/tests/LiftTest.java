@@ -23,6 +23,8 @@ public class LiftTest extends OpMode {
         } else if (gamepad1.dpad_down){
             lift.setLiftTargetPosition(lift.liftTargetPosition - 1);
 
+        } else if (gamepad1.a){
+            lift.setLiftTargetPositionZero();
         }
 
         telemetry.addData("position", lift.liftTargetPosition);
