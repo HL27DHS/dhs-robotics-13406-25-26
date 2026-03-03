@@ -54,7 +54,7 @@ public class Drivetrain {
      * without disturbing RoadRunner
      */
     public void resetImuOffset() {
-        imuOffset_radians = getRealYaw(AngleUnit.RADIANS);
+        imuOffset_radians = getRealYaw(AngleUnit.RADIANS) - Math.PI/2;
     }
 
     /**
@@ -119,10 +119,10 @@ public class Drivetrain {
     public void fodDrive(double turnVal, double strafe, double forward) {
         double botHeading = getYaw(AngleUnit.RADIANS);
 
-        double rotX = strafe * Math.cos(botHeading) - forward * Math.sin(botHeading);
-        double rotY = strafe * Math.sin(botHeading) + forward * Math.cos(botHeading);
+        double rotX = forward * Math.cos(botHeading) - strafe * Math.sin(botHeading);
+        double rotY = forward * Math.sin(botHeading) + strafe * Math.cos(botHeading);
 
-        double modifiedX = rotX * 1.1; // set modifier as needed
+        double modifiedX = rotX * -1.1; // set modifier as needed
 
         double denominator = Math.max(Math.abs(rotY) + Math.abs(modifiedX) + Math.abs(turnVal), 1);
 
