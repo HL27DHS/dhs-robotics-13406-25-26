@@ -101,6 +101,7 @@ public class FodTest extends OpMode {
 
         telemetry.addData("heading (rad)",drivetrain.getYaw(AngleUnit.RADIANS));
         telemetry.addData("heading (deg)",drivetrain.getYaw(AngleUnit.DEGREES));
+        telemetry.addData("fod toggle",useFod);
         telemetry.update();
     }
 }
