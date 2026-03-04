@@ -31,17 +31,20 @@ public class AutoAimTest extends OpMode {
 
         // Auto Aim (Right Stick Button)
         double turn = controller1.rightStick.getX();
+        double autoAimSlowModifier = 1;
 
         PoseVelocity2d vel = bot.drivetrain.getDrive().updatePoseEstimate();
 
         if (controller1.rightStickButton.isPressed())
             turn = bot.getTurnValueToFaceDepot();
+            autoAimSlowModifier = 0.75;
+        }
 
         // Drive (Left/Right Stick)
         bot.drivetrain.rodDrive(
                 turn,
-                controller1.leftStick.getX(),
-                -controller1.leftStick.getY()
+                controller1.leftStick.getX() * autoAimSlowModifier,
+                -controller1.leftStick.getY() * autoAimSlowModifier
         );
 
         dashTelem.addData("current heading",bot.drivetrain.getYaw(AngleUnit.RADIANS));
