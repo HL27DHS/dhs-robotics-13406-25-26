@@ -25,6 +25,7 @@ public class Bot {
     // TODO: Calculate conversion factor using LOBF of data
     // Conversion factor used to multiply distance from depot to velocity of flywheel
     public final double distanceToVelocityConversionFactor = 0;
+    public final double autoAimGain = 0.8;
 
     public Bot(HardwareMap hardwareMap) {
         drivetrain = new Drivetrain(hardwareMap);
@@ -99,11 +100,14 @@ public class Bot {
      * @return the amount of steering necessary to face the depot
      */
     public double getTurnValueToFaceDepot() {
-        double currentYaw = AngleUnit.normalizeRadians(drivetrain.getYaw(AngleUnit.RADIANS));
+        double currentYaw = AngleUnit.normalizeRadians(drivetrain.getPinpointRealYaw(AngleUnit.RADIANS));
         double neededYaw = AngleUnit.normalizeRadians(getAngleToFaceDepot(AngleUnit.RADIANS));
-        double difference = AngleUnit.normalizeRadians(neededYaw - currentYaw);
+        double difference = AngleUnit.normalizeRadians(currentYaw - neededYaw);
 
-        return Math.min(difference, 1);
+        double sign = difference / Math.abs(difference);
+
+        // when she P on my I 'till i D
+        return sign * Math.min(Math.abs(difference * autoAimGain), 1);
     }
 
     /**
