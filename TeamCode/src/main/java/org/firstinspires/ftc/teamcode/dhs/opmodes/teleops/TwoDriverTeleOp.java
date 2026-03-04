@@ -56,6 +56,8 @@ public class TwoDriverTeleOp extends OpMode {
         controller1.think(gamepad1);
         controller2.think(gamepad2);
 
+        PoseVelocity2d vel = bot.drivetrain.getDrive().updatePoseEstimate();
+
         // If Y pressed, reset FOD angle
         if (controller2.y.justPressed()) {
             bot.drivetrain.resetImuOffset();
