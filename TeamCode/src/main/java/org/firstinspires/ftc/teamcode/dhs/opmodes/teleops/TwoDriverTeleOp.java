@@ -1,13 +1,17 @@
 package org.firstinspires.ftc.teamcode.dhs.opmodes.teleops;
 
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.components.Drivetrain;
 import org.firstinspires.ftc.teamcode.dhs.components.Launcher;
 import org.firstinspires.ftc.teamcode.dhs.components.PrimitiveDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
+import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 import org.firstinspires.ftc.teamcode.dhs.utils.DataUtils;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartUtils;
@@ -39,7 +43,8 @@ public class TwoDriverTeleOp extends OpMode {
 
     @Override
     public void init() {
-        bot = new Bot(hardwareMap);
+        // TODO: Resolve values from auto instead of having them specified
+        bot = new Bot(hardwareMap, Alliance.RED, new Pose2d(0,0,0));
 
         // Left stick deadzone is 0.2 so you can't accidentally slow down or speed up flywheel
         controller1.leftStick.deadzone = 0.2;
