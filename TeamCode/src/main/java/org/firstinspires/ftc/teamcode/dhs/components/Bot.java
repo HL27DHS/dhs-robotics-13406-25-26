@@ -99,33 +99,11 @@ public class Bot {
      * @return the amount of steering necessary to face the depot
      */
     public double getTurnValueToFaceDepot() {
-        // if you would like to visualize this functioning function, see it graphed on desmos
-        // https://www.desmos.com/calculator/9sw8llfrp4
-
-        // the upper limit at which the function will give up and just say to give it full power
-        double upper = Math.PI / 5;
-
-        // the lower limit at which the function will give up and just say to give it no power
-        double lower = 0;
-
-        // the power the function is multiplied by, changes how it's curved
-        double power = 1;
-
         double currentYaw = AngleUnit.normalizeRadians(drivetrain.getYaw(AngleUnit.RADIANS));
         double neededYaw = AngleUnit.normalizeRadians(getAngleToFaceDepot(AngleUnit.RADIANS));
         double difference = AngleUnit.normalizeRadians(neededYaw - currentYaw);
 
-        // the way rotation is needed (1 or -1)
-        int sign = (int) (difference / Math.abs(difference));
-
-        if (Math.abs(difference) >= upper) return -sign;
-        if (Math.abs(difference) <= lower) return 0;
-
-        // function is split into two variables to be more digestible
-        double multiplier = 1 / Math.pow(upper - lower, power);
-        double poweredDiff = Math.pow(difference - lower, power);
-
-        return -(multiplier * poweredDiff * sign);
+        return Math.min(difference, 1);
     }
 
     /**
