@@ -35,19 +35,19 @@ public class AutoAimTest extends OpMode {
 
         PoseVelocity2d vel = bot.drivetrain.getDrive().updatePoseEstimate();
 
-        if (controller1.rightStickButton.isPressed())
+        if (controller1.rightStickButton.isPressed()) {
             turn = bot.getTurnValueToFaceDepot();
             autoAimSlowModifier = 0.75;
         }
 
         // Drive (Left/Right Stick)
-        bot.drivetrain.rodDrive(
+        bot.drivetrain.fodDrive(
                 turn,
                 controller1.leftStick.getX() * autoAimSlowModifier,
                 -controller1.leftStick.getY() * autoAimSlowModifier
         );
 
-        dashTelem.addData("current heading",bot.drivetrain.getYaw(AngleUnit.RADIANS));
+        dashTelem.addData("current heading",bot.drivetrain.getRealYaw(AngleUnit.RADIANS));
         dashTelem.addData("current pos",bot.drivetrain.getDrive().localizer.getPose().position);
         dashTelem.addData("auto aim heading",bot.getAngleToFaceDepot(AngleUnit.RADIANS));
         dashTelem.addData("auto aim steer val",bot.getTurnValueToFaceDepot());
