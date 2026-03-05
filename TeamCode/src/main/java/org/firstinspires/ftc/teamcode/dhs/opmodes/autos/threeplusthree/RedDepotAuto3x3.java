@@ -26,7 +26,7 @@ public class RedDepotAuto3x3 extends LinearOpMode {
     
     public void runOpMode() {
         // "somethin' eleven" - James Fonseca 2025
-        Pose2d initialPose = new Pose2d(39.5,58.6, Math.PI / 2);
+        Pose2d initialPose = new Pose2d(-39.5,58.6, Math.PI / 2);
 
         // Init code here
         bot = new Bot(hardwareMap, Alliance.RED, initialPose);
@@ -46,7 +46,7 @@ public class RedDepotAuto3x3 extends LinearOpMode {
                 .build();
 
         Vector2d firstRowStartPosition = new Vector2d(-8, 30);
-        Action artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(-15, -15, launchPrep1Heading))
+        Action artifactTrajectory1 = rrDrive.actionBuilder(new Pose2d(launchPos, launchPrep1Heading))
                 .setTangent(-3 * Math.PI / 2)
                 .splineToLinearHeading(new Pose2d(firstRowStartPosition, Math.PI/2),Math.PI/2)
                 .lineToYConstantHeading(56, new TranslationalVelConstraint(16))
