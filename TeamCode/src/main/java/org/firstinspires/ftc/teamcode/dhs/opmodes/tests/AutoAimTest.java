@@ -42,7 +42,7 @@ public class AutoAimTest extends OpMode {
         }
 
         if (SmartUtils.combo(controller1.dpadDown, controller1.dpadRight).justPressed())
-            bot.drivetrain.getDrive().localizer.setPose(new Pose2d(0,0,0));
+            bot.drivetrain.getDrive().localizer.setPose(bot.getAutoAimResetPosition());
 
         // Drive (Left/Right Stick)
         bot.drivetrain.fodDrive(
