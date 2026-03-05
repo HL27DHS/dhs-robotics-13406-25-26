@@ -22,7 +22,7 @@ public class AutoUtils {
 
     public Action launchWithTime() {
         return new SequentialAction(
-                bot.launcher.getStartCycleAction(1),
+                bot.launcher.getStartCycleAction(0.5),
                 new SleepAction(fireTimeMS / 1000),
                 bot.launcher.getStopCycleAction()
         );
@@ -31,7 +31,7 @@ public class AutoUtils {
     // TODO: Port to Bot class or Launcher class (with real implementation)
     public Action launchWithTime(double seconds) {
         return new SequentialAction(
-                bot.launcher.getStartCycleAction(1),
+                bot.launcher.getStartCycleAction(0.5),
                 new SleepAction(seconds),
                 bot.launcher.getStopCycleAction()
         );
@@ -40,7 +40,7 @@ public class AutoUtils {
     // TODO: Port to Bot class or Launcher class (with real implementation)
     public Action launchWithSensor() {
         return new SequentialAction(
-                bot.launcher.getStartCycleAction(1),
+                bot.launcher.getStartCycleAction(0.5),
                 bot.colorSensor.getWaitForArtifactLeaveAction(),
                 new SleepAction(0.1),
                 bot.launcher.getStopCycleAction()
@@ -77,7 +77,7 @@ public class AutoUtils {
 
         if (spintake)
             return new SequentialAction(
-                    bot.launcher.getStartCycleAction(1),
+                    bot.launcher.getStartCycleAction(0.5),
                     bot.spintake.getStartSpintakeAction(1),
                     bot.colorSensor.getWaitForArtifactAction(),
                     bot.spintake.getStopSpintakeAction(),
@@ -85,7 +85,7 @@ public class AutoUtils {
             );
 
         return new SequentialAction(
-                bot.launcher.getStartCycleAction(1),
+                bot.launcher.getStartCycleAction(0.5),
                 bot.colorSensor.getWaitForArtifactAction(),
                 bot.launcher.getStopCycleAction()
         );
@@ -94,7 +94,7 @@ public class AutoUtils {
     public Action startIntake() {
         return new SequentialAction(
                 bot.spintake.getStartSpintakeAction(1),
-                bot.launcher.getStartCycleAction(1)
+                bot.launcher.getStartCycleAction(0.5)
         );
     }
 
