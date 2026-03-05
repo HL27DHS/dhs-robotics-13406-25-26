@@ -66,6 +66,20 @@ public class Bot {
     }
 
     /**
+     * Gets the position we use to reset the auto aim
+     * @return a {@code Pose2d} that represents where the bot should be when resetting it's pose
+     */
+    public Pose2d getAutoAimResetPosition() {
+        // TODO: Use human player zone for this position instead of zero zero
+        if (alliance == Alliance.BLUE)
+            return new Pose2d(0,0,0);
+        if (alliance == Alliance.RED)
+            return new Pose2d(0,0,0);
+
+        return new Pose2d(0,0,0);
+    }
+
+    /**
      * Gets the bot's necessary heading in {@code AngleUnit} units to face the depot
      * @param unit the unit of angle measurement to use
      * @return the necessary heading to face the depot
