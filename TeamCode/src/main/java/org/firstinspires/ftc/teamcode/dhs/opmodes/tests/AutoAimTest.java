@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
+import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartUtils;
 
 @TeleOp(name="Auto Aim Test",group="B - Testing Programs")
 public class AutoAimTest extends OpMode {
@@ -39,6 +40,9 @@ public class AutoAimTest extends OpMode {
             turn = bot.getTurnValueToFaceDepot();
             autoAimSlowModifier = 0.75;
         }
+
+        if (SmartUtils.combo(controller1.dpadDown, controller1.dpadRight).justPressed())
+            bot.drivetrain.getDrive().localizer.setPose(new Pose2d(0,0,0));
 
         // Drive (Left/Right Stick)
         bot.drivetrain.fodDrive(
