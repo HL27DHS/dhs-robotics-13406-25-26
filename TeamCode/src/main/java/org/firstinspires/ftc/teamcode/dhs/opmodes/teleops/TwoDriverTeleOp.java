@@ -44,7 +44,7 @@ public class TwoDriverTeleOp extends OpMode {
     @Override
     public void init() {
         // TODO: Resolve values from auto instead of having them specified
-        bot = new Bot(hardwareMap, Alliance.RED, new Pose2d(0,0,0));
+        bot = new Bot(hardwareMap);
 
         // Left stick deadzone is 0.2 so you can't accidentally slow down or speed up flywheel
         controller1.leftStick.deadzone = 0.2;
