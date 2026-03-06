@@ -41,6 +41,8 @@ public class AutoAimTest extends OpMode {
             autoAimSlowModifier = 0.75;
         }
 
+        if (controller1.y.isPressed()) bot.drivetrain.resetImuOffset();
+
         if (SmartUtils.combo(controller1.dpadDown, controller1.dpadRight).justPressed())
             bot.drivetrain.getDrive().localizer.setPose(bot.getAutoAimResetPosition());
 
