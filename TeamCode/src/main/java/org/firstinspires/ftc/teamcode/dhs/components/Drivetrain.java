@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.dhs.components;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -23,7 +24,13 @@ public class Drivetrain {
 
     public Drivetrain(HardwareMap hardwareMap) {
         // If drivetrain class already exists, don't make a new one
-        if (drive != null) return;
+        if (drive != null) {
+            // Reverse motor directions
+            drive.leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+            drive.leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
+            return;
+        }
 
         Pose2d initialPose = new Pose2d(0, 0, 0);
 
