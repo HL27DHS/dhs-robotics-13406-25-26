@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.dhs.opmodes.tests;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -29,6 +30,8 @@ public class FireVelocityTest extends OpMode {
 
     public void loop() {
         controller1.think(gamepad1);
+
+        PoseVelocity2d vel = bot.drivetrain.getDrive().updatePoseEstimate();
 
         // Spintake (A)
         if (controller1.a.isPressed())
