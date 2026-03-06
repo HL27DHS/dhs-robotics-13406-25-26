@@ -21,7 +21,7 @@ public class AutoAimTest extends OpMode {
     MultipleTelemetry dashTelem;
 
     public void init() {
-        bot = new Bot(hardwareMap, Alliance.RED, new Pose2d(0,0,0));
+        bot = new Bot(hardwareMap);
         controller1 = new SmartController();
 
         dashTelem = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
