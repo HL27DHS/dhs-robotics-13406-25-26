@@ -32,6 +32,9 @@ public class Bot {
         spintake = new Spintake(hardwareMap);
         launcher = new Launcher(hardwareMap);
         colorSensor = new ColorSensor(hardwareMap);
+
+        // Set default alliance if it is null
+        if (alliance == null) alliance = Alliance.RED;
     }
 
     public Bot(HardwareMap hardwareMap, Alliance botAlliance) {
