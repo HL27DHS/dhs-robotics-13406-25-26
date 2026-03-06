@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 
-@Autonomous(name="Auto Aim Handoff Test", group="TestAuto", preselectTeleOp="AutoAimTest")
-public class AutoAimHandoffTest extends LinearOpMode {
+@Autonomous(name="Auto Aim Handoff Test (BLUE)", group="TestAuto", preselectTeleOp="AutoAimTest")
+public class BlueAutoAimHandoffTest extends LinearOpMode {
     Bot bot;
     MecanumDrive rrDrive;
 
