@@ -28,6 +28,9 @@ public class FireVelocityTest extends OpMode {
         controller1 = new SmartController();
     }
 
+    // distance    velocity
+    // 80.97       1730
+
     public void loop() {
         controller1.think(gamepad1);
 
