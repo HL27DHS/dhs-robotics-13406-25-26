@@ -29,6 +29,12 @@ public class Drivetrain {
             drive.leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
             drive.leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
+            // Set zero powers
+            drive.leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            drive.rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            drive.leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            drive.rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
             return;
         }
 
