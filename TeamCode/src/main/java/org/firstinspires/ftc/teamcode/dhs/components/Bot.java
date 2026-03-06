@@ -69,6 +69,21 @@ public class Bot {
     }
 
     /**
+     * Gets the position of the depot based on the team the bot's on, slightly tweaked for auto aim
+     * @return
+     */
+    public Pose2d getAutoAimDepotPosition() {
+        // TODO: use this function for auto aim
+
+        if (alliance == Alliance.BLUE)
+            return new Pose2d(-60,-68,0);
+        if (alliance == Alliance.RED)
+            return new Pose2d(-60,60,0);
+
+        return new Pose2d(0,0,0);
+    }
+
+    /**
      * Gets the position we use to reset the auto aim
      * @return a {@code Pose2d} that represents where the bot should be when resetting it's pose
      */
