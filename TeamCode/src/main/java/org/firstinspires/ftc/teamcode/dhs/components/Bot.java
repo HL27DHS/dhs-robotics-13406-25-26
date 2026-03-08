@@ -70,17 +70,47 @@ public class Bot {
 
     /**
      * Gets the position of the depot based on the team the bot's on, slightly tweaked for auto aim
-     * @return
+     * @return a {@code Pose2d} that represents where the team's depot is (tweaked for auto-aim)
      */
     public Pose2d getAutoAimDepotPosition() {
-        // TODO: use this function for auto aim
+        // TODO: tweak these values until auto aim happy
 
         if (alliance == Alliance.BLUE)
-            return new Pose2d(-60,-68,0);
+            return new Pose2d(-60,-60,0);
         if (alliance == Alliance.RED)
             return new Pose2d(-60,60,0);
 
         return new Pose2d(0,0,0);
+    }
+
+    /**
+     * Get the bot's necessary heading in {@code AngleUnit} units to face the depot at a specified position
+     * SPECIFIC TO AUTO AIM
+     * @param unit the unit of measurement to use
+     * @param position the position from which the angle should be calculated
+     * @return the necessary heading to face the depot at that position
+     */
+    public double getAutoAimAngleToFaceDepotAtPos(AngleUnit unit, Vector2d position) {
+        Pose2d depotPosition = getAutoAimDepotPosition();
+
+        double deltaX = depotPosition.position.x - position.x;
+        double deltaY = depotPosition.position.y - position.y;
+
+        double radians = Math.atan2(deltaY, deltaX);
+
+        if (unit == AngleUnit.DEGREES)
+            return Math.toDegrees(radians);
+
+        return radians;
+    }
+
+    /**
+     * Gets the bot's necessary heading in {@code AngleUnit} units to face the depot SPECIFIC TO AUTO-AIM
+     * @param unit the unit of angle measurement to use
+     * @return the necessary heading to face the depot
+     */
+    public double getAutoAimAngleToFaceDepot(AngleUnit unit) {
+        return getAutoAimAngleToFaceDepotAtPos(unit, drivetrain.getDrive().localizer.getPose().position);
     }
 
     /**
@@ -133,7 +163,7 @@ public class Bot {
      */
     public double getTurnValueToFaceDepot() {
         double currentYaw = AngleUnit.normalizeRadians(drivetrain.getPinpointRealYaw(AngleUnit.RADIANS));
-        double neededYaw = AngleUnit.normalizeRadians(getAngleToFaceDepot(AngleUnit.RADIANS));
+        double neededYaw = AngleUnit.normalizeRadians(getAutoAimAngleToFaceDepot(AngleUnit.RADIANS));
         double difference = AngleUnit.normalizeRadians(currentYaw - neededYaw);
 
         double sign = difference / Math.abs(difference);
