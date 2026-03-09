@@ -71,6 +71,10 @@ public class FireVelocityTest extends OpMode {
         if (controller1.rightStickButton.isPressed())
             turn = bot.getTurnValueToFaceDepot();
 
+        // Auto Velocity (B)
+        if (controller1.b.isPressed())
+            velocity = bot.getRecommendedFlywheelVelocity();
+
         // Driving (Left/Right Stick)
         bot.drivetrain.rodDrive(
                 turn,
