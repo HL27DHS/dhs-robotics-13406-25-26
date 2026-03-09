@@ -58,9 +58,9 @@ public class Bot {
      */
     public Pose2d getDepotPosition() {
         if (alliance == Alliance.BLUE)
-            return new Pose2d(-60,-64,0);
+            return new Pose2d(-60,-68,0);
         if (alliance == Alliance.RED)
-            return new Pose2d(-60,60,0);
+            return new Pose2d(-60,68,0);
 
         return new Pose2d(0,0,0);
     }
@@ -74,9 +74,9 @@ public class Bot {
         //       one must imagine auto aim happy
 
         if (alliance == Alliance.BLUE)
-            return new Pose2d(-60,-68,0);
+            return new Pose2d(-60,-72,0);
         if (alliance == Alliance.RED)
-            return new Pose2d(-60,68 ,0);
+            return new Pose2d(-60,72,0);
 
         return new Pose2d(0,0,0);
     }
@@ -94,7 +94,7 @@ public class Bot {
         double deltaX = depotPosition.position.x - position.x;
         double deltaY = depotPosition.position.y - position.y;
 
-        double radians = Math.atan2(deltaY, deltaX);
+        double radians = Math.atan2(deltaY, deltaX) + Math.PI/20;
 
         if (unit == AngleUnit.DEGREES)
             return Math.toDegrees(radians);
@@ -118,9 +118,9 @@ public class Bot {
     public Pose2d getAutoAimResetPosition() {
         // TODO: Use human player zone for this position instead of zero zero
         if (alliance == Alliance.BLUE)
-            return new Pose2d(0,0,0);
+            return new Pose2d(56.7,56.7,0);
         if (alliance == Alliance.RED)
-            return new Pose2d(0,0,0);
+            return new Pose2d(56.7,-56.7,0);
 
         return new Pose2d(0,0,0);
     }
