@@ -84,6 +84,10 @@ public class TwoDriverTeleOp extends OpMode {
         double launchVelocity = (controller1.leftTrigger.getValue() > 0.5)
                 ? (bot.launcher.getFlywheelMaxVelocity() - launchModifierRange * bot.launcher.getFlywheelMaxVelocity()) + launchModifier * bot.launcher.getFlywheelMaxVelocity(): 0;
 
+        // Predict flywheel velocity if the manipulator requests it
+        if (controller1.rightStickButton.isPressed())
+            launchVelocity = bot.getRecommendedFlywheelVelocity();
+
         bot.spintake.setSpintakePower(spintakePower * c2ReverseModifier);
         bot.launcher.setCyclePower(cyclePower * c1ReverseModifier);
         bot.launcher.setFlywheelVelocity((int) (launchVelocity * c1ReverseModifier));
