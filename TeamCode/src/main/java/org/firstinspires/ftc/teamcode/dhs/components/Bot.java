@@ -22,9 +22,6 @@ public class Bot {
     // static, saved between OpModes
     public static Alliance alliance;
 
-    // TODO: Calculate conversion factor using LOBF of data
-    // Conversion factor used to multiply distance from depot to velocity of flywheel
-    public final double distanceToVelocityConversionFactor = 0;
     public final double autoAimGain = 0.8;
 
     public Bot(HardwareMap hardwareMap) {
@@ -180,7 +177,7 @@ public class Bot {
     }
 
     public int getRecommendedFlywheelVelocity() {
-        return (int) (getDistanceFromDepot() * distanceToVelocityConversionFactor);
+        return (int) (getDistanceFromDepot() * 6.2479 + 1100.307);
     }
 
     /**
