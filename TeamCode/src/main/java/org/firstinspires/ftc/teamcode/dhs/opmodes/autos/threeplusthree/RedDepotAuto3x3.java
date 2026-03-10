@@ -79,7 +79,7 @@ public class RedDepotAuto3x3 extends LinearOpMode {
         // make your way to the artifacts and pick them up
         Actions.runBlocking(new SequentialAction(
                 bot.spintake.getStartSpintakeAction(1),
-                bot.launcher.getStartCycleAction(0.5),
+                bot.launcher.getStartCycleAction(0.25),
                 new ParallelAction(
                         artifactTrajectory1,
                         new SequentialAction(
