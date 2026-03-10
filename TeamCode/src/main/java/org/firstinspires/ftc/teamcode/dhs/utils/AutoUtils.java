@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.dhs.utils;
 
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 
@@ -111,5 +113,15 @@ public class AutoUtils {
                 new SleepAction(ms / 1000),
                 stopIntake()
         );
+    }
+
+    /**
+     * Function that makes the robot shimmy back and forth
+     * to fire a ball in the event that one is jammed
+     * @return the Action that can be used to make the bot shimmy
+     */
+    public Action shimmy() {
+        // TODO: Implement
+        return (TelemetryPacket packet) -> { return false; };
     }
 }
