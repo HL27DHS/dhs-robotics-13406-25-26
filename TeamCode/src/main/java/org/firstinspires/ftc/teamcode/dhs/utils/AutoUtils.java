@@ -22,8 +22,18 @@ public class AutoUtils {
     public double fireTimeMS = 350;
     public double fireDelayMS = 500;
 
+    // Shimmy related default variables
+    double shimmyDistance;
+    int shimmyCount;
+    VelConstraint shimmyConstraint;
+
     public AutoUtils(Bot bot) {
         this.bot = bot;
+
+        // Initialize shimmy vars (some rely on bot being initialized)
+        shimmyDistance = 3;
+        shimmyCount = 2;
+        shimmyConstraint = bot.drivetrain.getDrive().defaultVelConstraint;
     }
 
     public Action launchWithTime() {
@@ -156,11 +166,11 @@ public class AutoUtils {
 
     /**
      * Function that makes the robot shimmy back and forth
-     * to fire a ball in the event that one is jammed
+     * to fire a ball in the event that one is jammed, uses default values set by variables
+     * {@code shimmyDistance}, {@code shimmyCount}, and {@code shimmyConstraint}.
      * @return the Action that can be used to make the bot shimmy
      */
     public Action shimmy() {
-        // TODO: Implement
-        return (TelemetryPacket packet) -> { return false; };
+        return shimmy(shimmyDistance, shimmyCount, shimmyConstraint);
     }
 }
