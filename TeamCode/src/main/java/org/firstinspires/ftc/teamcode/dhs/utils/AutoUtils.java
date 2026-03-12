@@ -3,8 +3,12 @@ package org.firstinspires.ftc.teamcode.dhs.utils;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
+import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.VelConstraint;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
@@ -113,6 +117,33 @@ public class AutoUtils {
                 new SleepAction(ms / 1000),
                 stopIntake()
         );
+    }
+
+    public Action shimmy(double shimmyDistance, int shimmyCount, VelConstraint shimmyConstraint) {
+        // NOTE: Given the fact that this builds an action on-demand, it might slow down the code.
+        //       I could not care less, because the slowdown will be minimal.
+
+        // Get robot's starting pose
+        Pose2d startPose = bot.drivetrain.getDrive().localizer.getPose();
+
+        // Initialize shimmy positions
+        Vector2d shimmyFwdPos = new Vector2d(shimmyDistance, 0);
+        Vector2d shimmyBckPos = new Vector2d(-shimmyDistance, 0);
+
+        // Rotate shimmy positions to actually shimmy forward & back
+        shimmyFwdPos = PoseUtils.rotateVector(shimmyFwdPos, startPose.heading.real);
+        shimmyBckPos = PoseUtils.rotateVector(shimmyBckPos, startPose.heading.real);
+
+        TrajectoryActionBuilder shimmyBuilder = bot.drivetrain.getDrive().actionBuilder(startPose);
+
+        for (int i = 0; i < shimmyCount; i++) {
+            // Shimmy forward, then back, then forward to start pose one time
+            shimmyBuilder.strafeToConstantHeading(shimmyFwdPos, shimmyConstraint)
+                         .strafeToConstantHeading(shimmyBckPos, shimmyConstraint)
+                         .strafeToConstantHeading(startPose.position, shimmyConstraint);
+        }
+
+        return shimmyBuilder.build();
     }
 
     /**
