@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.dhs.utils;
 
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -10,8 +9,6 @@ import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.VelConstraint;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 
 public class AutoUtils {
@@ -64,30 +61,31 @@ public class AutoUtils {
     }
 
     // TODO: Port to Bot class or Launcher class (with real implementation)
-    public Action fireThreeBalls(boolean spintake) {
+    public Action fireThreeArtifacts(boolean spintake) {
         return new SequentialAction(
                 bot.launcher.getReadyAction(launchVelocity),
                 launchWithTime(), // First Launch
                 new SleepAction(fireDelayMS / 1000),
-                new ParallelAction( // spin up and prepare balls
+                new ParallelAction( // spin up and prepare artifacts
                         bot.launcher.getReadyAction(launchVelocity),
-                        prepareBalls(spintake)
+                        prepareArtifacts(spintake)
                 ),
                 launchWithTime(), // Second Launch
                 new SleepAction(fireDelayMS / 1000), // small buffer in case extra time for rolling needed
-                new ParallelAction( // spin up and prepare balls
+                new ParallelAction( // spin up and prepare artifacts
                         bot.launcher.getReadyAction(launchVelocity),
-                        prepareBalls(spintake)
+                        prepareArtifacts(spintake)
                 ),
                 launchWithTime((fireTimeMS+600)/1000), // Third Launch
                 new SleepAction(fireDelayMS / 500), // small buffer in case extra time for rolling needed
+                // TODO: Shimmying needed?
                 bot.launcher.getUnreadyAction()
         );
     }
 
     // TODO: Port to Bot class or Launcher class (with real implementation)
-    public Action prepareBalls(boolean spintake) {
-        // If there's already a ball present, don't even do anything
+    public Action prepareArtifacts(boolean spintake) {
+        // If there's already an artifact present, don't even do anything
         if (bot.colorSensor.isArtifactInSensor())
             return new SequentialAction();
 
@@ -130,7 +128,7 @@ public class AutoUtils {
     }
 
     /**
-     * Function that makes the robot shimmy back and forth to fire a ball in the event that
+     * Function that makes the robot shimmy back and forth to fire an artifact in the event that
      * one is jammed
      * @param shimmyDistance the distance (inches) that the bot will shimmy away from it's currrent position
      * @param shimmyCount the amount of back & forth shimmies it will do before returning to initial position
@@ -166,7 +164,7 @@ public class AutoUtils {
 
     /**
      * Function that makes the robot shimmy back and forth
-     * to fire a ball in the event that one is jammed, uses default values set by variables
+     * to fire an artifact in the event that one is jammed, uses default values set by variables
      * {@code shimmyDistance}, {@code shimmyCount}, and {@code shimmyConstraint}.
      * @return the Action that can be used to make the bot shimmy
      */

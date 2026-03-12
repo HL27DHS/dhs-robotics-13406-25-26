@@ -74,12 +74,12 @@ public class RedNarniaAuto3x3 extends LinearOpMode {
                 new ParallelAction(
                         launchTraj1,
                         bot.launcher.getReadyAction(utils.launchVelocity),
-                        utils.prepareBalls(false)
+                        utils.prepareArtifacts(false)
                 )
         );
 
         // Fire the three pre-loaded balls
-        Actions.runBlocking(utils.fireThreeBalls(false));
+        Actions.runBlocking(utils.fireThreeArtifacts(false));
 
 
 
@@ -104,9 +104,9 @@ public class RedNarniaAuto3x3 extends LinearOpMode {
                 new ParallelAction(
                         launchTraj2,
                         bot.launcher.getReadyAction(utils.launchVelocity),
-                        utils.prepareBalls(true)
+                        utils.prepareArtifacts(true)
                 ),
-                utils.fireThreeBalls(true)
+                utils.fireThreeArtifacts(true)
         ));
 
         // get those sweet, succulent leave points

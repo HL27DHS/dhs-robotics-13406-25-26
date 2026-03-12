@@ -86,12 +86,12 @@ public class BlueNarniaAuto3x6 extends LinearOpMode {
                 new ParallelAction(
                         launchTraj1,
                         bot.launcher.getReadyAction(utils.launchVelocity),
-                        utils.prepareBalls(false)
+                        utils.prepareArtifacts(false)
                 )
         );
 
         // Fire the three pre-loaded balls
-        Actions.runBlocking(utils.fireThreeBalls(false));
+        Actions.runBlocking(utils.fireThreeArtifacts(false));
 
 
         // make your way to the artifacts and pick them up
@@ -113,9 +113,9 @@ public class BlueNarniaAuto3x6 extends LinearOpMode {
                 new ParallelAction(
                         launchTraj2,
                         bot.launcher.getReadyAction(utils.launchVelocity),
-                        utils.prepareBalls(true)
+                        utils.prepareArtifacts(true)
                 ),
-                utils.fireThreeBalls(true)
+                utils.fireThreeArtifacts(true)
         ));
 
 
@@ -138,9 +138,9 @@ public class BlueNarniaAuto3x6 extends LinearOpMode {
                 new ParallelAction(
                         launchTraj3,
                         bot.launcher.getReadyAction(utils.launchVelocity),
-                        utils.prepareBalls(true)
+                        utils.prepareArtifacts(true)
                 ),
-                utils.fireThreeBalls(true)
+                utils.fireThreeArtifacts(true)
         ));
 
         // get those sweet, succulent leave points
