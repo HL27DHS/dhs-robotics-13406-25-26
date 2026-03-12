@@ -119,6 +119,14 @@ public class AutoUtils {
         );
     }
 
+    /**
+     * Function that makes the robot shimmy back and forth to fire a ball in the event that
+     * one is jammed
+     * @param shimmyDistance the distance (inches) that the bot will shimmy away from it's currrent position
+     * @param shimmyCount the amount of back & forth shimmies it will do before returning to initial position
+     * @param shimmyConstraint the velocity constraint that changes the speed at which shimmying will occur
+     * @return an action that will make the robot shimmy from it's current pos
+     */
     public Action shimmy(double shimmyDistance, int shimmyCount, VelConstraint shimmyConstraint) {
         // NOTE: Given the fact that this builds an action on-demand, it might slow down the code.
         //       I could not care less, because the slowdown will be minimal.
