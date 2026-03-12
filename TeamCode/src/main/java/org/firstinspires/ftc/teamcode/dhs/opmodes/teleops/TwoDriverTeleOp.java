@@ -124,6 +124,10 @@ public class TwoDriverTeleOp extends OpMode {
         if (controller2.a.isPressed())
             turn = bot.getTurnValueToFaceDepot();
 
+        // If the driver is pressing DPad Down and DPad right at the same time, reset localizer pose
+        if (SmartUtils.combo(controller2.dpadDown, controller2.dpadRight).justPressed())
+            bot.drivetrain.getDrive().localizer.setPose(bot.getAutoAimResetPosition());
+
         // Do Robot-Oriented or Field-Oriented Drive
         if (useFod)
             bot.drivetrain.fodDrive(
