@@ -26,4 +26,17 @@ public class PoseUtils {
     public static double distance(Pose2d a, Pose2d b) {
         return distance(a.position, b.position);
     }
+
+    /**
+     * Rotates a point about the origin by desired radians
+     * @param position The vector to rotate
+     * @param radians The amount it will be rotated (radians) about the origin
+     * @return The new, rotated vector
+     */
+    public static Vector2d rotateVector(Vector2d position, double radians) {
+        return new Vector2d(
+                position.x * Math.cos(radians) - position.y * Math.sin(radians),
+                position.x * Math.sin(radians) + position.y * Math.cos(radians)
+        );
+    }
 }
