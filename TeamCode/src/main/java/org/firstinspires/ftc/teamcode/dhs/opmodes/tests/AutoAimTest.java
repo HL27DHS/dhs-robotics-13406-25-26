@@ -57,6 +57,8 @@ public class AutoAimTest extends OpMode {
         dashTelem.addData("current pos",bot.drivetrain.getDrive().localizer.getPose().position);
         dashTelem.addData("auto aim heading",bot.getAngleToFaceDepot(AngleUnit.RADIANS));
         dashTelem.addData("auto aim steer val",bot.getTurnValueToFaceDepot());
+        dashTelem.addData("auto aim error (deg)",Math.toDegrees(bot.drivetrain.getRealYaw(AngleUnit.RADIANS)
+                                                    - bot.getAngleToFaceDepot(AngleUnit.RADIANS)));
         dashTelem.addLine();
         dashTelem.addLine("Use left/right stick to drive");
         dashTelem.addLine("Hold right stick button to use auto aim");
