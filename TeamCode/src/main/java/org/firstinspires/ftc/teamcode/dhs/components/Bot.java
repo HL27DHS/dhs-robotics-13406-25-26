@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.dhs.components;
 
 import androidx.annotation.NonNull;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -21,8 +22,6 @@ public class Bot {
 
     // static, saved between OpModes
     public static Alliance alliance;
-
-    public final double autoAimGain = 0.8;
 
     public Bot(HardwareMap hardwareMap) {
         drivetrain = new Drivetrain(hardwareMap);
@@ -50,6 +49,26 @@ public class Bot {
         colorSensor = new ColorSensor(hardwareMap);
 
         alliance = botAlliance;
+    }
+
+    @Config
+    public static class AutoAimConstants {
+        public static double AUTO_AIM_GAIN = 0.8;
+        public static double AUTO_AIM_ANGLE_OFFSET = Math.PI/20;
+        public static double AUTO_AIM_TARGET_X = -60;
+        public static double AUTO_AIM_TARGET_Y = 80;
+    }
+
+    public double getAutoAimGain() {
+        return AutoAimConstants.AUTO_AIM_GAIN;
+    }
+
+    public double getAutoAimAngleOffset() {
+        return AutoAimConstants.AUTO_AIM_ANGLE_OFFSET;
+    }
+
+    public Vector2d getAutoAimTargetPosition() {
+        return new Vector2d(AutoAimConstants.AUTO_AIM_TARGET_X, AutoAimConstants.AUTO_AIM_TARGET_Y);
     }
 
     /**
@@ -89,12 +108,12 @@ public class Bot {
      * @return the necessary heading to face the depot at that position
      */
     public double getAutoAimAngleToFaceDepotAtPos(AngleUnit unit, Vector2d position) {
-        Pose2d depotPosition = getAutoAimDepotPosition();
+        Pose2d depotPosition = new Pose2d(getAutoAimTargetPosition(), 0);
 
         double deltaX = depotPosition.position.x - position.x;
         double deltaY = depotPosition.position.y - position.y;
 
-        double radians = Math.atan2(deltaY, deltaX) + Math.PI/20;
+        double radians = Math.atan2(deltaY, deltaX) + getAutoAimAngleOffset();
 
         if (unit == AngleUnit.DEGREES)
             return Math.toDegrees(radians);
@@ -167,7 +186,7 @@ public class Bot {
         double sign = difference / Math.abs(difference);
 
         // when she P on my I 'till i D
-        return sign * Math.min(Math.abs(difference * autoAimGain), 1);
+        return sign * Math.min(Math.abs(difference * getAutoAimGain()), 1);
     }
 
     /**
