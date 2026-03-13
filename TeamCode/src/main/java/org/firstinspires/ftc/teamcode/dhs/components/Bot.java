@@ -188,7 +188,7 @@ public class Bot {
     public void swapAlliance() {
         if (alliance == Alliance.BLUE)
             alliance = Alliance.RED;
-        if (alliance == Alliance.RED)
+        else if (alliance == Alliance.RED)
             alliance = Alliance.BLUE;
     }
 
