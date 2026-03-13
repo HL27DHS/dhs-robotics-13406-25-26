@@ -39,4 +39,24 @@ public class PoseUtils {
                 position.x * Math.sin(radians) + position.y * Math.cos(radians)
         );
     }
+
+    /**
+     * Rotates about about a center by desired radians
+     * @param position The vector to rotate
+     * @param center The center of rotation
+     * @param radians The amount it will be rotated (radians) about the origin
+     * @return the new, rotated vector
+     */
+    public static Vector2d rotateVector(Vector2d position, Vector2d center, double radians) {
+        Vector2d modifiedPos = new Vector2d(
+                position.x - center.x,
+                position.y - center.y
+        );
+        modifiedPos = rotateVector(modifiedPos, radians);
+
+        return new Vector2d(
+                modifiedPos.x + center.x,
+                modifiedPos.y - center.y
+        );
+    }
 }
