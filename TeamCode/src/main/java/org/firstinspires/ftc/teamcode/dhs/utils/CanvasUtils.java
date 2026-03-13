@@ -16,6 +16,11 @@ public class CanvasUtils {
     public static final double AIM_POINT_RADIUS = 0.5;
 
     /**
+     * The radius of the circle drawn by {@link CanvasUtils#drawBot(Canvas, Vector2d)}
+     */
+    public static final double BOT_RADIUS = 8;
+
+    /**
      * Draws a line on the canvas starting at start pos and continuing infinitely towards an angle
      * @param canvas the canvas to draw on
      * @param startPos the position to start the line at
@@ -38,12 +43,12 @@ public class CanvasUtils {
     }
 
     /**
-     * Draws a representation of the bot on the canvas
+     * Draws a representation of the bot on the canvas (note: this does not show heading)
      * @param canvas the canvas to draw on
      * @param botPos the position of the bot on the canvas
      */
     public static void drawBot(Canvas canvas, Vector2d botPos) {
-        // TODO: Implement
+        canvas.strokeCircle(botPos.x, botPos.y, BOT_RADIUS);
     }
 
     /**
