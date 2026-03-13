@@ -52,6 +52,27 @@ public class CanvasUtils {
     }
 
     /**
+     * Draws a representation of the bot on the canvas, including a little line for heading
+     * @param canvas the canvas to draw on
+     * @param botPos the position of the bot on the canvas
+     * @param heading the bot's heading (radians)
+     */
+    public static void drawBot(Canvas canvas, Vector2d botPos, double heading) {
+        // Draw bot circle
+        drawBot(canvas, botPos);
+
+        // Calculate where the end point should be
+        Vector2d endPoint = new Vector2d(
+                botPos.x + BOT_RADIUS,
+                botPos.y
+        );
+        endPoint = PoseUtils.rotateVector(endPoint, botPos, heading);
+
+        // Draw bot heading line
+        canvas.strokeLine(botPos.x, botPos.y, endPoint.x, endPoint.y);
+    }
+
+    /**
      * Draws an arrow on the canvas
      * @param canvas the canvas to draw on
      * @param startPos the starting point of the arrow
