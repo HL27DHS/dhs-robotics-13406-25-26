@@ -78,7 +78,10 @@ public class CanvasUtils {
      * @param startPos the starting point of the arrow
      * @param endPos the end point of the arrow
      * @param headSize the length of the head segments
+     *
+     * @deprecated because it's not implemented yet
      */
+    @Deprecated
     public static void drawArrow(Canvas canvas, Vector2d startPos, Vector2d endPos, double headSize) {
         // TODO: Implement
     }
