@@ -74,7 +74,7 @@ public class Bot {
         //       one must imagine auto aim happy
 
         if (alliance == Alliance.BLUE)
-            return new Pose2d(-72,-56,0);
+            return new Pose2d(-72,-50,0);
         if (alliance == Alliance.RED)
             return new Pose2d(-60,80,0);
 
