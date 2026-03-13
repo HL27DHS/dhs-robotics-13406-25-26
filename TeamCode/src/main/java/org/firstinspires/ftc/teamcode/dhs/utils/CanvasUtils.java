@@ -1,12 +1,20 @@
 package org.firstinspires.ftc.teamcode.dhs.utils;
 
 import com.acmerobotics.dashboard.canvas.Canvas;
+import com.acmerobotics.dashboard.canvas.CanvasOp;
 import com.acmerobotics.roadrunner.Vector2d;
+
+import java.util.List;
 
 /**
  * Includes various utility functions for drawing on {@link Canvas} instances
  */
 public class CanvasUtils {
+    /**
+     * The radius of the point drawn by {@link CanvasUtils#drawAimPoint(Canvas, Vector2d)}
+     */
+    public static final double AIM_POINT_RADIUS = 0.5;
+
     /**
      * Draws a line on the canvas starting at start pos and continuing infinitely towards an angle
      * @param canvas the canvas to draw on
@@ -26,7 +34,7 @@ public class CanvasUtils {
      * @param aimPos the position of the point on the canvas
      */
     public static void drawAimPoint(Canvas canvas, Vector2d aimPos) {
-        // TODO: Implement
+        canvas.fillCircle(aimPos.x, aimPos.y, AIM_POINT_RADIUS);
     }
 
     /**
