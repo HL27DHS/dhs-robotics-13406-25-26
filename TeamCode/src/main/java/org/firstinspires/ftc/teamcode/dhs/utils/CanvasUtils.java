@@ -14,7 +14,10 @@ public class CanvasUtils {
      * @param angle the angle the line go towards (radians)
      */
     public static void drawAimLine(Canvas canvas, Vector2d startPos, double angle) {
-        // TODO: Implement
+        Vector2d endPt = new Vector2d(1000, 0);
+        endPt = PoseUtils.rotateVector(endPt, angle);
+
+        canvas.strokeLine(startPos.x, startPos.y, endPt.x, endPt.y);
     }
 
     /**
