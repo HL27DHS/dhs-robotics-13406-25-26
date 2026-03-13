@@ -181,6 +181,17 @@ public class Bot {
         return (int) (getDistanceFromDepot() * 6.2479 + 1100.307);
     }
 
+    public Alliance getAlliance() {
+        return alliance;
+    }
+
+    public void swapAlliance() {
+        if (alliance == Alliance.BLUE)
+            alliance = Alliance.RED;
+        if (alliance == Alliance.RED)
+            alliance = Alliance.BLUE;
+    }
+
     /**
      * Sets every drivetrain motor's zero power behavior to a designated behavior
      * @param behavior the desired zero power behavior
