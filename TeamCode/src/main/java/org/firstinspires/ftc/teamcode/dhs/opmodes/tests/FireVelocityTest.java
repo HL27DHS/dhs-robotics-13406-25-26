@@ -75,6 +75,10 @@ public class FireVelocityTest extends OpMode {
         if (controller1.b.isPressed())
             velocity = bot.getRecommendedFlywheelVelocity();
 
+        // Set Alliance (Bumpers)
+        if (controller1.leftBumper.isPressed() || controller1.rightBumper.isPressed())
+            bot.swapAlliance();
+
         // Driving (Left/Right Stick)
         bot.drivetrain.rodDrive(
                 turn,
@@ -88,6 +92,7 @@ public class FireVelocityTest extends OpMode {
         telemetry.addData("real velocity",bot.launcher.getFlywheelVelocity());
         telemetry.addData("launch velocity step",step);
         telemetry.addData("velocity prediction",bot.getRecommendedFlywheelVelocity());
+        telemetry.addData("current alliance",bot.getAlliance());
         telemetry.addLine();
         telemetry.addLine("Left Stick - Drive X/Y");
         telemetry.addLine("Right Stick - Turn");
