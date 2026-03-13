@@ -85,7 +85,7 @@ public class TwoDriverTeleOp extends OpMode {
                 ? (bot.launcher.getFlywheelMaxVelocity() - launchModifierRange * bot.launcher.getFlywheelMaxVelocity()) + launchModifier * bot.launcher.getFlywheelMaxVelocity(): 0;
 
         // Predict flywheel velocity if the manipulator requests it
-        if (controller1.rightStickButton.isPressed())
+        if (controller1.a.isPressed())
             launchVelocity = bot.getRecommendedFlywheelVelocity();
 
         bot.spintake.setSpintakePower(spintakePower * c2ReverseModifier);
@@ -123,6 +123,10 @@ public class TwoDriverTeleOp extends OpMode {
         // if A is pressed, use function to automatically lock on to the depot
         if (controller2.a.isPressed())
             turn = bot.getTurnValueToFaceDepot();
+
+        // If the driver is pressing DPad Down and DPad right at the same time, reset localizer pose
+        if (SmartUtils.combo(controller2.dpadDown, controller2.dpadRight).justPressed())
+            bot.drivetrain.getDrive().localizer.setPose(bot.getAutoAimResetPosition());
 
         // Do Robot-Oriented or Field-Oriented Drive
         if (useFod)

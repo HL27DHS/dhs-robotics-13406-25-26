@@ -68,11 +68,11 @@ public class UnstableRedDepotAuto3x3 extends LinearOpMode {
         Actions.runBlocking(new ParallelAction(
                 launchTrajectory1,
                 bot.launcher.getReadyAction(utils.launchVelocity),
-                utils.prepareBalls(false)
+                utils.prepareArtifacts(false)
         ));
 
         // Make sure flywheel is spun up, fire three times, stop flywheel
-        Actions.runBlocking(utils.fireThreeBalls(false));
+        Actions.runBlocking(utils.fireThreeArtifacts(false));
 
         // make your way to the artifacts and pick them up
         Actions.runBlocking(new SequentialAction(
@@ -95,9 +95,9 @@ public class UnstableRedDepotAuto3x3 extends LinearOpMode {
                 new ParallelAction(
                         backToShootingPos,
                         bot.launcher.getReadyAction(utils.launchVelocity),
-                        utils.prepareBalls(true)
+                        utils.prepareArtifacts(true)
                 ),
-                utils.fireThreeBalls(true)
+                utils.fireThreeArtifacts(true)
         ));
 
         // get those sweet, succulent leave points

@@ -3,10 +3,6 @@ package org.firstinspires.ftc.teamcode.dhs.opmodes.autos.threepluszero;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
-import com.acmerobotics.roadrunner.TranslationalVelConstraint;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -63,12 +59,12 @@ public class BlueNarniaAuto3x0 extends LinearOpMode {
                 new ParallelAction(
                         launchTraj1,
                         bot.launcher.getReadyAction(utils.launchVelocity),
-                        utils.prepareBalls(false)
+                        utils.prepareArtifacts(false)
                 )
         );
 
         // Fire the three pre-loaded balls
-        Actions.runBlocking(utils.fireThreeBalls(false));
+        Actions.runBlocking(utils.fireThreeArtifacts(false));
 
         // get those sweet, succulent leave points
         Actions.runBlocking(leaveTraj);

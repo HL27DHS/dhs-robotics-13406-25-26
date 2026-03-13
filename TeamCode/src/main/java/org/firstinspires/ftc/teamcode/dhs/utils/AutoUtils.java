@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode.dhs.utils;
 
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
+import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.VelConstraint;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
 
 public class AutoUtils {
@@ -18,8 +19,18 @@ public class AutoUtils {
     public double fireTimeMS = 350;
     public double fireDelayMS = 500;
 
+    // Shimmy related default variables
+    double shimmyDistance;
+    int shimmyCount;
+    VelConstraint shimmyConstraint;
+
     public AutoUtils(Bot bot) {
         this.bot = bot;
+
+        // Initialize shimmy vars (some rely on bot being initialized)
+        shimmyDistance = 3;
+        shimmyCount = 2;
+        shimmyConstraint = bot.drivetrain.getDrive().defaultVelConstraint;
     }
 
     public Action launchWithTime() {
@@ -50,30 +61,31 @@ public class AutoUtils {
     }
 
     // TODO: Port to Bot class or Launcher class (with real implementation)
-    public Action fireThreeBalls(boolean spintake) {
+    public Action fireThreeArtifacts(boolean spintake) {
         return new SequentialAction(
                 bot.launcher.getReadyAction(launchVelocity),
                 launchWithTime(), // First Launch
                 new SleepAction(fireDelayMS / 1000),
-                new ParallelAction( // spin up and prepare balls
+                new ParallelAction( // spin up and prepare artifacts
                         bot.launcher.getReadyAction(launchVelocity),
-                        prepareBalls(spintake)
+                        prepareArtifacts(spintake)
                 ),
                 launchWithTime(), // Second Launch
                 new SleepAction(fireDelayMS / 1000), // small buffer in case extra time for rolling needed
-                new ParallelAction( // spin up and prepare balls
+                new ParallelAction( // spin up and prepare artifacts
                         bot.launcher.getReadyAction(launchVelocity),
-                        prepareBalls(spintake)
+                        prepareArtifacts(spintake)
                 ),
                 launchWithTime((fireTimeMS+600)/1000), // Third Launch
                 new SleepAction(fireDelayMS / 500), // small buffer in case extra time for rolling needed
+                // TODO: Shimmying needed?
                 bot.launcher.getUnreadyAction()
         );
     }
 
     // TODO: Port to Bot class or Launcher class (with real implementation)
-    public Action prepareBalls(boolean spintake) {
-        // If there's already a ball present, don't even do anything
+    public Action prepareArtifacts(boolean spintake) {
+        // If there's already an artifact present, don't even do anything
         if (bot.colorSensor.isArtifactInSensor())
             return new SequentialAction();
 
@@ -116,12 +128,47 @@ public class AutoUtils {
     }
 
     /**
+     * Function that makes the robot shimmy back and forth to fire an artifact in the event that
+     * one is jammed
+     * @param shimmyDistance the distance (inches) that the bot will shimmy away from it's currrent position
+     * @param shimmyCount the amount of back & forth shimmies it will do before returning to initial position
+     * @param shimmyConstraint the velocity constraint that changes the speed at which shimmying will occur
+     * @return an action that will make the robot shimmy from it's current pos
+     */
+    public Action shimmy(double shimmyDistance, int shimmyCount, VelConstraint shimmyConstraint) {
+        // NOTE: Given the fact that this builds an action on-demand, it might slow down the code.
+        //       I could not care less, because the slowdown will be minimal.
+
+        // Get robot's starting pose
+        Pose2d startPose = bot.drivetrain.getDrive().localizer.getPose();
+
+        // Initialize shimmy positions
+        Vector2d shimmyFwdPos = new Vector2d(shimmyDistance, 0);
+        Vector2d shimmyBckPos = new Vector2d(-shimmyDistance, 0);
+
+        // Rotate shimmy positions to actually shimmy forward & back
+        shimmyFwdPos = PoseUtils.rotateVector(shimmyFwdPos, startPose.heading.real);
+        shimmyBckPos = PoseUtils.rotateVector(shimmyBckPos, startPose.heading.real);
+
+        TrajectoryActionBuilder shimmyBuilder = bot.drivetrain.getDrive().actionBuilder(startPose);
+
+        for (int i = 0; i < shimmyCount; i++) {
+            // Shimmy forward, then back, then forward to start pose one time
+            shimmyBuilder.strafeToConstantHeading(shimmyFwdPos, shimmyConstraint)
+                         .strafeToConstantHeading(shimmyBckPos, shimmyConstraint)
+                         .strafeToConstantHeading(startPose.position, shimmyConstraint);
+        }
+
+        return shimmyBuilder.build();
+    }
+
+    /**
      * Function that makes the robot shimmy back and forth
-     * to fire a ball in the event that one is jammed
+     * to fire an artifact in the event that one is jammed, uses default values set by variables
+     * {@code shimmyDistance}, {@code shimmyCount}, and {@code shimmyConstraint}.
      * @return the Action that can be used to make the bot shimmy
      */
     public Action shimmy() {
-        // TODO: Implement
-        return (TelemetryPacket packet) -> { return false; };
+        return shimmy(shimmyDistance, shimmyCount, shimmyConstraint);
     }
 }
