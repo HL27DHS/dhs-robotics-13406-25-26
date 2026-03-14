@@ -178,7 +178,7 @@ public class Bot {
     }
 
     public int getRecommendedFlywheelVelocity() {
-        return (int) (getDistanceFromDepot() * 6.2479 + 1100.307);
+        return (int) (getDistanceFromDepot() * 5.4538 + 1166.40186);
     }
 
     public Alliance getAlliance() {
