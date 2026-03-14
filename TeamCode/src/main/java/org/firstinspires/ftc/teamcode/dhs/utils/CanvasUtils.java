@@ -13,7 +13,7 @@ public class CanvasUtils {
     /**
      * The radius of the point drawn by {@link CanvasUtils#drawAimPoint(Canvas, Vector2d)}
      */
-    public static final double AIM_POINT_RADIUS = 0.5;
+    public static final double AIM_POINT_RADIUS = 3;
 
     /**
      * The radius of the circle drawn by {@link CanvasUtils#drawBot(Canvas, Vector2d)}
