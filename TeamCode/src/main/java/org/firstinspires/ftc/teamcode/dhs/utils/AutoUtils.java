@@ -35,7 +35,7 @@ public class AutoUtils {
 
     public Action launchWithTime() {
         return new SequentialAction(
-                bot.launcher.getStartCycleAction(0.5),
+                bot.launcher.getStartCycleAction(0.55),
                 new SleepAction(fireTimeMS / 1000),
                 bot.launcher.getStopCycleAction()
         );
@@ -44,7 +44,7 @@ public class AutoUtils {
     // TODO: Port to Bot class or Launcher class (with real implementation)
     public Action launchWithTime(double seconds) {
         return new SequentialAction(
-                bot.launcher.getStartCycleAction(0.5),
+                bot.launcher.getStartCycleAction(0.55),
                 new SleepAction(seconds),
                 bot.launcher.getStopCycleAction()
         );
