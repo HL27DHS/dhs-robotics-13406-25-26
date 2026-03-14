@@ -14,7 +14,8 @@ public class Drivetrain {
 
     private static MecanumDrive drive;
 
-
+    // Used to overcome friction on small power values
+    private final double STATIC_GAIN = 0.03;
     public IMU imu;
     public double imuOffset_radians; // IMU offset in RADIANS
 
@@ -145,6 +146,11 @@ public class Drivetrain {
         double fr = (rotY - modifiedX - turnVal) / denominator;
         double br = (rotY + modifiedX - turnVal) / denominator;
 
+        fl += Math.signum(fl) * STATIC_GAIN;
+        bl += Math.signum(bl) * STATIC_GAIN;
+        fr += Math.signum(fr) * STATIC_GAIN;
+        br += Math.signum(br) * STATIC_GAIN;
+
         getFlMotor().setPower(fl);
         getBlMotor().setPower(bl);
         getFrMotor().setPower(fr);
@@ -170,6 +176,11 @@ public class Drivetrain {
         double bl = (forward - modifiedX + turnVal) / denominator;
         double fr = (forward - modifiedX - turnVal) / denominator;
         double br = (forward + modifiedX - turnVal) / denominator;
+
+        fl += Math.signum(fl) * STATIC_GAIN;
+        bl += Math.signum(bl) * STATIC_GAIN;
+        fr += Math.signum(fr) * STATIC_GAIN;
+        br += Math.signum(br) * STATIC_GAIN;
 
         getFlMotor().setPower(fl);
         getBlMotor().setPower(bl);
