@@ -4,11 +4,13 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.dhs.components.Bot;
+import org.firstinspires.ftc.teamcode.dhs.game.Alliance;
 import org.firstinspires.ftc.teamcode.dhs.utils.CanvasUtils;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
 
@@ -19,7 +21,7 @@ public class AdvancedAutoAimTest extends OpMode {
     SmartController controller;
 
     public void init() {
-        bot = new Bot(hardwareMap);
+        bot = new Bot(hardwareMap, Alliance.RED, new Pose2d(0,0,0));
         dash = FtcDashboard.getInstance();
         controller = new SmartController();
     }
@@ -30,6 +32,7 @@ public class AdvancedAutoAimTest extends OpMode {
         //---------------
 
         controller.think(gamepad1);
+        PoseVelocity2d vel = bot.drivetrain.getDrive().updatePoseEstimate();
 
         // Turn (Right Stick)
         double turn = controller.rightStick.getX();
@@ -67,14 +70,14 @@ public class AdvancedAutoAimTest extends OpMode {
         packet.put("auto aim error (deg)",Math.toDegrees(bot.drivetrain.getRealYaw(AngleUnit.RADIANS)
                 - bot.getAngleToFaceDepot(AngleUnit.RADIANS)));
 
-        Canvas canvas = packet.field();
+        Canvas canvas = packet.fieldOverlay();
 
         // Draw robot on field
         Pose2d botPos = bot.drivetrain.getDrive().localizer.getPose();
         canvas.setStroke("green");
         CanvasUtils.drawBot(canvas, botPos.position);
         // Draw robot aim line
-        CanvasUtils.drawAimLine(canvas, botPos.position, botPos.heading.real);
+        CanvasUtils.drawAimLine(canvas, botPos.position, botPos.heading.toDouble());
 
         // Draw desired aim line on field
         canvas.setStroke("blue");
