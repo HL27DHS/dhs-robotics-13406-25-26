@@ -22,7 +22,7 @@ public class Bot {
     // static, saved between OpModes
     public static Alliance alliance;
 
-    public final double autoAimGain = 0.8;
+    public final double autoAimGain = 1;
 
     public Bot(HardwareMap hardwareMap) {
         drivetrain = new Drivetrain(hardwareMap);
@@ -94,7 +94,7 @@ public class Bot {
         double deltaX = depotPosition.position.x - position.x;
         double deltaY = depotPosition.position.y - position.y;
 
-        double radians = Math.atan2(deltaY, deltaX) + Math.PI/20;
+        double radians = Math.atan2(deltaY, deltaX);
 
         if (unit == AngleUnit.DEGREES)
             return Math.toDegrees(radians);
