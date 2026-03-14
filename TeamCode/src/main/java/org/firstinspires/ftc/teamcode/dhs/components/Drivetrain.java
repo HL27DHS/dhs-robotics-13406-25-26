@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dhs.components;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -14,6 +15,11 @@ public class Drivetrain {
 
     private static MecanumDrive drive;
 
+    @Config
+    public static class DriveConstants {
+        // static drive gain to resist friction on low powers
+        public static double STATIC_DRIVE_GAIN = 0.03;
+    }
 
     public IMU imu;
     public double imuOffset_radians; // IMU offset in RADIANS
@@ -145,6 +151,11 @@ public class Drivetrain {
         double fr = (rotY - modifiedX - turnVal) / denominator;
         double br = (rotY + modifiedX - turnVal) / denominator;
 
+        fl += Math.signum(fl) * DriveConstants.STATIC_DRIVE_GAIN;
+        bl += Math.signum(bl) * DriveConstants.STATIC_DRIVE_GAIN;
+        fr += Math.signum(fr) * DriveConstants.STATIC_DRIVE_GAIN;
+        br += Math.signum(br) * DriveConstants.STATIC_DRIVE_GAIN;
+
         getFlMotor().setPower(fl);
         getBlMotor().setPower(bl);
         getFrMotor().setPower(fr);
@@ -170,6 +181,11 @@ public class Drivetrain {
         double bl = (forward - modifiedX + turnVal) / denominator;
         double fr = (forward - modifiedX - turnVal) / denominator;
         double br = (forward + modifiedX - turnVal) / denominator;
+
+        fl += Math.signum(fl) * DriveConstants.STATIC_DRIVE_GAIN;
+        bl += Math.signum(bl) * DriveConstants.STATIC_DRIVE_GAIN;
+        fr += Math.signum(fr) * DriveConstants.STATIC_DRIVE_GAIN;
+        br += Math.signum(br) * DriveConstants.STATIC_DRIVE_GAIN;
 
         getFlMotor().setPower(fl);
         getBlMotor().setPower(bl);
