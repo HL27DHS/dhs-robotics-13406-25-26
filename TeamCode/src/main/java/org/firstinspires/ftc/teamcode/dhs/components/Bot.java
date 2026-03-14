@@ -53,10 +53,10 @@ public class Bot {
 
     @Config
     public static class AutoAimConstants {
-        public static double AUTO_AIM_GAIN = 0.8;
-        public static double AUTO_AIM_ANGLE_OFFSET = Math.PI/20;
+        public static double AUTO_AIM_GAIN = 1;
+        public static double AUTO_AIM_ANGLE_OFFSET = 0;
         public static double AUTO_AIM_TARGET_X = -60;
-        public static double AUTO_AIM_TARGET_Y = 80;
+        public static double AUTO_AIM_TARGET_Y = 60;
     }
 
     public double getAutoAimGain() {
