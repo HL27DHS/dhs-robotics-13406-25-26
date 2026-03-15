@@ -38,6 +38,10 @@ public class AdvancedAutoAimTest extends OpMode {
         if (controller.x.isPressed())
             bot.drivetrain.getDrive().localizer.setPose(new Pose2d(0,0,0));
 
+        // Swap Alliance (Bumpers)
+        if (controller.rightBumper.justPressed() || controller.leftBumper.justPressed())
+            bot.swapAlliance();
+
         // Turn (Right Stick)
         double turn = controller.rightStick.getX();
 
@@ -63,6 +67,7 @@ public class AdvancedAutoAimTest extends OpMode {
         telemetry.addLine("Right Stick - Steer");
         telemetry.addLine("A (hold) - Auto Aim");
         telemetry.addLine("X (press) - Reset Pose");
+        telemetry.addLine("Bumpers (press) - Swap Alliance");
         telemetry.update();
 
         TelemetryPacket packet = new TelemetryPacket();
@@ -74,6 +79,7 @@ public class AdvancedAutoAimTest extends OpMode {
         packet.put("auto aim steer val",bot.getTurnValueToFaceDepot());
         packet.put("auto aim error (deg)",Math.toDegrees(bot.drivetrain.getRealYaw(AngleUnit.RADIANS)
                 - bot.getAngleToFaceDepot(AngleUnit.RADIANS)));
+        packet.put("current alliance",bot.getAlliance());
 
         Canvas canvas = packet.fieldOverlay();
 
