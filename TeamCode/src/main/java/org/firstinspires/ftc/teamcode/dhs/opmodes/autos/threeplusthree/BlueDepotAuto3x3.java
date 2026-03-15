@@ -87,7 +87,7 @@ public class BlueDepotAuto3x3 extends LinearOpMode {
                                 //bot.launcher.getStopCycleAction()
                         )
                 ),
-                new SleepAction(0.5),
+                new SleepAction(2),
                 bot.launcher.getStopCycleAction(),
                 bot.spintake.getStopSpintakeAction()
         ));
