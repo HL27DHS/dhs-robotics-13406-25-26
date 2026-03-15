@@ -18,6 +18,7 @@ public class AutoUtils {
 
     public double fireTimeMS = 350;
     public double fireDelayMS = 500;
+    public double finalShotDelayMS = 800;
 
     // Shimmy related default variables
     double shimmyDistance;
@@ -77,7 +78,7 @@ public class AutoUtils {
                         prepareArtifacts(spintake)
                 ),
                 launchWithTime((fireTimeMS+600)/1000), // Third Launch
-                new SleepAction(fireDelayMS / 500), // small buffer in case extra time for rolling needed
+                new SleepAction((fireDelayMS + finalShotDelayMS) / 1000), // small buffer in case extra time for rolling needed
                 // TODO: Shimmying needed?
                 bot.launcher.getUnreadyAction()
         );
