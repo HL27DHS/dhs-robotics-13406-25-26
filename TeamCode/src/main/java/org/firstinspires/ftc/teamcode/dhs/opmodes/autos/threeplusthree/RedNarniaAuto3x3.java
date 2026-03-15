@@ -43,6 +43,7 @@ public class RedNarniaAuto3x3 extends LinearOpMode {
         // PATHS & BUILDERS
         double launchHeading = bot.getAngleToFaceDepot(AngleUnit.RADIANS);
         Pose2d launchPose = new Pose2d(60, 20, launchHeading);
+        Pose2d secondLaunchPose = new Pose2d(60, -20, launchHeading + Math.PI/17);
 
         telemetry.addData("heading",bot.getAngleToFaceDepot(AngleUnit.RADIANS));
         telemetry.update();
@@ -59,7 +60,7 @@ public class RedNarniaAuto3x3 extends LinearOpMode {
 
         Action launchTraj2 = rrDrive.actionBuilder(new Pose2d(36, 56, Math.PI/2))
                 .setTangent(-Math.PI/2)
-                .splineToSplineHeading(launchPose, 0)
+                .splineToSplineHeading(secondLaunchPose, 0)
                 .build();
 
         Action leaveTraj = rrDrive.actionBuilder(launchPose)
