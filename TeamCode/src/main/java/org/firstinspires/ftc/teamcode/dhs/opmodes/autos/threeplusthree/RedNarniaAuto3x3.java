@@ -59,7 +59,7 @@ public class RedNarniaAuto3x3 extends LinearOpMode {
 
         Action launchTraj2 = rrDrive.actionBuilder(new Pose2d(36, 56, Math.PI/2))
                 .setTangent(-Math.PI/2)
-                .splineToLinearHeading(launchPose, 0)
+                .splineToSplineHeading(launchPose, 0)
                 .build();
 
         Action leaveTraj = rrDrive.actionBuilder(launchPose)
