@@ -21,7 +21,7 @@ public class AdvancedAutoAimTest extends OpMode {
     SmartController controller;
 
     public void init() {
-        bot = new Bot(hardwareMap, Alliance.RED, new Pose2d(0,0,0));
+        bot = new Bot(hardwareMap);
         dash = FtcDashboard.getInstance();
         controller = new SmartController();
     }
