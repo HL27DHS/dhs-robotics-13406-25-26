@@ -34,6 +34,10 @@ public class AdvancedAutoAimTest extends OpMode {
         controller.think(gamepad1);
         PoseVelocity2d vel = bot.drivetrain.getDrive().updatePoseEstimate();
 
+        // Reset Bot Pose (X)
+        if (controller.x.isPressed())
+            bot.drivetrain.getDrive().localizer.setPose(new Pose2d(0,0,0));
+
         // Turn (Right Stick)
         double turn = controller.rightStick.getX();
 
@@ -58,6 +62,7 @@ public class AdvancedAutoAimTest extends OpMode {
         telemetry.addLine("Left Stick - Drive");
         telemetry.addLine("Right Stick - Steer");
         telemetry.addLine("A (hold) - Auto Aim");
+        telemetry.addLine("X (press) - Reset Pose");
         telemetry.update();
 
         TelemetryPacket packet = new TelemetryPacket();
