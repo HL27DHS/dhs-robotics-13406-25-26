@@ -192,6 +192,10 @@ public class Bot {
             alliance = Alliance.BLUE;
     }
 
+    public void setAlliance(Alliance newAlliance) {
+        alliance = newAlliance;
+    }
+
     /**
      * Sets every drivetrain motor's zero power behavior to a designated behavior
      * @param behavior the desired zero power behavior
