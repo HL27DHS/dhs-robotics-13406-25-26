@@ -87,7 +87,7 @@ public class RedNarniaAuto3x3 extends LinearOpMode {
         Actions.runBlocking(new SequentialAction(
                 bot.spintake.getStartSpintakeAction(1),
                 new SleepAction(0.1),
-                bot.launcher.getStartCycleAction(0.36),
+                bot.launcher.getStartCycleAction(0.35),
                 new ParallelAction(
                         artifactGrabTraj,
                         new SequentialAction(
@@ -95,6 +95,7 @@ public class RedNarniaAuto3x3 extends LinearOpMode {
                                 //bot.launcher.getStopCycleAction()
                         )
                 ),
+                new SleepAction(1),
                 bot.launcher.getStopCycleAction(),
                 bot.spintake.getStopSpintakeAction()
         ));
