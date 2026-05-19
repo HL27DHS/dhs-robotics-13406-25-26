@@ -52,6 +52,23 @@ public class Bot {
         alliance = botAlliance;
     }
 
+    public void stopEverything() {
+        // Stop drivetrain
+        drivetrain.getFlMotor().setPower(0);
+        drivetrain.getFrMotor().setPower(0);
+        drivetrain.getBlMotor().setPower(0);
+        drivetrain.getBrMotor().setPower(0);
+
+        // Stop spintake
+        spintake.setSpintakePower(0);
+
+        // Stop launcher
+        launcher.setFlywheelVelocity(0);
+
+        // Stop transfer
+        launcher.setCyclePower(0);
+    }
+
     /**
      * Gets the position of the depot based on what team the bot thinks it's on
      * @return a {@code Pose2d} that represents where the team's depot is
