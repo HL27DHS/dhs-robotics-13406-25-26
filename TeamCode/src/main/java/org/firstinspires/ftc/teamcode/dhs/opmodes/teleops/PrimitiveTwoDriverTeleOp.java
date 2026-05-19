@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dhs.opmodes.teleops;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -16,6 +17,7 @@ import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
      - FOD and its toggle are not included
      - Does not use SmartController
  */
+@Disabled
 @TeleOp(name="Primitive Drive (the sky is falling)",group="A - Main Programs")
 public class PrimitiveTwoDriverTeleOp extends OpMode {
     PrimitiveDrive drivetrain;

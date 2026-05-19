@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.dhs.opmodes.teleops;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.dhs.components.Spintake;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartController;
 import org.firstinspires.ftc.teamcode.dhs.utils.smartcontroller.SmartUtils;
 
+@Disabled
 @TeleOp(name="Ready Player One",group="A - Main Programs")
 public class  OneDriverTeleOp extends OpMode {
     Bot bot;
