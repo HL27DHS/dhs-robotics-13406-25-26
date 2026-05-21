@@ -52,6 +52,10 @@ public class Bot {
         alliance = botAlliance;
     }
 
+    public void resetPose(Pose2d newPose) {
+        drivetrain.getDrive().localizer.setPose(newPose);
+    }
+
     public void stopEverything() {
         // Stop drivetrain
         drivetrain.getFlMotor().setPower(0);
