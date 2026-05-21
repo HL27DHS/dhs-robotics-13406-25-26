@@ -80,6 +80,11 @@ public class BallerTeleOp extends OpMode {
          || SmartUtils.combo(manipulator.x, manipulator.dpadDown).justPressed())
             bot.swapAlliance();
 
+        // Reset pose (DPAD DOWN + Y on either controller)
+        if (SmartUtils.combo(driver.y, driver.dpadDown).justPressed()
+         || SmartUtils.combo(manipulator.y, manipulator.dpadDown).justPressed())
+            bot.resetPose(new Pose2d(0,0,0));
+
         // Post telemetry
         telemetry.addData("Robot team",bot.getAlliance());
         telemetry.update();
