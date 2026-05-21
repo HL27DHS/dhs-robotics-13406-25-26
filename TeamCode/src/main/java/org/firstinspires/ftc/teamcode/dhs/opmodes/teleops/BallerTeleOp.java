@@ -75,6 +75,15 @@ public class BallerTeleOp extends OpMode {
          || SmartUtils.combo(manipulator.b, manipulator.dpadDown).justPressed())
             shutdownActive = !shutdownActive;
 
+        // Toggle team (DPAD DOWN + X on either controller)
+        if (SmartUtils.combo(driver.x, driver.dpadDown).justPressed()
+         || SmartUtils.combo(manipulator.x, manipulator.dpadDown).justPressed())
+            bot.swapAlliance();
+
+        // Post telemetry
+        telemetry.addData("Robot team",bot.getAlliance());
+        telemetry.update();
+
         // If override is active, stop everything
         if (shutdownActive) {
             bot.stopEverything();
